@@ -774,6 +774,101 @@
             color: var(--text-secondary);
             font-size: 1.1rem;
         }
+
+        /* Exchange Holidays Styles */
+        .exchange-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .exchange-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.4s ease;
+        }
+
+        .exchange-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(77, 184, 255, 0.2);
+        }
+
+        .exchange-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .exchange-flag {
+            font-size: 2rem;
+        }
+
+        .exchange-info h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 3px;
+            font-weight: 700;
+        }
+
+        .exchange-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .holiday-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .holiday-item {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .holiday-item:last-child {
+            border-bottom: none;
+        }
+
+        .holiday-date {
+            font-weight: 600;
+            color: var(--accent-gold);
+            font-size: 0.95rem;
+            min-width: 90px;
+        }
+
+        .holiday-name {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            flex: 1;
+            padding-left: 15px;
+        }
+
+        .exchange-source-link {
+            color: var(--accent-blue);
+            text-decoration: underline;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease;
+        }
+
+        .exchange-source-link:hover {
+            color: var(--accent-pink);
+        }
     </style>
 </head>
 <body>
@@ -793,6 +888,7 @@
             <button class="tab-btn active" onclick="switchTab('clocks')">World Clocks</button>
             <button class="tab-btn" onclick="switchTab('converter')">Time Converter</button>
             <button class="tab-btn" onclick="switchTab('allcities')">All Cities</button>
+            <button class="tab-btn" onclick="switchTab('exchanges')">Exchange Holidays</button>
         </div>
 
         <!-- World Clocks Tab -->
@@ -880,6 +976,18 @@
                         No cities found matching your search.
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Exchange Holidays Tab -->
+        <div id="exchanges-tab" class="tab-content">
+            <div class="table-container">
+                <h2 class="table-title">Stock Exchange Holidays</h2>
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <button class="tab-btn" id="year2025Btn" onclick="switchHolidayYear(2025)" style="margin: 0 10px;">2025</button>
+                    <button class="tab-btn active" id="year2026Btn" onclick="switchHolidayYear(2026)" style="margin: 0 10px;">2026</button>
+                </div>
+                <div class="exchange-grid" id="exchangeGrid"></div>
             </div>
         </div>
     </div>
@@ -1448,11 +1556,623 @@
             'Suva': { tz: 'Pacific/Fiji', country: 'Fiji' }
         };
 
+        // Exchange Holidays Data
+        const EXCHANGE_HOLIDAYS_2025 = {
+            'NYSE': {
+                name: 'New York Stock Exchange',
+                code: 'NYSE',
+                country: 'United States',
+                flag: '🇺🇸',
+                source: 'https://www.nyse.com/markets/hours-calendars',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 20', name: 'Martin Luther King Jr. Day' },
+                    { date: 'Feb 17', name: 'Presidents\' Day' },
+                    { date: 'Apr 18', name: 'Good Friday' },
+                    { date: 'May 26', name: 'Memorial Day' },
+                    { date: 'Jun 19', name: 'Juneteenth' },
+                    { date: 'Jul 4', name: 'Independence Day' },
+                    { date: 'Sep 1', name: 'Labor Day' },
+                    { date: 'Nov 27', name: 'Thanksgiving Day' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
+            },
+            'LSE': {
+                name: 'London Stock Exchange',
+                code: 'LSE',
+                country: 'United Kingdom',
+                flag: '🇬🇧',
+                source: 'https://www.londonstockexchange.com/equities-trading/business-days',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Apr 17', name: 'Good Friday' },
+                    { date: 'Apr 20', name: 'Easter Monday' },
+                    { date: 'May 5', name: 'Early May Bank Holiday' },
+                    { date: 'May 26', name: 'Spring Bank Holiday' },
+                    { date: 'Aug 25', name: 'Summer Bank Holiday' },
+                    { date: 'Dec 24', name: 'Christmas Eve (Half Day)' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 26', name: 'Boxing Day' },
+                    { date: 'Dec 31', name: 'New Year\'s Eve (Half Day)' }
+                ]
+            },
+            'TSE': {
+                name: 'Tokyo Stock Exchange',
+                code: 'TSE / JPX',
+                country: 'Japan',
+                flag: '🇯🇵',
+                source: 'https://www.jpx.co.jp/english/corporate/about-jpx/calendar/index.html',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 2', name: 'Market Holiday' },
+                    { date: 'Jan 3', name: 'Market Holiday' },
+                    { date: 'Jan 13', name: 'Coming of Age Day' },
+                    { date: 'Feb 11', name: 'National Foundation Day' },
+                    { date: 'Feb 23', name: 'Emperor\'s Birthday' },
+                    { date: 'Feb 24', name: 'Emperor\'s Birthday (Observed)' },
+                    { date: 'Mar 20', name: 'Vernal Equinox' },
+                    { date: 'Apr 29', name: 'Showa Day' },
+                    { date: 'May 3', name: 'Constitution Memorial Day' },
+                    { date: 'May 5', name: 'Children\'s Day' },
+                    { date: 'May 6', name: 'Greenery Day (Observed)' },
+                    { date: 'Jul 21', name: 'Marine Day' },
+                    { date: 'Aug 11', name: 'Mountain Day' },
+                    { date: 'Sep 15', name: 'Respect for the Aged Day' },
+                    { date: 'Sep 23', name: 'Autumnal Equinox' },
+                    { date: 'Oct 13', name: 'Sports Day' },
+                    { date: 'Nov 3', name: 'Culture Day' },
+                    { date: 'Nov 24', name: 'Labor Thanksgiving Day' },
+                    { date: 'Dec 31', name: 'Market Holiday' }
+                ]
+            },
+            'HKEX': {
+                name: 'Hong Kong Stock Exchange',
+                code: 'HKEX',
+                country: 'Hong Kong',
+                flag: '🇭🇰',
+                source: 'https://www.hkex.com.hk',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 28', name: 'Chinese New Year' },
+                    { date: 'Jan 29', name: 'Chinese New Year' },
+                    { date: 'Jan 30', name: 'Chinese New Year' },
+                    { date: 'Apr 4', name: 'Ching Ming Festival' },
+                    { date: 'Apr 18', name: 'Good Friday' },
+                    { date: 'Apr 21', name: 'Easter Monday' },
+                    { date: 'May 1', name: 'Labour Day' },
+                    { date: 'May 5', name: 'Buddha\'s Birthday' },
+                    { date: 'Jul 1', name: 'HKSAR Establishment Day' },
+                    { date: 'Oct 1', name: 'National Day' },
+                    { date: 'Oct 7', name: 'Chung Yeung Festival' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 26', name: 'Boxing Day' }
+                ]
+            },
+            'SGX': {
+                name: 'Singapore Exchange',
+                code: 'SGX',
+                country: 'Singapore',
+                flag: '🇸🇬',
+                source: 'https://www.sgx.com/trading',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 28', name: 'Chinese New Year' },
+                    { date: 'Jan 29', name: 'Chinese New Year' },
+                    { date: 'Mar 31', name: 'Hari Raya Puasa' },
+                    { date: 'Apr 18', name: 'Good Friday' },
+                    { date: 'May 1', name: 'Labour Day' },
+                    { date: 'May 12', name: 'Vesak Day' },
+                    { date: 'Jun 6', name: 'Hari Raya Haji' },
+                    { date: 'Aug 9', name: 'National Day' },
+                    { date: 'Oct 20', name: 'Deepavali' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
+            },
+            'ASX': {
+                name: 'Australian Securities Exchange',
+                code: 'ASX',
+                country: 'Australia',
+                flag: '🇦🇺',
+                source: 'https://www.asx.com.au/markets/market-resources/trading-hours-calendar',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 27', name: 'Australia Day' },
+                    { date: 'Apr 18', name: 'Good Friday' },
+                    { date: 'Apr 21', name: 'Easter Monday' },
+                    { date: 'Apr 25', name: 'ANZAC Day' },
+                    { date: 'Jun 9', name: 'King\'s Birthday' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 26', name: 'Boxing Day' }
+                ]
+            },
+            'CME': {
+                name: 'CME Group',
+                code: 'CME',
+                country: 'United States',
+                flag: '🇺🇸',
+                source: 'https://www.cmegroup.com/trading-hours.html',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 20', name: 'Martin Luther King Jr. Day' },
+                    { date: 'Feb 17', name: 'Presidents\' Day' },
+                    { date: 'Apr 18', name: 'Good Friday' },
+                    { date: 'May 26', name: 'Memorial Day' },
+                    { date: 'Jun 19', name: 'Juneteenth' },
+                    { date: 'Jul 4', name: 'Independence Day' },
+                    { date: 'Sep 1', name: 'Labor Day' },
+                    { date: 'Nov 27', name: 'Thanksgiving Day' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
+            },
+            'LME': {
+                name: 'London Metal Exchange',
+                code: 'LME',
+                country: 'United Kingdom',
+                flag: '🇬🇧',
+                source: 'https://www.lme.com/trading/trading-venues/trading-times',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Apr 18', name: 'Good Friday' },
+                    { date: 'Apr 21', name: 'Easter Monday' },
+                    { date: 'May 5', name: 'Early May Bank Holiday' },
+                    { date: 'May 26', name: 'Spring Bank Holiday' },
+                    { date: 'Aug 25', name: 'Summer Bank Holiday' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 26', name: 'Boxing Day' }
+                ]
+            },
+            'KRX': {
+                name: 'Korea Exchange',
+                code: 'KRX',
+                country: 'South Korea',
+                flag: '🇰🇷',
+                source: 'https://global.krx.co.kr',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 28', name: 'Lunar New Year Holiday' },
+                    { date: 'Jan 29', name: 'Lunar New Year' },
+                    { date: 'Jan 30', name: 'Lunar New Year Holiday' },
+                    { date: 'Mar 1', name: 'Independence Movement Day' },
+                    { date: 'May 5', name: 'Children\'s Day' },
+                    { date: 'May 15', name: 'Buddha\'s Birthday' },
+                    { date: 'Jun 6', name: 'Memorial Day' },
+                    { date: 'Aug 15', name: 'Liberation Day' },
+                    { date: 'Oct 6', name: 'Chuseok Holiday' },
+                    { date: 'Oct 7', name: 'Chuseok' },
+                    { date: 'Oct 8', name: 'Chuseok Holiday' },
+                    { date: 'Oct 9', name: 'Hangul Day' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 31', name: 'Last Trading Day' }
+                ]
+            },
+            'SET': {
+                name: 'Stock Exchange of Thailand',
+                code: 'SET',
+                country: 'Thailand',
+                flag: '🇹🇭',
+                source: 'https://www.set.or.th/en/about/event-calendar/holiday',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Feb 12', name: 'Makha Bucha Day' },
+                    { date: 'Apr 7', name: 'Chakri Memorial Day (Observed)' },
+                    { date: 'Apr 14', name: 'Songkran Festival' },
+                    { date: 'Apr 15', name: 'Songkran Festival' },
+                    { date: 'Apr 16', name: 'Songkran Festival' },
+                    { date: 'May 1', name: 'National Labour Day' },
+                    { date: 'May 5', name: 'Coronation Day (Observed)' },
+                    { date: 'May 12', name: 'Visakha Bucha Day (Observed)' },
+                    { date: 'Jun 3', name: 'HM Queen\'s Birthday' },
+                    { date: 'Jul 10', name: 'Asarnha Bucha Day' },
+                    { date: 'Jul 11', name: 'Buddhist Lent Day' },
+                    { date: 'Jul 28', name: 'HM King\'s Birthday' },
+                    { date: 'Aug 12', name: 'HM Queen Mother\'s Birthday' },
+                    { date: 'Oct 13', name: 'HM King Bhumibol Memorial Day' },
+                    { date: 'Oct 23', name: 'HM King Chulalongkorn Memorial Day' },
+                    { date: 'Dec 5', name: 'HM King Bhumibol\'s Birthday' },
+                    { date: 'Dec 10', name: 'Constitution Day' },
+                    { date: 'Dec 31', name: 'New Year\'s Eve' }
+                ]
+            },
+            'JSE': {
+                name: 'Johannesburg Stock Exchange',
+                code: 'JSE',
+                country: 'South Africa',
+                flag: '🇿🇦',
+                source: 'https://clientportal.jse.co.za/reports/trading-calendars',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Mar 21', name: 'Human Rights Day' },
+                    { date: 'Apr 18', name: 'Good Friday' },
+                    { date: 'Apr 21', name: 'Family Day' },
+                    { date: 'Apr 27', name: 'Freedom Day' },
+                    { date: 'Apr 28', name: 'Freedom Day (Observed)' },
+                    { date: 'May 1', name: 'Workers\' Day' },
+                    { date: 'Jun 16', name: 'Youth Day' },
+                    { date: 'Aug 9', name: 'National Women\'s Day' },
+                    { date: 'Sep 24', name: 'Heritage Day' },
+                    { date: 'Dec 16', name: 'Day of Reconciliation' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 26', name: 'Day of Goodwill' }
+                ]
+            },
+            'EUREX': {
+                name: 'Eurex Exchange',
+                code: 'EUREX',
+                country: 'Germany',
+                flag: '🇩🇪',
+                source: 'https://www.eurex.com/ex-en/trade/trading-calendar/holiday-regulations',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Apr 18', name: 'Good Friday' },
+                    { date: 'Apr 21', name: 'Easter Monday' },
+                    { date: 'May 1', name: 'Labour Day' },
+                    { date: 'Dec 24', name: 'Christmas Eve' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 26', name: 'Boxing Day' },
+                    { date: 'Dec 31', name: 'New Year\'s Eve' }
+                ]
+            },
+            'TAIFEX': {
+                name: 'Taiwan Futures Exchange',
+                code: 'TAIFEX',
+                country: 'Taiwan',
+                flag: '🇹🇼',
+                source: 'https://www.taifex.com.tw/enl/eng4/calendar',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 27', name: 'Lunar New Year\'s Eve' },
+                    { date: 'Jan 28', name: 'Lunar New Year' },
+                    { date: 'Jan 29', name: 'Lunar New Year Holiday' },
+                    { date: 'Jan 30', name: 'Lunar New Year Holiday' },
+                    { date: 'Feb 28', name: 'Peace Memorial Day' },
+                    { date: 'Apr 3', name: 'Tomb Sweeping Day' },
+                    { date: 'Apr 4', name: 'Tomb Sweeping Day Holiday' },
+                    { date: 'Apr 7', name: 'Children\'s Day (Observed)' },
+                    { date: 'Jun 4', name: 'Dragon Boat Festival' },
+                    { date: 'Sep 29', name: 'Mid-Autumn Festival' },
+                    { date: 'Oct 10', name: 'National Day' }
+                ]
+            }
+        };
+
+        const EXCHANGE_HOLIDAYS_2026 = {
+            'NYSE': {
+                name: 'New York Stock Exchange',
+                code: 'NYSE',
+                country: 'United States',
+                flag: '🇺🇸',
+                source: 'https://www.nyse.com/markets/hours-calendars',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 19', name: 'Martin Luther King Jr. Day' },
+                    { date: 'Feb 16', name: 'Presidents\' Day' },
+                    { date: 'Apr 3', name: 'Good Friday' },
+                    { date: 'May 25', name: 'Memorial Day' },
+                    { date: 'Jun 19', name: 'Juneteenth' },
+                    { date: 'Jul 3', name: 'Independence Day (Observed)' },
+                    { date: 'Sep 7', name: 'Labor Day' },
+                    { date: 'Nov 26', name: 'Thanksgiving Day' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
+            },
+            'LSE': {
+                name: 'London Stock Exchange',
+                code: 'LSE',
+                country: 'United Kingdom',
+                flag: '🇬🇧',
+                source: 'https://www.londonstockexchange.com/equities-trading/business-days',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Apr 3', name: 'Good Friday' },
+                    { date: 'Apr 6', name: 'Easter Monday' },
+                    { date: 'May 4', name: 'Early May Bank Holiday' },
+                    { date: 'May 25', name: 'Spring Bank Holiday' },
+                    { date: 'Aug 31', name: 'Summer Bank Holiday' },
+                    { date: 'Dec 24', name: 'Christmas Eve (Half Day)' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 28', name: 'Boxing Day (Substitute)' },
+                    { date: 'Dec 31', name: 'New Year\'s Eve (Half Day)' }
+                ]
+            },
+            'TSE': {
+                name: 'Tokyo Stock Exchange',
+                code: 'TSE / JPX',
+                country: 'Japan',
+                flag: '🇯🇵',
+                source: 'https://www.jpx.co.jp/english/corporate/about-jpx/calendar/index.html',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 2', name: 'Market Holiday' },
+                    { date: 'Jan 3', name: 'Market Holiday' },
+                    { date: 'Jan 12', name: 'Coming of Age Day' },
+                    { date: 'Feb 11', name: 'National Foundation Day' },
+                    { date: 'Feb 23', name: 'Emperor\'s Birthday' },
+                    { date: 'Mar 20', name: 'Vernal Equinox' },
+                    { date: 'Apr 29', name: 'Showa Day' },
+                    { date: 'May 3', name: 'Constitution Memorial Day' },
+                    { date: 'May 4', name: 'Greenery Day' },
+                    { date: 'May 5', name: 'Children\'s Day' },
+                    { date: 'May 6', name: 'Constitution Day (Observed)' },
+                    { date: 'Jul 20', name: 'Marine Day' },
+                    { date: 'Aug 11', name: 'Mountain Day' },
+                    { date: 'Sep 21', name: 'Respect for the Aged Day' },
+                    { date: 'Sep 22', name: 'Holiday' },
+                    { date: 'Sep 23', name: 'Autumnal Equinox' },
+                    { date: 'Oct 12', name: 'Sports Day' },
+                    { date: 'Nov 3', name: 'Culture Day' },
+                    { date: 'Nov 23', name: 'Labor Thanksgiving Day' },
+                    { date: 'Dec 31', name: 'Market Holiday' }
+                ]
+            },
+            'HKEX': {
+                name: 'Hong Kong Stock Exchange',
+                code: 'HKEX',
+                country: 'Hong Kong',
+                flag: '🇭🇰',
+                source: 'https://www.hkex.com.hk',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Feb 17', name: 'Chinese New Year' },
+                    { date: 'Feb 18', name: 'Chinese New Year' },
+                    { date: 'Feb 19', name: 'Chinese New Year' },
+                    { date: 'Apr 3', name: 'Good Friday' },
+                    { date: 'Apr 4', name: 'Ching Ming Festival' },
+                    { date: 'Apr 6', name: 'Easter Monday' },
+                    { date: 'May 1', name: 'Labour Day' },
+                    { date: 'May 23', name: 'Buddha\'s Birthday' },
+                    { date: 'Jul 1', name: 'HKSAR Establishment Day' },
+                    { date: 'Oct 1', name: 'National Day' },
+                    { date: 'Oct 19', name: 'Chung Yeung Festival' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 26', name: 'Boxing Day (Observed)' }
+                ]
+            },
+            'SGX': {
+                name: 'Singapore Exchange',
+                code: 'SGX',
+                country: 'Singapore',
+                flag: '🇸🇬',
+                source: 'https://www.sgx.com/trading',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Feb 17', name: 'Chinese New Year' },
+                    { date: 'Feb 18', name: 'Chinese New Year' },
+                    { date: 'Mar 21', name: 'Hari Raya Puasa' },
+                    { date: 'Apr 3', name: 'Good Friday' },
+                    { date: 'May 1', name: 'Labour Day' },
+                    { date: 'May 1', name: 'Vesak Day' },
+                    { date: 'May 27', name: 'Hari Raya Haji' },
+                    { date: 'Aug 10', name: 'National Day (Observed)' },
+                    { date: 'Nov 7', name: 'Deepavali' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
+            },
+            'ASX': {
+                name: 'Australian Securities Exchange',
+                code: 'ASX',
+                country: 'Australia',
+                flag: '🇦🇺',
+                source: 'https://www.asx.com.au/markets/market-resources/trading-hours-calendar',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 26', name: 'Australia Day' },
+                    { date: 'Apr 3', name: 'Good Friday' },
+                    { date: 'Apr 6', name: 'Easter Monday' },
+                    { date: 'Apr 27', name: 'ANZAC Day (Observed)' },
+                    { date: 'Jun 8', name: 'King\'s Birthday' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 28', name: 'Boxing Day (Observed)' }
+                ]
+            },
+            'CME': {
+                name: 'CME Group',
+                code: 'CME',
+                country: 'United States',
+                flag: '🇺🇸',
+                source: 'https://www.cmegroup.com/trading-hours.html',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 19', name: 'Martin Luther King Jr. Day' },
+                    { date: 'Feb 16', name: 'Presidents\' Day' },
+                    { date: 'Apr 3', name: 'Good Friday' },
+                    { date: 'May 25', name: 'Memorial Day' },
+                    { date: 'Jun 19', name: 'Juneteenth' },
+                    { date: 'Jul 4', name: 'Independence Day (Observed)' },
+                    { date: 'Sep 7', name: 'Labor Day' },
+                    { date: 'Nov 26', name: 'Thanksgiving Day' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
+            },
+            'LME': {
+                name: 'London Metal Exchange',
+                code: 'LME',
+                country: 'United Kingdom',
+                flag: '🇬🇧',
+                source: 'https://www.lme.com/trading/trading-venues/trading-times',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Apr 3', name: 'Good Friday' },
+                    { date: 'Apr 6', name: 'Easter Monday' },
+                    { date: 'May 4', name: 'Early May Bank Holiday' },
+                    { date: 'May 25', name: 'Spring Bank Holiday' },
+                    { date: 'Aug 31', name: 'Summer Bank Holiday' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 26', name: 'Boxing Day' }
+                ]
+            },
+            'KRX': {
+                name: 'Korea Exchange',
+                code: 'KRX',
+                country: 'South Korea',
+                flag: '🇰🇷',
+                source: 'https://global.krx.co.kr',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Feb 16', name: 'Lunar New Year Holiday' },
+                    { date: 'Feb 17', name: 'Lunar New Year' },
+                    { date: 'Feb 18', name: 'Lunar New Year Holiday' },
+                    { date: 'Mar 1', name: 'Independence Movement Day' },
+                    { date: 'Apr 5', name: 'Arbor Day' },
+                    { date: 'May 5', name: 'Children\'s Day' },
+                    { date: 'May 15', name: 'Buddha\'s Birthday' },
+                    { date: 'Jun 6', name: 'Memorial Day' },
+                    { date: 'Aug 15', name: 'Liberation Day' },
+                    { date: 'Sep 16', name: 'Chuseok Holiday' },
+                    { date: 'Sep 17', name: 'Chuseok' },
+                    { date: 'Sep 18', name: 'Chuseok Holiday' },
+                    { date: 'Oct 3', name: 'National Foundation Day' },
+                    { date: 'Oct 9', name: 'Hangul Day' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 31', name: 'Last Trading Day' }
+                ]
+            },
+            'SET': {
+                name: 'Stock Exchange of Thailand',
+                code: 'SET',
+                country: 'Thailand',
+                flag: '🇹🇭',
+                source: 'https://www.set.or.th/en/about/event-calendar/holiday',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 2', name: 'Additional Special Holiday' },
+                    { date: 'Mar 3', name: 'Makha Bucha Day' },
+                    { date: 'Apr 6', name: 'Chakri Memorial Day' },
+                    { date: 'Apr 13', name: 'Songkran Festival' },
+                    { date: 'Apr 14', name: 'Songkran Festival' },
+                    { date: 'Apr 15', name: 'Songkran Festival' },
+                    { date: 'May 1', name: 'National Labor Day' },
+                    { date: 'May 4', name: 'Coronation Day' },
+                    { date: 'May 11', name: 'Royal Ploughing Day' },
+                    { date: 'Jun 1', name: 'Visakha Bucha Day (Observed)' },
+                    { date: 'Jun 3', name: 'HM Queen\'s Birthday' },
+                    { date: 'Jul 28', name: 'HM King\'s Birthday' },
+                    { date: 'Jul 31', name: 'Asarnha Bucha Day' },
+                    { date: 'Aug 12', name: 'HM Queen Mother\'s Birthday' },
+                    { date: 'Oct 13', name: 'HM King Bhumibol Memorial Day' },
+                    { date: 'Oct 23', name: 'HM King Chulalongkorn Memorial Day' },
+                    { date: 'Dec 7', name: 'HM King\'s Birthday (Observed)' },
+                    { date: 'Dec 10', name: 'Constitution Day' },
+                    { date: 'Dec 31', name: 'New Year\'s Eve' }
+                ]
+            },
+            'JSE': {
+                name: 'Johannesburg Stock Exchange',
+                code: 'JSE',
+                country: 'South Africa',
+                flag: '🇿🇦',
+                source: 'https://clientportal.jse.co.za/reports/trading-calendars',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Mar 21', name: 'Human Rights Day' },
+                    { date: 'Apr 3', name: 'Good Friday' },
+                    { date: 'Apr 6', name: 'Family Day' },
+                    { date: 'Apr 27', name: 'Freedom Day' },
+                    { date: 'May 1', name: 'Workers\' Day' },
+                    { date: 'Jun 16', name: 'Youth Day' },
+                    { date: 'Aug 9', name: 'National Women\'s Day' },
+                    { date: 'Sep 24', name: 'Heritage Day' },
+                    { date: 'Dec 16', name: 'Day of Reconciliation' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 26', name: 'Day of Goodwill' }
+                ]
+            },
+            'EUREX': {
+                name: 'Eurex Exchange',
+                code: 'EUREX',
+                country: 'Germany',
+                flag: '🇩🇪',
+                source: 'https://www.eurex.com/ex-en/trade/trading-calendar/holiday-regulations',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Apr 3', name: 'Good Friday' },
+                    { date: 'Apr 6', name: 'Easter Monday' },
+                    { date: 'May 1', name: 'Labour Day' },
+                    { date: 'Dec 24', name: 'Christmas Eve' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 26', name: 'Boxing Day' },
+                    { date: 'Dec 31', name: 'New Year\'s Eve' }
+                ]
+            },
+            'TAIFEX': {
+                name: 'Taiwan Futures Exchange',
+                code: 'TAIFEX',
+                country: 'Taiwan',
+                flag: '🇹🇼',
+                source: 'https://www.taifex.com.tw/enl/eng4/calendar',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 27', name: 'Lunar New Year\'s Eve' },
+                    { date: 'Jan 28', name: 'Lunar New Year' },
+                    { date: 'Jan 29', name: 'Lunar New Year Holiday' },
+                    { date: 'Jan 30', name: 'Lunar New Year Holiday' },
+                    { date: 'Jan 31', name: 'Lunar New Year Holiday' },
+                    { date: 'Feb 28', name: 'Peace Memorial Day' },
+                    { date: 'Apr 4', name: 'Tomb Sweeping Day' },
+                    { date: 'Apr 5', name: 'Tomb Sweeping Day Holiday' },
+                    { date: 'Jun 10', name: 'Dragon Boat Festival' },
+                    { date: 'Sep 17', name: 'Mid-Autumn Festival' },
+                    { date: 'Oct 10', name: 'National Day' }
+                ]
+            }
+        };
+
+        // Current year
+        let currentHolidayYear = 2026;
+
+        function populateExchangeHolidays() {
+            const grid = document.getElementById('exchangeGrid');
+            grid.innerHTML = ''; // Clear existing cards
+            
+            const EXCHANGE_HOLIDAYS = currentHolidayYear === 2025 ? EXCHANGE_HOLIDAYS_2025 : EXCHANGE_HOLIDAYS_2026;
+            
+            Object.entries(EXCHANGE_HOLIDAYS).forEach(([key, exchange]) => {
+                const card = document.createElement('div');
+                card.className = 'exchange-card';
+                
+                const header = `
+                    <div class="exchange-header">
+                        <div class="exchange-flag">${exchange.flag}</div>
+                        <div class="exchange-info">
+                            <h3>${exchange.name}</h3>
+                            <p>${exchange.code} • ${exchange.country}</p>
+                        </div>
+                    </div>
+                `;
+                
+                const sourceLink = exchange.source ? `
+                    <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                        <a href="${exchange.source}" target="_blank" rel="noopener noreferrer" class="exchange-source-link">
+                            <span>📋</span>
+                            <span>Official Calendar</span>
+                        </a>
+                    </div>
+                ` : '';
+                
+                const holidayItems = exchange.holidays.map(holiday => `
+                    <li class="holiday-item">
+                        <span class="holiday-date">${holiday.date}</span>
+                        <span class="holiday-name">${holiday.name}</span>
+                    </li>
+                `).join('');
+                
+                card.innerHTML = `
+                    ${header}
+                    ${sourceLink}
+                    <ul class="holiday-list">
+                        ${holidayItems}
+                    </ul>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
         // Initialize
         function init() {
             createClockCards();
             populateCitySelects();
             populateCitiesTable();
+            populateExchangeHolidays();
             setDefaultDate();
             updateAllClocks();
             updateCitiesTable();
@@ -1466,6 +2186,17 @@
             
             event.target.classList.add('active');
             document.getElementById(tabName + '-tab').classList.add('active');
+        }
+
+        function switchHolidayYear(year) {
+            currentHolidayYear = year;
+            
+            // Update year button states
+            document.getElementById('year2025Btn').classList.toggle('active', year === 2025);
+            document.getElementById('year2026Btn').classList.toggle('active', year === 2026);
+            
+            // Repopulate the holidays
+            populateExchangeHolidays();
         }
 
         function createClockCards() {
