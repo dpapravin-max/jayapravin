@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>World Time — Global Clock Network</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&family=Bebas+Neue&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #0a0e27;
@@ -104,15 +104,16 @@
         }
 
         h1 {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Calibri', 'Arial', sans-serif;
             font-size: 4rem;
-            font-weight: 900;
+            font-weight: 700;
             margin-bottom: 10px;
             background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-blue) 50%, var(--accent-pink) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -2px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
 
         .subtitle {
@@ -327,14 +328,16 @@
         }
 
         .converter-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            font-family: 'Calibri', 'Arial', sans-serif;
+            font-size: 2.8rem;
             text-align: center;
             margin-bottom: 40px;
             background: linear-gradient(135deg, var(--accent-gold), var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: 1px;
+            font-weight: 700;
         }
 
         .converter-section {
@@ -354,6 +357,85 @@
             display: flex;
             gap: 15px;
             margin-bottom: 20px;
+        }
+
+        .city-search-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .city-search-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.12);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .city-search-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .city-search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .city-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 39, 0.98);
+            border: 2px solid var(--accent-blue);
+            border-radius: 15px;
+            margin-top: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .city-suggestions.show {
+            display: block;
+        }
+
+        .city-suggestion-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #c4d0f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .city-suggestion-item:hover {
+            background: rgba(77, 184, 255, 0.2);
+            color: var(--text-primary);
+        }
+
+        .city-suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .city-suggestions::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .city-suggestions::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .city-suggestions::-webkit-scrollbar-thumb {
+            background: var(--accent-blue);
+            border-radius: 10px;
         }
 
         select, input[type="time"], input[type="date"] {
@@ -515,14 +597,16 @@
         }
 
         .table-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            font-family: 'Calibri', 'Arial', sans-serif;
+            font-size: 2.8rem;
             text-align: center;
             margin-bottom: 30px;
             background: linear-gradient(135deg, var(--accent-gold), var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: 1px;
+            font-weight: 700;
         }
 
         .search-box {
@@ -530,7 +614,7 @@
             background: rgba(255, 255, 255, 0.12);
             border: 2px solid rgba(255, 255, 255, 0.2);
             color: #ffffff;
-            padding: 15px 20px;
+            padding: 15px 50px 15px 20px;
             border-radius: 15px;
             font-size: 1.1rem;
             font-family: 'DM Sans', sans-serif;
@@ -549,29 +633,68 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 107, 157, 0.8);
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .clear-search:hover {
+            background: var(--accent-pink);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .clear-search.show {
+            display: flex;
+        }
+
         .cities-table-wrapper {
             max-height: 600px;
             overflow-y: auto;
+            overflow-x: hidden;
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.02);
+            scroll-behavior: smooth;
         }
 
         .cities-table-wrapper::-webkit-scrollbar {
-            width: 10px;
+            width: 12px;
         }
 
         .cities-table-wrapper::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
+            margin: 5px;
         }
 
         .cities-table-wrapper::-webkit-scrollbar-thumb {
-            background: var(--accent-blue);
+            background: linear-gradient(180deg, var(--accent-blue), var(--accent-pink));
             border-radius: 10px;
+            border: 2px solid rgba(10, 14, 39, 0.3);
         }
 
         .cities-table-wrapper::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-pink);
+            background: linear-gradient(180deg, var(--accent-pink), var(--accent-gold));
         }
 
         .cities-table {
@@ -582,9 +705,10 @@
         .cities-table thead {
             position: sticky;
             top: 0;
-            background: linear-gradient(135deg, rgba(77, 184, 255, 0.2), rgba(255, 107, 157, 0.2));
-            backdrop-filter: blur(10px);
-            z-index: 10;
+            background: linear-gradient(135deg, rgba(77, 184, 255, 0.3), rgba(255, 107, 157, 0.3));
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .cities-table th {
@@ -596,6 +720,7 @@
             letter-spacing: 1px;
             font-size: 0.85rem;
             border-bottom: 2px solid var(--accent-blue);
+            background: rgba(10, 14, 39, 0.9);
         }
 
         .cities-table td {
@@ -683,9 +808,10 @@
                 <div class="converter-section">
                     <div class="converter-label">From</div>
                     <div class="converter-input-group">
-                        <select id="sourceCity">
-                            <option value="">Select City</option>
-                        </select>
+                        <div class="city-search-wrapper">
+                            <input type="text" id="sourceCity" class="city-search-input" placeholder="Search city or timezone..." autocomplete="off" onfocus="showSuggestions('source')" oninput="filterSuggestions('source')">
+                            <div id="sourceSuggestions" class="city-suggestions"></div>
+                        </div>
                         <input type="time" id="sourceTime" value="12:00">
                         <input type="date" id="sourceDate">
                     </div>
@@ -694,9 +820,10 @@
                 <div class="converter-section">
                     <div class="converter-label">To</div>
                     <div class="converter-input-group">
-                        <select id="destCity">
-                            <option value="">Select City</option>
-                        </select>
+                        <div class="city-search-wrapper">
+                            <input type="text" id="destCity" class="city-search-input" placeholder="Search city or timezone..." autocomplete="off" onfocus="showSuggestions('dest')" oninput="filterSuggestions('dest')">
+                            <div id="destSuggestions" class="city-suggestions"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -729,7 +856,10 @@
         <div id="allcities-tab" class="tab-content">
             <div class="table-container">
                 <h2 class="table-title">World Time - All Cities</h2>
-                <input type="text" id="searchBox" class="search-box" placeholder="🔍 Search cities..." onkeyup="filterCities()">
+                <div class="search-wrapper">
+                    <input type="text" id="searchBox" class="search-box" placeholder="🔍 Search cities or countries..." onkeyup="filterCities()" oninput="toggleClearButton()">
+                    <button class="clear-search" id="clearSearch" onclick="clearSearch()">×</button>
+                </div>
                 
                 <div class="cities-table-wrapper">
                     <table class="cities-table">
@@ -773,78 +903,481 @@
             'Berlin': { tz: 'Europe/Berlin', country: 'Germany' }
         };
 
-        // Extended cities list for the table (200+ cities)
+        // Comprehensive cities list - ALL major cities from IANA timezone database (400+)
         const ALL_CITIES = {
-            // North America
-            'New York': { tz: 'America/New_York', country: 'USA' },
-            'Los Angeles': { tz: 'America/Los_Angeles', country: 'USA' },
+            // MAJOR TIME ZONES (Common abbreviations)
+            'GMT - Greenwich Mean Time': { tz: 'Europe/London', country: 'Time Zone' },
+            'UTC - Coordinated Universal Time': { tz: 'UTC', country: 'Time Zone' },
+            'EST - Eastern Standard Time': { tz: 'America/New_York', country: 'Time Zone' },
+            'EDT - Eastern Daylight Time': { tz: 'America/New_York', country: 'Time Zone' },
+            'CST - Central Standard Time': { tz: 'America/Chicago', country: 'Time Zone' },
+            'CDT - Central Daylight Time': { tz: 'America/Chicago', country: 'Time Zone' },
+            'MST - Mountain Standard Time': { tz: 'America/Denver', country: 'Time Zone' },
+            'MDT - Mountain Daylight Time': { tz: 'America/Denver', country: 'Time Zone' },
+            'PST - Pacific Standard Time': { tz: 'America/Los_Angeles', country: 'Time Zone' },
+            'PDT - Pacific Daylight Time': { tz: 'America/Los_Angeles', country: 'Time Zone' },
+            'AKST - Alaska Standard Time': { tz: 'America/Anchorage', country: 'Time Zone' },
+            'AKDT - Alaska Daylight Time': { tz: 'America/Anchorage', country: 'Time Zone' },
+            'HST - Hawaii Standard Time': { tz: 'Pacific/Honolulu', country: 'Time Zone' },
+            'AST - Atlantic Standard Time': { tz: 'America/Halifax', country: 'Time Zone' },
+            'ADT - Atlantic Daylight Time': { tz: 'America/Halifax', country: 'Time Zone' },
+            'NST - Newfoundland Standard Time': { tz: 'America/St_Johns', country: 'Time Zone' },
+            'NDT - Newfoundland Daylight Time': { tz: 'America/St_Johns', country: 'Time Zone' },
+            'BST - British Summer Time': { tz: 'Europe/London', country: 'Time Zone' },
+            'IST - Irish Standard Time': { tz: 'Europe/Dublin', country: 'Time Zone' },
+            'CET - Central European Time': { tz: 'Europe/Paris', country: 'Time Zone' },
+            'CEST - Central European Summer Time': { tz: 'Europe/Paris', country: 'Time Zone' },
+            'EET - Eastern European Time': { tz: 'Europe/Athens', country: 'Time Zone' },
+            'EEST - Eastern European Summer Time': { tz: 'Europe/Athens', country: 'Time Zone' },
+            'WET - Western European Time': { tz: 'Europe/Lisbon', country: 'Time Zone' },
+            'WEST - Western European Summer Time': { tz: 'Europe/Lisbon', country: 'Time Zone' },
+            'MSK - Moscow Standard Time': { tz: 'Europe/Moscow', country: 'Time Zone' },
+            'IST - India Standard Time': { tz: 'Asia/Kolkata', country: 'Time Zone' },
+            'PKT - Pakistan Standard Time': { tz: 'Asia/Karachi', country: 'Time Zone' },
+            'BST - Bangladesh Standard Time': { tz: 'Asia/Dhaka', country: 'Time Zone' },
+            'ICT - Indochina Time': { tz: 'Asia/Bangkok', country: 'Time Zone' },
+            'CST - China Standard Time': { tz: 'Asia/Shanghai', country: 'Time Zone' },
+            'HKT - Hong Kong Time': { tz: 'Asia/Hong_Kong', country: 'Time Zone' },
+            'SGT - Singapore Time': { tz: 'Asia/Singapore', country: 'Time Zone' },
+            'JST - Japan Standard Time': { tz: 'Asia/Tokyo', country: 'Time Zone' },
+            'KST - Korea Standard Time': { tz: 'Asia/Seoul', country: 'Time Zone' },
+            'AEST - Australian Eastern Standard Time': { tz: 'Australia/Sydney', country: 'Time Zone' },
+            'AEDT - Australian Eastern Daylight Time': { tz: 'Australia/Sydney', country: 'Time Zone' },
+            'ACST - Australian Central Standard Time': { tz: 'Australia/Adelaide', country: 'Time Zone' },
+            'ACDT - Australian Central Daylight Time': { tz: 'Australia/Adelaide', country: 'Time Zone' },
+            'AWST - Australian Western Standard Time': { tz: 'Australia/Perth', country: 'Time Zone' },
+            'NZST - New Zealand Standard Time': { tz: 'Pacific/Auckland', country: 'Time Zone' },
+            'NZDT - New Zealand Daylight Time': { tz: 'Pacific/Auckland', country: 'Time Zone' },
+            'BRT - Brasilia Time': { tz: 'America/Sao_Paulo', country: 'Time Zone' },
+            'ART - Argentina Time': { tz: 'America/Argentina/Buenos_Aires', country: 'Time Zone' },
+            'CLT - Chile Standard Time': { tz: 'America/Santiago', country: 'Time Zone' },
+            'GST - Gulf Standard Time': { tz: 'Asia/Dubai', country: 'Time Zone' },
+            'EAT - East Africa Time': { tz: 'Africa/Nairobi', country: 'Time Zone' },
+            'CAT - Central Africa Time': { tz: 'Africa/Harare', country: 'Time Zone' },
+            'WAT - West Africa Time': { tz: 'Africa/Lagos', country: 'Time Zone' },
+            'SAST - South Africa Standard Time': { tz: 'Africa/Johannesburg', country: 'Time Zone' },
+            
+            // AFRICA
+            'Abidjan': { tz: 'Africa/Abidjan', country: 'Ivory Coast' },
+            'Accra': { tz: 'Africa/Accra', country: 'Ghana' },
+            'Addis Ababa': { tz: 'Africa/Addis_Ababa', country: 'Ethiopia' },
+            'Algiers': { tz: 'Africa/Algiers', country: 'Algeria' },
+            'Asmara': { tz: 'Africa/Asmara', country: 'Eritrea' },
+            'Bamako': { tz: 'Africa/Bamako', country: 'Mali' },
+            'Bangui': { tz: 'Africa/Bangui', country: 'Central African Republic' },
+            'Banjul': { tz: 'Africa/Banjul', country: 'Gambia' },
+            'Bissau': { tz: 'Africa/Bissau', country: 'Guinea-Bissau' },
+            'Blantyre': { tz: 'Africa/Blantyre', country: 'Malawi' },
+            'Brazzaville': { tz: 'Africa/Brazzaville', country: 'Congo' },
+            'Bujumbura': { tz: 'Africa/Bujumbura', country: 'Burundi' },
+            'Cairo': { tz: 'Africa/Cairo', country: 'Egypt' },
+            'Casablanca': { tz: 'Africa/Casablanca', country: 'Morocco' },
+            'Ceuta': { tz: 'Africa/Ceuta', country: 'Spain (Africa)' },
+            'Conakry': { tz: 'Africa/Conakry', country: 'Guinea' },
+            'Dakar': { tz: 'Africa/Dakar', country: 'Senegal' },
+            'Dar es Salaam': { tz: 'Africa/Dar_es_Salaam', country: 'Tanzania' },
+            'Djibouti': { tz: 'Africa/Djibouti', country: 'Djibouti' },
+            'Douala': { tz: 'Africa/Douala', country: 'Cameroon' },
+            'El Aaiun': { tz: 'Africa/El_Aaiun', country: 'Western Sahara' },
+            'Freetown': { tz: 'Africa/Freetown', country: 'Sierra Leone' },
+            'Gaborone': { tz: 'Africa/Gaborone', country: 'Botswana' },
+            'Harare': { tz: 'Africa/Harare', country: 'Zimbabwe' },
+            'Johannesburg': { tz: 'Africa/Johannesburg', country: 'South Africa' },
+            'Juba': { tz: 'Africa/Juba', country: 'South Sudan' },
+            'Kampala': { tz: 'Africa/Kampala', country: 'Uganda' },
+            'Khartoum': { tz: 'Africa/Khartoum', country: 'Sudan' },
+            'Kigali': { tz: 'Africa/Kigali', country: 'Rwanda' },
+            'Kinshasa': { tz: 'Africa/Kinshasa', country: 'DR Congo' },
+            'Lagos': { tz: 'Africa/Lagos', country: 'Nigeria' },
+            'Libreville': { tz: 'Africa/Libreville', country: 'Gabon' },
+            'Lome': { tz: 'Africa/Lome', country: 'Togo' },
+            'Luanda': { tz: 'Africa/Luanda', country: 'Angola' },
+            'Lubumbashi': { tz: 'Africa/Lubumbashi', country: 'DR Congo' },
+            'Lusaka': { tz: 'Africa/Lusaka', country: 'Zambia' },
+            'Malabo': { tz: 'Africa/Malabo', country: 'Equatorial Guinea' },
+            'Maputo': { tz: 'Africa/Maputo', country: 'Mozambique' },
+            'Maseru': { tz: 'Africa/Maseru', country: 'Lesotho' },
+            'Mbabane': { tz: 'Africa/Mbabane', country: 'Eswatini' },
+            'Mogadishu': { tz: 'Africa/Mogadishu', country: 'Somalia' },
+            'Monrovia': { tz: 'Africa/Monrovia', country: 'Liberia' },
+            'Nairobi': { tz: 'Africa/Nairobi', country: 'Kenya' },
+            'Ndjamena': { tz: 'Africa/Ndjamena', country: 'Chad' },
+            'Niamey': { tz: 'Africa/Niamey', country: 'Niger' },
+            'Nouakchott': { tz: 'Africa/Nouakchott', country: 'Mauritania' },
+            'Ouagadougou': { tz: 'Africa/Ouagadougou', country: 'Burkina Faso' },
+            'Porto-Novo': { tz: 'Africa/Porto-Novo', country: 'Benin' },
+            'Sao Tome': { tz: 'Africa/Sao_Tome', country: 'Sao Tome and Principe' },
+            'Tripoli': { tz: 'Africa/Tripoli', country: 'Libya' },
+            'Tunis': { tz: 'Africa/Tunis', country: 'Tunisia' },
+            'Windhoek': { tz: 'Africa/Windhoek', country: 'Namibia' },
+            'Cape Town': { tz: 'Africa/Johannesburg', country: 'South Africa' },
+            'Pretoria': { tz: 'Africa/Johannesburg', country: 'South Africa' },
+            'Durban': { tz: 'Africa/Johannesburg', country: 'South Africa' },
+            'Alexandria': { tz: 'Africa/Cairo', country: 'Egypt' },
+            'Rabat': { tz: 'Africa/Casablanca', country: 'Morocco' },
+            'Marrakech': { tz: 'Africa/Casablanca', country: 'Morocco' },
+            'Abuja': { tz: 'Africa/Lagos', country: 'Nigeria' },
+            'Kano': { tz: 'Africa/Lagos', country: 'Nigeria' },
+            
+            // AMERICAS - NORTH
+            'Adak': { tz: 'America/Adak', country: 'USA (Alaska)' },
+            'Anchorage': { tz: 'America/Anchorage', country: 'USA (Alaska)' },
+            'Anguilla': { tz: 'America/Anguilla', country: 'Anguilla' },
+            'Antigua': { tz: 'America/Antigua', country: 'Antigua and Barbuda' },
+            'Aruba': { tz: 'America/Aruba', country: 'Aruba' },
+            'Asuncion': { tz: 'America/Asuncion', country: 'Paraguay' },
+            'Atikokan': { tz: 'America/Atikokan', country: 'Canada' },
+            'Barbados': { tz: 'America/Barbados', country: 'Barbados' },
+            'Belize': { tz: 'America/Belize', country: 'Belize' },
+            'Blanc-Sablon': { tz: 'America/Blanc-Sablon', country: 'Canada' },
+            'Boise': { tz: 'America/Boise', country: 'USA' },
+            'Cambridge Bay': { tz: 'America/Cambridge_Bay', country: 'Canada' },
+            'Cancun': { tz: 'America/Cancun', country: 'Mexico' },
+            'Cayman': { tz: 'America/Cayman', country: 'Cayman Islands' },
             'Chicago': { tz: 'America/Chicago', country: 'USA' },
-            'Houston': { tz: 'America/Chicago', country: 'USA' },
-            'Phoenix': { tz: 'America/Phoenix', country: 'USA' },
-            'Philadelphia': { tz: 'America/New_York', country: 'USA' },
-            'San Antonio': { tz: 'America/Chicago', country: 'USA' },
-            'San Diego': { tz: 'America/Los_Angeles', country: 'USA' },
-            'Dallas': { tz: 'America/Chicago', country: 'USA' },
-            'San Jose': { tz: 'America/Los_Angeles', country: 'USA' },
-            'Austin': { tz: 'America/Chicago', country: 'USA' },
-            'Jacksonville': { tz: 'America/New_York', country: 'USA' },
-            'San Francisco': { tz: 'America/Los_Angeles', country: 'USA' },
-            'Columbus': { tz: 'America/New_York', country: 'USA' },
-            'Indianapolis': { tz: 'America/Indiana/Indianapolis', country: 'USA' },
-            'Charlotte': { tz: 'America/New_York', country: 'USA' },
-            'Seattle': { tz: 'America/Los_Angeles', country: 'USA' },
+            'Chihuahua': { tz: 'America/Chihuahua', country: 'Mexico' },
+            'Costa Rica': { tz: 'America/Costa_Rica', country: 'Costa Rica' },
+            'Creston': { tz: 'America/Creston', country: 'Canada' },
+            'Curacao': { tz: 'America/Curacao', country: 'Curacao' },
+            'Danmarkshavn': { tz: 'America/Danmarkshavn', country: 'Greenland' },
+            'Dawson': { tz: 'America/Dawson', country: 'Canada' },
+            'Dawson Creek': { tz: 'America/Dawson_Creek', country: 'Canada' },
             'Denver': { tz: 'America/Denver', country: 'USA' },
+            'Detroit': { tz: 'America/Detroit', country: 'USA' },
+            'Dominica': { tz: 'America/Dominica', country: 'Dominica' },
+            'Edmonton': { tz: 'America/Edmonton', country: 'Canada' },
+            'El Salvador': { tz: 'America/El_Salvador', country: 'El Salvador' },
+            'Fort Nelson': { tz: 'America/Fort_Nelson', country: 'Canada' },
+            'Glace Bay': { tz: 'America/Glace_Bay', country: 'Canada' },
+            'Goose Bay': { tz: 'America/Goose_Bay', country: 'Canada' },
+            'Grand Turk': { tz: 'America/Grand_Turk', country: 'Turks and Caicos' },
+            'Grenada': { tz: 'America/Grenada', country: 'Grenada' },
+            'Guadeloupe': { tz: 'America/Guadeloupe', country: 'Guadeloupe' },
+            'Guatemala': { tz: 'America/Guatemala', country: 'Guatemala' },
+            'Halifax': { tz: 'America/Halifax', country: 'Canada' },
+            'Havana': { tz: 'America/Havana', country: 'Cuba' },
+            'Hermosillo': { tz: 'America/Hermosillo', country: 'Mexico' },
+            'Indianapolis': { tz: 'America/Indiana/Indianapolis', country: 'USA' },
+            'Inuvik': { tz: 'America/Inuvik', country: 'Canada' },
+            'Iqaluit': { tz: 'America/Iqaluit', country: 'Canada' },
+            'Jamaica': { tz: 'America/Jamaica', country: 'Jamaica' },
+            'Juneau': { tz: 'America/Juneau', country: 'USA (Alaska)' },
+            'Louisville': { tz: 'America/Kentucky/Louisville', country: 'USA' },
+            'Kralendijk': { tz: 'America/Kralendijk', country: 'Caribbean Netherlands' },
+            'Los Angeles': { tz: 'America/Los_Angeles', country: 'USA' },
+            'Lower Princes': { tz: 'America/Lower_Princes', country: 'Sint Maarten' },
+            'Managua': { tz: 'America/Managua', country: 'Nicaragua' },
+            'Marigot': { tz: 'America/Marigot', country: 'Saint Martin' },
+            'Martinique': { tz: 'America/Martinique', country: 'Martinique' },
+            'Matamoros': { tz: 'America/Matamoros', country: 'Mexico' },
+            'Mazatlan': { tz: 'America/Mazatlan', country: 'Mexico' },
+            'Menominee': { tz: 'America/Menominee', country: 'USA' },
+            'Merida': { tz: 'America/Merida', country: 'Mexico' },
+            'Metlakatla': { tz: 'America/Metlakatla', country: 'USA' },
+            'Mexico City': { tz: 'America/Mexico_City', country: 'Mexico' },
+            'Miquelon': { tz: 'America/Miquelon', country: 'Saint Pierre and Miquelon' },
+            'Moncton': { tz: 'America/Moncton', country: 'Canada' },
+            'Monterrey': { tz: 'America/Monterrey', country: 'Mexico' },
+            'Montreal': { tz: 'America/Toronto', country: 'Canada' },
+            'Montserrat': { tz: 'America/Montserrat', country: 'Montserrat' },
+            'Nassau': { tz: 'America/Nassau', country: 'Bahamas' },
+            'New York': { tz: 'America/New_York', country: 'USA' },
+            'Nipigon': { tz: 'America/Nipigon', country: 'Canada' },
+            'Nome': { tz: 'America/Nome', country: 'USA (Alaska)' },
+            'Nuuk': { tz: 'America/Nuuk', country: 'Greenland' },
+            'Ojinaga': { tz: 'America/Ojinaga', country: 'Mexico' },
+            'Panama': { tz: 'America/Panama', country: 'Panama' },
+            'Pangnirtung': { tz: 'America/Pangnirtung', country: 'Canada' },
+            'Phoenix': { tz: 'America/Phoenix', country: 'USA' },
+            'Port-au-Prince': { tz: 'America/Port-au-Prince', country: 'Haiti' },
+            'Port of Spain': { tz: 'America/Port_of_Spain', country: 'Trinidad and Tobago' },
+            'Puerto Rico': { tz: 'America/Puerto_Rico', country: 'Puerto Rico' },
+            'Rainy River': { tz: 'America/Rainy_River', country: 'Canada' },
+            'Rankin Inlet': { tz: 'America/Rankin_Inlet', country: 'Canada' },
+            'Regina': { tz: 'America/Regina', country: 'Canada' },
+            'Resolute': { tz: 'America/Resolute', country: 'Canada' },
+            'Santo Domingo': { tz: 'America/Santo_Domingo', country: 'Dominican Republic' },
+            'Scoresbysund': { tz: 'America/Scoresbysund', country: 'Greenland' },
+            'Sitka': { tz: 'America/Sitka', country: 'USA (Alaska)' },
+            'St Barthelemy': { tz: 'America/St_Barthelemy', country: 'Saint Barthelemy' },
+            'St Johns': { tz: 'America/St_Johns', country: 'Canada' },
+            'St Kitts': { tz: 'America/St_Kitts', country: 'Saint Kitts and Nevis' },
+            'St Lucia': { tz: 'America/St_Lucia', country: 'Saint Lucia' },
+            'St Thomas': { tz: 'America/St_Thomas', country: 'US Virgin Islands' },
+            'St Vincent': { tz: 'America/St_Vincent', country: 'Saint Vincent' },
+            'Swift Current': { tz: 'America/Swift_Current', country: 'Canada' },
+            'Tegucigalpa': { tz: 'America/Tegucigalpa', country: 'Honduras' },
+            'Thule': { tz: 'America/Thule', country: 'Greenland' },
+            'Thunder Bay': { tz: 'America/Thunder_Bay', country: 'Canada' },
+            'Tijuana': { tz: 'America/Tijuana', country: 'Mexico' },
+            'Toronto': { tz: 'America/Toronto', country: 'Canada' },
+            'Tortola': { tz: 'America/Tortola', country: 'British Virgin Islands' },
+            'Vancouver': { tz: 'America/Vancouver', country: 'Canada' },
+            'Whitehorse': { tz: 'America/Whitehorse', country: 'Canada' },
+            'Winnipeg': { tz: 'America/Winnipeg', country: 'Canada' },
+            'Yakutat': { tz: 'America/Yakutat', country: 'USA (Alaska)' },
+            'Yellowknife': { tz: 'America/Yellowknife', country: 'Canada' },
             'Washington DC': { tz: 'America/New_York', country: 'USA' },
             'Boston': { tz: 'America/New_York', country: 'USA' },
+            'Philadelphia': { tz: 'America/New_York', country: 'USA' },
+            'Atlanta': { tz: 'America/New_York', country: 'USA' },
+            'Miami': { tz: 'America/New_York', country: 'USA' },
+            'Dallas': { tz: 'America/Chicago', country: 'USA' },
+            'Houston': { tz: 'America/Chicago', country: 'USA' },
+            'San Antonio': { tz: 'America/Chicago', country: 'USA' },
+            'Austin': { tz: 'America/Chicago', country: 'USA' },
             'Nashville': { tz: 'America/Chicago', country: 'USA' },
-            'Detroit': { tz: 'America/Detroit', country: 'USA' },
+            'San Francisco': { tz: 'America/Los_Angeles', country: 'USA' },
+            'San Diego': { tz: 'America/Los_Angeles', country: 'USA' },
+            'San Jose': { tz: 'America/Los_Angeles', country: 'USA' },
+            'Seattle': { tz: 'America/Los_Angeles', country: 'USA' },
             'Portland': { tz: 'America/Los_Angeles', country: 'USA' },
             'Las Vegas': { tz: 'America/Los_Angeles', country: 'USA' },
-            'Miami': { tz: 'America/New_York', country: 'USA' },
-            'Atlanta': { tz: 'America/New_York', country: 'USA' },
-            'Toronto': { tz: 'America/Toronto', country: 'Canada' },
-            'Montreal': { tz: 'America/Toronto', country: 'Canada' },
-            'Vancouver': { tz: 'America/Vancouver', country: 'Canada' },
-            'Calgary': { tz: 'America/Edmonton', country: 'Canada' },
             'Ottawa': { tz: 'America/Toronto', country: 'Canada' },
-            'Edmonton': { tz: 'America/Edmonton', country: 'Canada' },
-            'Mexico City': { tz: 'America/Mexico_City', country: 'Mexico' },
+            'Calgary': { tz: 'America/Edmonton', country: 'Canada' },
             'Guadalajara': { tz: 'America/Mexico_City', country: 'Mexico' },
-            'Monterrey': { tz: 'America/Monterrey', country: 'Mexico' },
-            'Havana': { tz: 'America/Havana', country: 'Cuba' },
             
-            // South America
-            'São Paulo': { tz: 'America/Sao_Paulo', country: 'Brazil' },
-            'Rio de Janeiro': { tz: 'America/Sao_Paulo', country: 'Brazil' },
-            'Brasília': { tz: 'America/Sao_Paulo', country: 'Brazil' },
-            'Salvador': { tz: 'America/Bahia', country: 'Brazil' },
+            // AMERICAS - SOUTH
+            'Araguaina': { tz: 'America/Araguaina', country: 'Brazil' },
             'Buenos Aires': { tz: 'America/Argentina/Buenos_Aires', country: 'Argentina' },
-            'Lima': { tz: 'America/Lima', country: 'Peru' },
-            'Bogotá': { tz: 'America/Bogota', country: 'Colombia' },
-            'Santiago': { tz: 'America/Santiago', country: 'Chile' },
+            'Catamarca': { tz: 'America/Argentina/Catamarca', country: 'Argentina' },
+            'Cordoba': { tz: 'America/Argentina/Cordoba', country: 'Argentina' },
+            'Jujuy': { tz: 'America/Argentina/Jujuy', country: 'Argentina' },
+            'La Rioja': { tz: 'America/Argentina/La_Rioja', country: 'Argentina' },
+            'Mendoza': { tz: 'America/Argentina/Mendoza', country: 'Argentina' },
+            'Bahia': { tz: 'America/Bahia', country: 'Brazil' },
+            'Belem': { tz: 'America/Belem', country: 'Brazil' },
+            'Boa Vista': { tz: 'America/Boa_Vista', country: 'Brazil' },
+            'Bogota': { tz: 'America/Bogota', country: 'Colombia' },
+            'Campo Grande': { tz: 'America/Campo_Grande', country: 'Brazil' },
             'Caracas': { tz: 'America/Caracas', country: 'Venezuela' },
-            'Quito': { tz: 'America/Guayaquil', country: 'Ecuador' },
+            'Cayenne': { tz: 'America/Cayenne', country: 'French Guiana' },
+            'Cuiaba': { tz: 'America/Cuiaba', country: 'Brazil' },
+            'Fortaleza': { tz: 'America/Fortaleza', country: 'Brazil' },
+            'Guayaquil': { tz: 'America/Guayaquil', country: 'Ecuador' },
+            'Guyana': { tz: 'America/Guyana', country: 'Guyana' },
+            'La Paz': { tz: 'America/La_Paz', country: 'Bolivia' },
+            'Lima': { tz: 'America/Lima', country: 'Peru' },
+            'Maceio': { tz: 'America/Maceio', country: 'Brazil' },
+            'Manaus': { tz: 'America/Manaus', country: 'Brazil' },
             'Montevideo': { tz: 'America/Montevideo', country: 'Uruguay' },
+            'Paramaribo': { tz: 'America/Paramaribo', country: 'Suriname' },
+            'Porto Velho': { tz: 'America/Porto_Velho', country: 'Brazil' },
+            'Recife': { tz: 'America/Recife', country: 'Brazil' },
+            'Rio Branco': { tz: 'America/Rio_Branco', country: 'Brazil' },
+            'Santiago': { tz: 'America/Santiago', country: 'Chile' },
+            'Sao Paulo': { tz: 'America/Sao_Paulo', country: 'Brazil' },
+            'Rio de Janeiro': { tz: 'America/Sao_Paulo', country: 'Brazil' },
+            'Brasilia': { tz: 'America/Sao_Paulo', country: 'Brazil' },
+            'Salvador': { tz: 'America/Bahia', country: 'Brazil' },
+            'Quito': { tz: 'America/Guayaquil', country: 'Ecuador' },
             
-            // Europe
-            'London': { tz: 'Europe/London', country: 'UK' },
-            'Paris': { tz: 'Europe/Paris', country: 'France' },
-            'Berlin': { tz: 'Europe/Berlin', country: 'Germany' },
-            'Madrid': { tz: 'Europe/Madrid', country: 'Spain' },
-            'Rome': { tz: 'Europe/Rome', country: 'Italy' },
+            // ANTARCTICA
+            'Casey': { tz: 'Antarctica/Casey', country: 'Antarctica' },
+            'Davis': { tz: 'Antarctica/Davis', country: 'Antarctica' },
+            'DumontDUrville': { tz: 'Antarctica/DumontDUrville', country: 'Antarctica' },
+            'Macquarie': { tz: 'Antarctica/Macquarie', country: 'Antarctica' },
+            'Mawson': { tz: 'Antarctica/Mawson', country: 'Antarctica' },
+            'McMurdo': { tz: 'Antarctica/McMurdo', country: 'Antarctica' },
+            'Palmer': { tz: 'Antarctica/Palmer', country: 'Antarctica' },
+            'Rothera': { tz: 'Antarctica/Rothera', country: 'Antarctica' },
+            'Syowa': { tz: 'Antarctica/Syowa', country: 'Antarctica' },
+            'Troll': { tz: 'Antarctica/Troll', country: 'Antarctica' },
+            'Vostok': { tz: 'Antarctica/Vostok', country: 'Antarctica' },
+            
+            // ARCTIC
+            'Longyearbyen': { tz: 'Arctic/Longyearbyen', country: 'Svalbard' },
+            
+            // ASIA
+            'Aden': { tz: 'Asia/Aden', country: 'Yemen' },
+            'Almaty': { tz: 'Asia/Almaty', country: 'Kazakhstan' },
+            'Amman': { tz: 'Asia/Amman', country: 'Jordan' },
+            'Anadyr': { tz: 'Asia/Anadyr', country: 'Russia' },
+            'Aqtau': { tz: 'Asia/Aqtau', country: 'Kazakhstan' },
+            'Aqtobe': { tz: 'Asia/Aqtobe', country: 'Kazakhstan' },
+            'Ashgabat': { tz: 'Asia/Ashgabat', country: 'Turkmenistan' },
+            'Atyrau': { tz: 'Asia/Atyrau', country: 'Kazakhstan' },
+            'Baghdad': { tz: 'Asia/Baghdad', country: 'Iraq' },
+            'Bahrain': { tz: 'Asia/Bahrain', country: 'Bahrain' },
+            'Baku': { tz: 'Asia/Baku', country: 'Azerbaijan' },
+            'Bangkok': { tz: 'Asia/Bangkok', country: 'Thailand' },
+            'Barnaul': { tz: 'Asia/Barnaul', country: 'Russia' },
+            'Beirut': { tz: 'Asia/Beirut', country: 'Lebanon' },
+            'Bishkek': { tz: 'Asia/Bishkek', country: 'Kyrgyzstan' },
+            'Brunei': { tz: 'Asia/Brunei', country: 'Brunei' },
+            'Chita': { tz: 'Asia/Chita', country: 'Russia' },
+            'Choibalsan': { tz: 'Asia/Choibalsan', country: 'Mongolia' },
+            'Colombo': { tz: 'Asia/Colombo', country: 'Sri Lanka' },
+            'Damascus': { tz: 'Asia/Damascus', country: 'Syria' },
+            'Dhaka': { tz: 'Asia/Dhaka', country: 'Bangladesh' },
+            'Dili': { tz: 'Asia/Dili', country: 'East Timor' },
+            'Dubai': { tz: 'Asia/Dubai', country: 'UAE' },
+            'Dushanbe': { tz: 'Asia/Dushanbe', country: 'Tajikistan' },
+            'Famagusta': { tz: 'Asia/Famagusta', country: 'Cyprus' },
+            'Gaza': { tz: 'Asia/Gaza', country: 'Palestine' },
+            'Hebron': { tz: 'Asia/Hebron', country: 'Palestine' },
+            'Ho Chi Minh': { tz: 'Asia/Ho_Chi_Minh', country: 'Vietnam' },
+            'Hong Kong': { tz: 'Asia/Hong_Kong', country: 'Hong Kong' },
+            'Hovd': { tz: 'Asia/Hovd', country: 'Mongolia' },
+            'Irkutsk': { tz: 'Asia/Irkutsk', country: 'Russia' },
+            'Jakarta': { tz: 'Asia/Jakarta', country: 'Indonesia' },
+            'Jayapura': { tz: 'Asia/Jayapura', country: 'Indonesia' },
+            'Jerusalem': { tz: 'Asia/Jerusalem', country: 'Israel' },
+            'Kabul': { tz: 'Asia/Kabul', country: 'Afghanistan' },
+            'Kamchatka': { tz: 'Asia/Kamchatka', country: 'Russia' },
+            'Karachi': { tz: 'Asia/Karachi', country: 'Pakistan' },
+            'Kathmandu': { tz: 'Asia/Kathmandu', country: 'Nepal' },
+            'Khandyga': { tz: 'Asia/Khandyga', country: 'Russia' },
+            'Kolkata': { tz: 'Asia/Kolkata', country: 'India' },
+            'Krasnoyarsk': { tz: 'Asia/Krasnoyarsk', country: 'Russia' },
+            'Kuala Lumpur': { tz: 'Asia/Kuala_Lumpur', country: 'Malaysia' },
+            'Kuching': { tz: 'Asia/Kuching', country: 'Malaysia' },
+            'Kuwait': { tz: 'Asia/Kuwait', country: 'Kuwait' },
+            'Macau': { tz: 'Asia/Macau', country: 'Macau' },
+            'Magadan': { tz: 'Asia/Magadan', country: 'Russia' },
+            'Makassar': { tz: 'Asia/Makassar', country: 'Indonesia' },
+            'Manila': { tz: 'Asia/Manila', country: 'Philippines' },
+            'Muscat': { tz: 'Asia/Muscat', country: 'Oman' },
+            'Nicosia': { tz: 'Asia/Nicosia', country: 'Cyprus' },
+            'Novokuznetsk': { tz: 'Asia/Novokuznetsk', country: 'Russia' },
+            'Novosibirsk': { tz: 'Asia/Novosibirsk', country: 'Russia' },
+            'Omsk': { tz: 'Asia/Omsk', country: 'Russia' },
+            'Oral': { tz: 'Asia/Oral', country: 'Kazakhstan' },
+            'Phnom Penh': { tz: 'Asia/Phnom_Penh', country: 'Cambodia' },
+            'Pontianak': { tz: 'Asia/Pontianak', country: 'Indonesia' },
+            'Pyongyang': { tz: 'Asia/Pyongyang', country: 'North Korea' },
+            'Qatar': { tz: 'Asia/Qatar', country: 'Qatar' },
+            'Qostanay': { tz: 'Asia/Qostanay', country: 'Kazakhstan' },
+            'Qyzylorda': { tz: 'Asia/Qyzylorda', country: 'Kazakhstan' },
+            'Riyadh': { tz: 'Asia/Riyadh', country: 'Saudi Arabia' },
+            'Sakhalin': { tz: 'Asia/Sakhalin', country: 'Russia' },
+            'Samarkand': { tz: 'Asia/Samarkand', country: 'Uzbekistan' },
+            'Seoul': { tz: 'Asia/Seoul', country: 'South Korea' },
+            'Shanghai': { tz: 'Asia/Shanghai', country: 'China' },
+            'Singapore': { tz: 'Asia/Singapore', country: 'Singapore' },
+            'Srednekolymsk': { tz: 'Asia/Srednekolymsk', country: 'Russia' },
+            'Taipei': { tz: 'Asia/Taipei', country: 'Taiwan' },
+            'Tashkent': { tz: 'Asia/Tashkent', country: 'Uzbekistan' },
+            'Tbilisi': { tz: 'Asia/Tbilisi', country: 'Georgia' },
+            'Tehran': { tz: 'Asia/Tehran', country: 'Iran' },
+            'Thimphu': { tz: 'Asia/Thimphu', country: 'Bhutan' },
+            'Tokyo': { tz: 'Asia/Tokyo', country: 'Japan' },
+            'Tomsk': { tz: 'Asia/Tomsk', country: 'Russia' },
+            'Ulaanbaatar': { tz: 'Asia/Ulaanbaatar', country: 'Mongolia' },
+            'Urumqi': { tz: 'Asia/Urumqi', country: 'China' },
+            'Ust-Nera': { tz: 'Asia/Ust-Nera', country: 'Russia' },
+            'Vientiane': { tz: 'Asia/Vientiane', country: 'Laos' },
+            'Vladivostok': { tz: 'Asia/Vladivostok', country: 'Russia' },
+            'Yakutsk': { tz: 'Asia/Yakutsk', country: 'Russia' },
+            'Yangon': { tz: 'Asia/Yangon', country: 'Myanmar' },
+            'Yekaterinburg': { tz: 'Asia/Yekaterinburg', country: 'Russia' },
+            'Yerevan': { tz: 'Asia/Yerevan', country: 'Armenia' },
+            'Beijing': { tz: 'Asia/Shanghai', country: 'China' },
+            'Chongqing': { tz: 'Asia/Shanghai', country: 'China' },
+            'Guangzhou': { tz: 'Asia/Shanghai', country: 'China' },
+            'Shenzhen': { tz: 'Asia/Shanghai', country: 'China' },
+            'Tianjin': { tz: 'Asia/Shanghai', country: 'China' },
+            'Nanjing': { tz: 'Asia/Shanghai', country: 'China' },
+            'Delhi': { tz: 'Asia/Kolkata', country: 'India' },
+            'Mumbai': { tz: 'Asia/Kolkata', country: 'India' },
+            'Bangalore': { tz: 'Asia/Kolkata', country: 'India' },
+            'Chennai': { tz: 'Asia/Kolkata', country: 'India' },
+            'Hyderabad': { tz: 'Asia/Kolkata', country: 'India' },
+            'Pune': { tz: 'Asia/Kolkata', country: 'India' },
+            'Ahmedabad': { tz: 'Asia/Kolkata', country: 'India' },
+            'Lahore': { tz: 'Asia/Karachi', country: 'Pakistan' },
+            'Islamabad': { tz: 'Asia/Karachi', country: 'Pakistan' },
+            'Hanoi': { tz: 'Asia/Ho_Chi_Minh', country: 'Vietnam' },
+            'Tel Aviv': { tz: 'Asia/Jerusalem', country: 'Israel' },
+            'Abu Dhabi': { tz: 'Asia/Dubai', country: 'UAE' },
+            'Doha': { tz: 'Asia/Qatar', country: 'Qatar' },
+            'Kuwait City': { tz: 'Asia/Kuwait', country: 'Kuwait' },
+            
+            // ATLANTIC
+            'Azores': { tz: 'Atlantic/Azores', country: 'Portugal' },
+            'Bermuda': { tz: 'Atlantic/Bermuda', country: 'Bermuda' },
+            'Canary': { tz: 'Atlantic/Canary', country: 'Spain' },
+            'Cape Verde': { tz: 'Atlantic/Cape_Verde', country: 'Cape Verde' },
+            'Faroe': { tz: 'Atlantic/Faroe', country: 'Faroe Islands' },
+            'Madeira': { tz: 'Atlantic/Madeira', country: 'Portugal' },
+            'Reykjavik': { tz: 'Atlantic/Reykjavik', country: 'Iceland' },
+            'South Georgia': { tz: 'Atlantic/South_Georgia', country: 'South Georgia' },
+            'Stanley': { tz: 'Atlantic/Stanley', country: 'Falkland Islands' },
+            'St Helena': { tz: 'Atlantic/St_Helena', country: 'Saint Helena' },
+            
+            // AUSTRALIA
+            'Adelaide': { tz: 'Australia/Adelaide', country: 'Australia' },
+            'Brisbane': { tz: 'Australia/Brisbane', country: 'Australia' },
+            'Broken Hill': { tz: 'Australia/Broken_Hill', country: 'Australia' },
+            'Darwin': { tz: 'Australia/Darwin', country: 'Australia' },
+            'Eucla': { tz: 'Australia/Eucla', country: 'Australia' },
+            'Hobart': { tz: 'Australia/Hobart', country: 'Australia' },
+            'Lindeman': { tz: 'Australia/Lindeman', country: 'Australia' },
+            'Lord Howe': { tz: 'Australia/Lord_Howe', country: 'Australia' },
+            'Melbourne': { tz: 'Australia/Melbourne', country: 'Australia' },
+            'Perth': { tz: 'Australia/Perth', country: 'Australia' },
+            'Sydney': { tz: 'Australia/Sydney', country: 'Australia' },
+            
+            // EUROPE
             'Amsterdam': { tz: 'Europe/Amsterdam', country: 'Netherlands' },
-            'Brussels': { tz: 'Europe/Brussels', country: 'Belgium' },
-            'Vienna': { tz: 'Europe/Vienna', country: 'Austria' },
-            'Warsaw': { tz: 'Europe/Warsaw', country: 'Poland' },
-            'Budapest': { tz: 'Europe/Budapest', country: 'Hungary' },
-            'Prague': { tz: 'Europe/Prague', country: 'Czech Republic' },
-            'Stockholm': { tz: 'Europe/Stockholm', country: 'Sweden' },
-            'Copenhagen': { tz: 'Europe/Copenhagen', country: 'Denmark' },
-            'Oslo': { tz: 'Europe/Oslo', country: 'Norway' },
-            'Helsinki': { tz: 'Europe/Helsinki', country: 'Finland' },
-            'Dublin': { tz: 'Europe/Dublin', country: 'Ireland' },
-            'Lisbon': { tz: 'Europe/Lisbon', country: 'Portugal' },
+            'Andorra': { tz: 'Europe/Andorra', country: 'Andorra' },
+            'Astrakhan': { tz: 'Europe/Astrakhan', country: 'Russia' },
             'Athens': { tz: 'Europe/Athens', country: 'Greece' },
+            'Belgrade': { tz: 'Europe/Belgrade', country: 'Serbia' },
+            'Berlin': { tz: 'Europe/Berlin', country: 'Germany' },
+            'Bratislava': { tz: 'Europe/Bratislava', country: 'Slovakia' },
+            'Brussels': { tz: 'Europe/Brussels', country: 'Belgium' },
+            'Bucharest': { tz: 'Europe/Bucharest', country: 'Romania' },
+            'Budapest': { tz: 'Europe/Budapest', country: 'Hungary' },
+            'Busingen': { tz: 'Europe/Busingen', country: 'Germany' },
+            'Chisinau': { tz: 'Europe/Chisinau', country: 'Moldova' },
+            'Copenhagen': { tz: 'Europe/Copenhagen', country: 'Denmark' },
+            'Dublin': { tz: 'Europe/Dublin', country: 'Ireland' },
+            'Gibraltar': { tz: 'Europe/Gibraltar', country: 'Gibraltar' },
+            'Guernsey': { tz: 'Europe/Guernsey', country: 'Guernsey' },
+            'Helsinki': { tz: 'Europe/Helsinki', country: 'Finland' },
+            'Isle of Man': { tz: 'Europe/Isle_of_Man', country: 'Isle of Man' },
+            'Istanbul': { tz: 'Europe/Istanbul', country: 'Turkey' },
+            'Jersey': { tz: 'Europe/Jersey', country: 'Jersey' },
+            'Kaliningrad': { tz: 'Europe/Kaliningrad', country: 'Russia' },
+            'Kiev': { tz: 'Europe/Kiev', country: 'Ukraine' },
+            'Kirov': { tz: 'Europe/Kirov', country: 'Russia' },
+            'Lisbon': { tz: 'Europe/Lisbon', country: 'Portugal' },
+            'Ljubljana': { tz: 'Europe/Ljubljana', country: 'Slovenia' },
+            'London': { tz: 'Europe/London', country: 'UK' },
+            'Luxembourg': { tz: 'Europe/Luxembourg', country: 'Luxembourg' },
+            'Madrid': { tz: 'Europe/Madrid', country: 'Spain' },
+            'Malta': { tz: 'Europe/Malta', country: 'Malta' },
+            'Mariehamn': { tz: 'Europe/Mariehamn', country: 'Åland Islands' },
+            'Minsk': { tz: 'Europe/Minsk', country: 'Belarus' },
+            'Monaco': { tz: 'Europe/Monaco', country: 'Monaco' },
+            'Moscow': { tz: 'Europe/Moscow', country: 'Russia' },
+            'Oslo': { tz: 'Europe/Oslo', country: 'Norway' },
+            'Paris': { tz: 'Europe/Paris', country: 'France' },
+            'Podgorica': { tz: 'Europe/Podgorica', country: 'Montenegro' },
+            'Prague': { tz: 'Europe/Prague', country: 'Czech Republic' },
+            'Riga': { tz: 'Europe/Riga', country: 'Latvia' },
+            'Rome': { tz: 'Europe/Rome', country: 'Italy' },
+            'Samara': { tz: 'Europe/Samara', country: 'Russia' },
+            'San Marino': { tz: 'Europe/San_Marino', country: 'San Marino' },
+            'Sarajevo': { tz: 'Europe/Sarajevo', country: 'Bosnia and Herzegovina' },
+            'Saratov': { tz: 'Europe/Saratov', country: 'Russia' },
+            'Simferopol': { tz: 'Europe/Simferopol', country: 'Crimea' },
+            'Skopje': { tz: 'Europe/Skopje', country: 'North Macedonia' },
+            'Sofia': { tz: 'Europe/Sofia', country: 'Bulgaria' },
+            'Stockholm': { tz: 'Europe/Stockholm', country: 'Sweden' },
+            'Tallinn': { tz: 'Europe/Tallinn', country: 'Estonia' },
+            'Tirane': { tz: 'Europe/Tirane', country: 'Albania' },
+            'Ulyanovsk': { tz: 'Europe/Ulyanovsk', country: 'Russia' },
+            'Uzhgorod': { tz: 'Europe/Uzhgorod', country: 'Ukraine' },
+            'Vaduz': { tz: 'Europe/Vaduz', country: 'Liechtenstein' },
+            'Vatican': { tz: 'Europe/Vatican', country: 'Vatican City' },
+            'Vienna': { tz: 'Europe/Vienna', country: 'Austria' },
+            'Vilnius': { tz: 'Europe/Vilnius', country: 'Lithuania' },
+            'Volgograd': { tz: 'Europe/Volgograd', country: 'Russia' },
+            'Warsaw': { tz: 'Europe/Warsaw', country: 'Poland' },
+            'Zagreb': { tz: 'Europe/Zagreb', country: 'Croatia' },
+            'Zaporozhye': { tz: 'Europe/Zaporozhye', country: 'Ukraine' },
             'Zurich': { tz: 'Europe/Zurich', country: 'Switzerland' },
             'Munich': { tz: 'Europe/Berlin', country: 'Germany' },
             'Hamburg': { tz: 'Europe/Berlin', country: 'Germany' },
@@ -856,112 +1389,63 @@
             'Birmingham': { tz: 'Europe/London', country: 'UK' },
             'Lyon': { tz: 'Europe/Paris', country: 'France' },
             'Marseille': { tz: 'Europe/Paris', country: 'France' },
-            'Moscow': { tz: 'Europe/Moscow', country: 'Russia' },
             'Saint Petersburg': { tz: 'Europe/Moscow', country: 'Russia' },
-            'Istanbul': { tz: 'Europe/Istanbul', country: 'Turkey' },
             'Ankara': { tz: 'Europe/Istanbul', country: 'Turkey' },
-            'Kiev': { tz: 'Europe/Kiev', country: 'Ukraine' },
-            'Bucharest': { tz: 'Europe/Bucharest', country: 'Romania' },
-            'Belgrade': { tz: 'Europe/Belgrade', country: 'Serbia' },
             
-            // Asia
-            'Tokyo': { tz: 'Asia/Tokyo', country: 'Japan' },
-            'Delhi': { tz: 'Asia/Kolkata', country: 'India' },
-            'Shanghai': { tz: 'Asia/Shanghai', country: 'China' },
-            'Mumbai': { tz: 'Asia/Kolkata', country: 'India' },
-            'Beijing': { tz: 'Asia/Shanghai', country: 'China' },
-            'Dhaka': { tz: 'Asia/Dhaka', country: 'Bangladesh' },
-            'Karachi': { tz: 'Asia/Karachi', country: 'Pakistan' },
-            'Istanbul': { tz: 'Europe/Istanbul', country: 'Turkey' },
-            'Chongqing': { tz: 'Asia/Shanghai', country: 'China' },
-            'Kolkata': { tz: 'Asia/Kolkata', country: 'India' },
-            'Manila': { tz: 'Asia/Manila', country: 'Philippines' },
-            'Lagos': { tz: 'Africa/Lagos', country: 'Nigeria' },
-            'Rio de Janeiro': { tz: 'America/Sao_Paulo', country: 'Brazil' },
-            'Tianjin': { tz: 'Asia/Shanghai', country: 'China' },
-            'Kinshasa': { tz: 'Africa/Kinshasa', country: 'DR Congo' },
-            'Guangzhou': { tz: 'Asia/Shanghai', country: 'China' },
-            'Lahore': { tz: 'Asia/Karachi', country: 'Pakistan' },
-            'Bangalore': { tz: 'Asia/Kolkata', country: 'India' },
-            'Shenzhen': { tz: 'Asia/Shanghai', country: 'China' },
-            'Seoul': { tz: 'Asia/Seoul', country: 'South Korea' },
-            'Jakarta': { tz: 'Asia/Jakarta', country: 'Indonesia' },
-            'Chennai': { tz: 'Asia/Kolkata', country: 'India' },
-            'Bangkok': { tz: 'Asia/Bangkok', country: 'Thailand' },
-            'Hyderabad': { tz: 'Asia/Kolkata', country: 'India' },
-            'Tehran': { tz: 'Asia/Tehran', country: 'Iran' },
-            'Nanjing': { tz: 'Asia/Shanghai', country: 'China' },
-            'Ho Chi Minh City': { tz: 'Asia/Ho_Chi_Minh', country: 'Vietnam' },
-            'Hong Kong': { tz: 'Asia/Hong_Kong', country: 'Hong Kong' },
-            'Baghdad': { tz: 'Asia/Baghdad', country: 'Iraq' },
-            'Hanoi': { tz: 'Asia/Ho_Chi_Minh', country: 'Vietnam' },
-            'Riyadh': { tz: 'Asia/Riyadh', country: 'Saudi Arabia' },
-            'Singapore': { tz: 'Asia/Singapore', country: 'Singapore' },
-            'Kuala Lumpur': { tz: 'Asia/Kuala_Lumpur', country: 'Malaysia' },
-            'Taipei': { tz: 'Asia/Taipei', country: 'Taiwan' },
-            'Yangon': { tz: 'Asia/Yangon', country: 'Myanmar' },
-            'Tel Aviv': { tz: 'Asia/Jerusalem', country: 'Israel' },
-            'Jerusalem': { tz: 'Asia/Jerusalem', country: 'Israel' },
-            'Dubai': { tz: 'Asia/Dubai', country: 'UAE' },
-            'Abu Dhabi': { tz: 'Asia/Dubai', country: 'UAE' },
-            'Doha': { tz: 'Asia/Qatar', country: 'Qatar' },
-            'Kuwait City': { tz: 'Asia/Kuwait', country: 'Kuwait' },
-            'Muscat': { tz: 'Asia/Muscat', country: 'Oman' },
-            'Amman': { tz: 'Asia/Amman', country: 'Jordan' },
-            'Beirut': { tz: 'Asia/Beirut', country: 'Lebanon' },
-            'Kathmandu': { tz: 'Asia/Kathmandu', country: 'Nepal' },
-            'Colombo': { tz: 'Asia/Colombo', country: 'Sri Lanka' },
-            'Tashkent': { tz: 'Asia/Tashkent', country: 'Uzbekistan' },
-            'Almaty': { tz: 'Asia/Almaty', country: 'Kazakhstan' },
-            'Baku': { tz: 'Asia/Baku', country: 'Azerbaijan' },
-            'Tbilisi': { tz: 'Asia/Tbilisi', country: 'Georgia' },
-            'Yerevan': { tz: 'Asia/Yerevan', country: 'Armenia' },
+            // INDIAN OCEAN
+            'Chagos': { tz: 'Indian/Chagos', country: 'British Indian Ocean Territory' },
+            'Christmas': { tz: 'Indian/Christmas', country: 'Christmas Island' },
+            'Cocos': { tz: 'Indian/Cocos', country: 'Cocos Islands' },
+            'Comoro': { tz: 'Indian/Comoro', country: 'Comoros' },
+            'Kerguelen': { tz: 'Indian/Kerguelen', country: 'French Southern Territories' },
+            'Mahe': { tz: 'Indian/Mahe', country: 'Seychelles' },
+            'Maldives': { tz: 'Indian/Maldives', country: 'Maldives' },
+            'Mauritius': { tz: 'Indian/Mauritius', country: 'Mauritius' },
+            'Mayotte': { tz: 'Indian/Mayotte', country: 'Mayotte' },
+            'Reunion': { tz: 'Indian/Reunion', country: 'Réunion' },
             
-            // Africa
-            'Cairo': { tz: 'Africa/Cairo', country: 'Egypt' },
-            'Lagos': { tz: 'Africa/Lagos', country: 'Nigeria' },
-            'Kinshasa': { tz: 'Africa/Kinshasa', country: 'DR Congo' },
-            'Johannesburg': { tz: 'Africa/Johannesburg', country: 'South Africa' },
-            'Khartoum': { tz: 'Africa/Khartoum', country: 'Sudan' },
-            'Alexandria': { tz: 'Africa/Cairo', country: 'Egypt' },
-            'Abidjan': { tz: 'Africa/Abidjan', country: 'Ivory Coast' },
-            'Casablanca': { tz: 'Africa/Casablanca', country: 'Morocco' },
-            'Nairobi': { tz: 'Africa/Nairobi', country: 'Kenya' },
-            'Addis Ababa': { tz: 'Africa/Addis_Ababa', country: 'Ethiopia' },
-            'Accra': { tz: 'Africa/Accra', country: 'Ghana' },
-            'Dar es Salaam': { tz: 'Africa/Dar_es_Salaam', country: 'Tanzania' },
-            'Cape Town': { tz: 'Africa/Johannesburg', country: 'South Africa' },
-            'Algiers': { tz: 'Africa/Algiers', country: 'Algeria' },
-            'Dakar': { tz: 'Africa/Dakar', country: 'Senegal' },
-            'Luanda': { tz: 'Africa/Luanda', country: 'Angola' },
-            'Kano': { tz: 'Africa/Lagos', country: 'Nigeria' },
-            'Tunis': { tz: 'Africa/Tunis', country: 'Tunisia' },
-            'Kampala': { tz: 'Africa/Kampala', country: 'Uganda' },
-            'Rabat': { tz: 'Africa/Casablanca', country: 'Morocco' },
-            
-            // Oceania
-            'Sydney': { tz: 'Australia/Sydney', country: 'Australia' },
-            'Melbourne': { tz: 'Australia/Melbourne', country: 'Australia' },
-            'Brisbane': { tz: 'Australia/Brisbane', country: 'Australia' },
-            'Perth': { tz: 'Australia/Perth', country: 'Australia' },
-            'Adelaide': { tz: 'Australia/Adelaide', country: 'Australia' },
+            // PACIFIC
+            'Apia': { tz: 'Pacific/Apia', country: 'Samoa' },
             'Auckland': { tz: 'Pacific/Auckland', country: 'New Zealand' },
-            'Wellington': { tz: 'Pacific/Auckland', country: 'New Zealand' },
+            'Bougainville': { tz: 'Pacific/Bougainville', country: 'Papua New Guinea' },
+            'Chatham': { tz: 'Pacific/Chatham', country: 'New Zealand' },
+            'Chuuk': { tz: 'Pacific/Chuuk', country: 'Micronesia' },
+            'Easter': { tz: 'Pacific/Easter', country: 'Chile' },
+            'Efate': { tz: 'Pacific/Efate', country: 'Vanuatu' },
+            'Enderbury': { tz: 'Pacific/Enderbury', country: 'Kiribati' },
+            'Fakaofo': { tz: 'Pacific/Fakaofo', country: 'Tokelau' },
+            'Fiji': { tz: 'Pacific/Fiji', country: 'Fiji' },
+            'Funafuti': { tz: 'Pacific/Funafuti', country: 'Tuvalu' },
+            'Galapagos': { tz: 'Pacific/Galapagos', country: 'Ecuador' },
+            'Gambier': { tz: 'Pacific/Gambier', country: 'French Polynesia' },
+            'Guadalcanal': { tz: 'Pacific/Guadalcanal', country: 'Solomon Islands' },
+            'Guam': { tz: 'Pacific/Guam', country: 'Guam' },
             'Honolulu': { tz: 'Pacific/Honolulu', country: 'USA' },
-            'Suva': { tz: 'Pacific/Fiji', country: 'Fiji' },
+            'Kiritimati': { tz: 'Pacific/Kiritimati', country: 'Kiribati' },
+            'Kosrae': { tz: 'Pacific/Kosrae', country: 'Micronesia' },
+            'Kwajalein': { tz: 'Pacific/Kwajalein', country: 'Marshall Islands' },
+            'Majuro': { tz: 'Pacific/Majuro', country: 'Marshall Islands' },
+            'Marquesas': { tz: 'Pacific/Marquesas', country: 'French Polynesia' },
+            'Midway': { tz: 'Pacific/Midway', country: 'USA' },
+            'Nauru': { tz: 'Pacific/Nauru', country: 'Nauru' },
+            'Niue': { tz: 'Pacific/Niue', country: 'Niue' },
+            'Norfolk': { tz: 'Pacific/Norfolk', country: 'Norfolk Island' },
+            'Noumea': { tz: 'Pacific/Noumea', country: 'New Caledonia' },
+            'Pago Pago': { tz: 'Pacific/Pago_Pago', country: 'American Samoa' },
+            'Palau': { tz: 'Pacific/Palau', country: 'Palau' },
+            'Pitcairn': { tz: 'Pacific/Pitcairn', country: 'Pitcairn Islands' },
+            'Pohnpei': { tz: 'Pacific/Pohnpei', country: 'Micronesia' },
             'Port Moresby': { tz: 'Pacific/Port_Moresby', country: 'Papua New Guinea' },
-            
-            // Central America & Caribbean
-            'Guatemala City': { tz: 'America/Guatemala', country: 'Guatemala' },
-            'San Salvador': { tz: 'America/El_Salvador', country: 'El Salvador' },
-            'Managua': { tz: 'America/Managua', country: 'Nicaragua' },
-            'San José': { tz: 'America/Costa_Rica', country: 'Costa Rica' },
-            'Panama City': { tz: 'America/Panama', country: 'Panama' },
-            'Kingston': { tz: 'America/Jamaica', country: 'Jamaica' },
-            'Port-au-Prince': { tz: 'America/Port-au-Prince', country: 'Haiti' },
-            'Santo Domingo': { tz: 'America/Santo_Domingo', country: 'Dominican Republic' },
-            'San Juan': { tz: 'America/Puerto_Rico', country: 'Puerto Rico' },
-            'Tegucigalpa': { tz: 'America/Tegucigalpa', country: 'Honduras' }
+            'Rarotonga': { tz: 'Pacific/Rarotonga', country: 'Cook Islands' },
+            'Saipan': { tz: 'Pacific/Saipan', country: 'Northern Mariana Islands' },
+            'Tahiti': { tz: 'Pacific/Tahiti', country: 'French Polynesia' },
+            'Tarawa': { tz: 'Pacific/Tarawa', country: 'Kiribati' },
+            'Tongatapu': { tz: 'Pacific/Tongatapu', country: 'Tonga' },
+            'Wake': { tz: 'Pacific/Wake', country: 'Wake Island' },
+            'Wallis': { tz: 'Pacific/Wallis', country: 'Wallis and Futuna' },
+            'Wellington': { tz: 'Pacific/Auckland', country: 'New Zealand' },
+            'Christchurch': { tz: 'Pacific/Auckland', country: 'New Zealand' },
+            'Suva': { tz: 'Pacific/Fiji', country: 'Fiji' }
         };
 
         // Initialize
@@ -1009,15 +1493,84 @@
             });
         }
 
+        let selectedSourceCity = '';
+        let selectedDestCity = '';
+        let allCitiesList = [];
+
         function populateCitySelects() {
-            const sourceSelect = document.getElementById('sourceCity');
-            const destSelect = document.getElementById('destCity');
-            
-            Object.keys(CITIES).forEach(city => {
-                sourceSelect.innerHTML += `<option value="${city}">${city}</option>`;
-                destSelect.innerHTML += `<option value="${city}">${city}</option>`;
-            });
+            // Store sorted cities list for suggestions
+            allCitiesList = Object.keys(ALL_CITIES).sort();
         }
+
+        function showSuggestions(type) {
+            const input = document.getElementById(type + 'City');
+            const suggestionsDiv = document.getElementById(type + 'Suggestions');
+            
+            // Show all cities when clicking on empty input
+            if (input.value.trim() === '') {
+                displaySuggestions(type, allCitiesList.slice(0, 50)); // Show first 50
+            }
+        }
+
+        function filterSuggestions(type) {
+            const input = document.getElementById(type + 'City');
+            const searchTerm = input.value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                displaySuggestions(type, allCitiesList.slice(0, 50));
+                return;
+            }
+            
+            // Filter cities that match the search term
+            const filtered = allCitiesList.filter(city => 
+                city.toLowerCase().includes(searchTerm)
+            );
+            
+            displaySuggestions(type, filtered.slice(0, 50)); // Show max 50 results
+        }
+
+        function displaySuggestions(type, cities) {
+            const suggestionsDiv = document.getElementById(type + 'Suggestions');
+            
+            if (cities.length === 0) {
+                suggestionsDiv.innerHTML = '<div class="city-suggestion-item">No matches found</div>';
+                suggestionsDiv.classList.add('show');
+                return;
+            }
+            
+            suggestionsDiv.innerHTML = cities.map(city => 
+                `<div class="city-suggestion-item" onclick="selectCity('${type}', '${city.replace(/'/g, "\\'")}')">${city}</div>`
+            ).join('');
+            
+            suggestionsDiv.classList.add('show');
+        }
+
+        function selectCity(type, city) {
+            const input = document.getElementById(type + 'City');
+            const suggestionsDiv = document.getElementById(type + 'Suggestions');
+            
+            input.value = city;
+            suggestionsDiv.classList.remove('show');
+            
+            if (type === 'source') {
+                selectedSourceCity = city;
+            } else {
+                selectedDestCity = city;
+            }
+        }
+
+        // Close suggestions when clicking outside
+        document.addEventListener('click', function(event) {
+            const isSourceCity = event.target.id === 'sourceCity' || event.target.closest('#sourceSuggestions');
+            const isDestCity = event.target.id === 'destCity' || event.target.closest('#destSuggestions');
+            
+            if (!isSourceCity) {
+                document.getElementById('sourceSuggestions').classList.remove('show');
+            }
+            if (!isDestCity) {
+                document.getElementById('destSuggestions').classList.remove('show');
+            }
+        });
 
         function setDefaultDate() {
             const today = new Date().toISOString().split('T')[0];
@@ -1196,9 +1749,27 @@
             }
         }
 
+        function toggleClearButton() {
+            const searchBox = document.getElementById('searchBox');
+            const clearBtn = document.getElementById('clearSearch');
+            
+            if (searchBox.value.length > 0) {
+                clearBtn.classList.add('show');
+            } else {
+                clearBtn.classList.remove('show');
+            }
+        }
+
+        function clearSearch() {
+            const searchBox = document.getElementById('searchBox');
+            searchBox.value = '';
+            toggleClearButton();
+            filterCities();
+        }
+
         function convertTime() {
-            const sourceCity = document.getElementById('sourceCity').value;
-            const destCity = document.getElementById('destCity').value;
+            const sourceCity = document.getElementById('sourceCity').value.trim();
+            const destCity = document.getElementById('destCity').value.trim();
             const sourceTime = document.getElementById('sourceTime').value;
             const sourceDate = document.getElementById('sourceDate').value;
             
@@ -1207,8 +1778,19 @@
                 return;
             }
             
-            const sourceTz = CITIES[sourceCity].tz;
-            const destTz = CITIES[destCity].tz;
+            // Check if cities exist in ALL_CITIES
+            if (!ALL_CITIES[sourceCity]) {
+                alert('Source city not found. Please select from suggestions.');
+                return;
+            }
+            
+            if (!ALL_CITIES[destCity]) {
+                alert('Destination city not found. Please select from suggestions.');
+                return;
+            }
+            
+            const sourceTz = ALL_CITIES[sourceCity].tz;
+            const destTz = ALL_CITIES[destCity].tz;
             
             // Parse input
             const [hours, minutes] = sourceTime.split(':').map(Number);
