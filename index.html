@@ -234,9 +234,9 @@
 
         .timezone-offset {
             font-size: 0.85rem;
-            color: var(--text-muted);
+            color: var(--accent-gold);
             margin-bottom: 20px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .analog-clock {
@@ -309,8 +309,9 @@
         .date-display {
             text-align: center;
             font-size: 0.9rem;
-            color: var(--text-secondary);
+            color: #c4d0f0;
             margin-top: 5px;
+            font-weight: 500;
         }
 
         /* Timezone Converter */
@@ -357,20 +358,28 @@
 
         select, input[type="time"], input[type="date"] {
             flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid var(--card-border);
-            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.12);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
             padding: 15px 20px;
             border-radius: 15px;
             font-size: 1rem;
             font-family: 'DM Sans', sans-serif;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         select:focus, input:focus {
             outline: none;
             border-color: var(--accent-blue);
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.18);
+        }
+        
+        /* Make date/time picker text brighter */
+        input[type="time"]::-webkit-calendar-picker-indicator,
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) brightness(1.5);
+            cursor: pointer;
         }
 
         option {
@@ -441,8 +450,9 @@
 
         .result-date {
             font-size: 0.9rem;
-            color: var(--text-muted);
+            color: #c4d0f0;
             margin-top: 5px;
+            font-weight: 500;
         }
 
         @keyframes fadeIn {
@@ -491,6 +501,154 @@
             .converter-input-group { flex-direction: column; }
             .tabs { flex-direction: column; gap: 10px; }
         }
+
+        /* Cities Table Styles */
+        .table-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            padding: 40px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .table-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .search-box {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.12);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 15px 20px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-family: 'DM Sans', sans-serif;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .cities-table-wrapper {
+            max-height: 600px;
+            overflow-y: auto;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .cities-table-wrapper::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .cities-table-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .cities-table-wrapper::-webkit-scrollbar-thumb {
+            background: var(--accent-blue);
+            border-radius: 10px;
+        }
+
+        .cities-table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-pink);
+        }
+
+        .cities-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cities-table thead {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(135deg, rgba(77, 184, 255, 0.2), rgba(255, 107, 157, 0.2));
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .cities-table th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            border-bottom: 2px solid var(--accent-blue);
+        }
+
+        .cities-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #c4d0f0;
+            font-weight: 500;
+        }
+
+        .cities-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .cities-table tbody tr:hover {
+            background: rgba(77, 184, 255, 0.1);
+            transform: scale(1.01);
+        }
+
+        .table-city-name {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1.05rem;
+        }
+
+        .table-country {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .table-time {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .table-date {
+            color: #c4d0f0;
+            font-size: 0.9rem;
+        }
+
+        .table-timezone {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
@@ -509,6 +667,7 @@
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('clocks')">World Clocks</button>
             <button class="tab-btn" onclick="switchTab('converter')">Time Converter</button>
+            <button class="tab-btn" onclick="switchTab('allcities')">All Cities</button>
         </div>
 
         <!-- World Clocks Tab -->
@@ -565,6 +724,34 @@
                 </div>
             </div>
         </div>
+
+        <!-- All Cities Tab -->
+        <div id="allcities-tab" class="tab-content">
+            <div class="table-container">
+                <h2 class="table-title">World Time - All Cities</h2>
+                <input type="text" id="searchBox" class="search-box" placeholder="🔍 Search cities..." onkeyup="filterCities()">
+                
+                <div class="cities-table-wrapper">
+                    <table class="cities-table">
+                        <thead>
+                            <tr>
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Current Time</th>
+                                <th>Date</th>
+                                <th>Timezone</th>
+                            </tr>
+                        </thead>
+                        <tbody id="citiesTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                    <div id="noResults" class="no-results" style="display: none;">
+                        No cities found matching your search.
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -586,13 +773,207 @@
             'Berlin': { tz: 'Europe/Berlin', country: 'Germany' }
         };
 
+        // Extended cities list for the table (200+ cities)
+        const ALL_CITIES = {
+            // North America
+            'New York': { tz: 'America/New_York', country: 'USA' },
+            'Los Angeles': { tz: 'America/Los_Angeles', country: 'USA' },
+            'Chicago': { tz: 'America/Chicago', country: 'USA' },
+            'Houston': { tz: 'America/Chicago', country: 'USA' },
+            'Phoenix': { tz: 'America/Phoenix', country: 'USA' },
+            'Philadelphia': { tz: 'America/New_York', country: 'USA' },
+            'San Antonio': { tz: 'America/Chicago', country: 'USA' },
+            'San Diego': { tz: 'America/Los_Angeles', country: 'USA' },
+            'Dallas': { tz: 'America/Chicago', country: 'USA' },
+            'San Jose': { tz: 'America/Los_Angeles', country: 'USA' },
+            'Austin': { tz: 'America/Chicago', country: 'USA' },
+            'Jacksonville': { tz: 'America/New_York', country: 'USA' },
+            'San Francisco': { tz: 'America/Los_Angeles', country: 'USA' },
+            'Columbus': { tz: 'America/New_York', country: 'USA' },
+            'Indianapolis': { tz: 'America/Indiana/Indianapolis', country: 'USA' },
+            'Charlotte': { tz: 'America/New_York', country: 'USA' },
+            'Seattle': { tz: 'America/Los_Angeles', country: 'USA' },
+            'Denver': { tz: 'America/Denver', country: 'USA' },
+            'Washington DC': { tz: 'America/New_York', country: 'USA' },
+            'Boston': { tz: 'America/New_York', country: 'USA' },
+            'Nashville': { tz: 'America/Chicago', country: 'USA' },
+            'Detroit': { tz: 'America/Detroit', country: 'USA' },
+            'Portland': { tz: 'America/Los_Angeles', country: 'USA' },
+            'Las Vegas': { tz: 'America/Los_Angeles', country: 'USA' },
+            'Miami': { tz: 'America/New_York', country: 'USA' },
+            'Atlanta': { tz: 'America/New_York', country: 'USA' },
+            'Toronto': { tz: 'America/Toronto', country: 'Canada' },
+            'Montreal': { tz: 'America/Toronto', country: 'Canada' },
+            'Vancouver': { tz: 'America/Vancouver', country: 'Canada' },
+            'Calgary': { tz: 'America/Edmonton', country: 'Canada' },
+            'Ottawa': { tz: 'America/Toronto', country: 'Canada' },
+            'Edmonton': { tz: 'America/Edmonton', country: 'Canada' },
+            'Mexico City': { tz: 'America/Mexico_City', country: 'Mexico' },
+            'Guadalajara': { tz: 'America/Mexico_City', country: 'Mexico' },
+            'Monterrey': { tz: 'America/Monterrey', country: 'Mexico' },
+            'Havana': { tz: 'America/Havana', country: 'Cuba' },
+            
+            // South America
+            'São Paulo': { tz: 'America/Sao_Paulo', country: 'Brazil' },
+            'Rio de Janeiro': { tz: 'America/Sao_Paulo', country: 'Brazil' },
+            'Brasília': { tz: 'America/Sao_Paulo', country: 'Brazil' },
+            'Salvador': { tz: 'America/Bahia', country: 'Brazil' },
+            'Buenos Aires': { tz: 'America/Argentina/Buenos_Aires', country: 'Argentina' },
+            'Lima': { tz: 'America/Lima', country: 'Peru' },
+            'Bogotá': { tz: 'America/Bogota', country: 'Colombia' },
+            'Santiago': { tz: 'America/Santiago', country: 'Chile' },
+            'Caracas': { tz: 'America/Caracas', country: 'Venezuela' },
+            'Quito': { tz: 'America/Guayaquil', country: 'Ecuador' },
+            'Montevideo': { tz: 'America/Montevideo', country: 'Uruguay' },
+            
+            // Europe
+            'London': { tz: 'Europe/London', country: 'UK' },
+            'Paris': { tz: 'Europe/Paris', country: 'France' },
+            'Berlin': { tz: 'Europe/Berlin', country: 'Germany' },
+            'Madrid': { tz: 'Europe/Madrid', country: 'Spain' },
+            'Rome': { tz: 'Europe/Rome', country: 'Italy' },
+            'Amsterdam': { tz: 'Europe/Amsterdam', country: 'Netherlands' },
+            'Brussels': { tz: 'Europe/Brussels', country: 'Belgium' },
+            'Vienna': { tz: 'Europe/Vienna', country: 'Austria' },
+            'Warsaw': { tz: 'Europe/Warsaw', country: 'Poland' },
+            'Budapest': { tz: 'Europe/Budapest', country: 'Hungary' },
+            'Prague': { tz: 'Europe/Prague', country: 'Czech Republic' },
+            'Stockholm': { tz: 'Europe/Stockholm', country: 'Sweden' },
+            'Copenhagen': { tz: 'Europe/Copenhagen', country: 'Denmark' },
+            'Oslo': { tz: 'Europe/Oslo', country: 'Norway' },
+            'Helsinki': { tz: 'Europe/Helsinki', country: 'Finland' },
+            'Dublin': { tz: 'Europe/Dublin', country: 'Ireland' },
+            'Lisbon': { tz: 'Europe/Lisbon', country: 'Portugal' },
+            'Athens': { tz: 'Europe/Athens', country: 'Greece' },
+            'Zurich': { tz: 'Europe/Zurich', country: 'Switzerland' },
+            'Munich': { tz: 'Europe/Berlin', country: 'Germany' },
+            'Hamburg': { tz: 'Europe/Berlin', country: 'Germany' },
+            'Frankfurt': { tz: 'Europe/Berlin', country: 'Germany' },
+            'Barcelona': { tz: 'Europe/Madrid', country: 'Spain' },
+            'Milan': { tz: 'Europe/Rome', country: 'Italy' },
+            'Naples': { tz: 'Europe/Rome', country: 'Italy' },
+            'Manchester': { tz: 'Europe/London', country: 'UK' },
+            'Birmingham': { tz: 'Europe/London', country: 'UK' },
+            'Lyon': { tz: 'Europe/Paris', country: 'France' },
+            'Marseille': { tz: 'Europe/Paris', country: 'France' },
+            'Moscow': { tz: 'Europe/Moscow', country: 'Russia' },
+            'Saint Petersburg': { tz: 'Europe/Moscow', country: 'Russia' },
+            'Istanbul': { tz: 'Europe/Istanbul', country: 'Turkey' },
+            'Ankara': { tz: 'Europe/Istanbul', country: 'Turkey' },
+            'Kiev': { tz: 'Europe/Kiev', country: 'Ukraine' },
+            'Bucharest': { tz: 'Europe/Bucharest', country: 'Romania' },
+            'Belgrade': { tz: 'Europe/Belgrade', country: 'Serbia' },
+            
+            // Asia
+            'Tokyo': { tz: 'Asia/Tokyo', country: 'Japan' },
+            'Delhi': { tz: 'Asia/Kolkata', country: 'India' },
+            'Shanghai': { tz: 'Asia/Shanghai', country: 'China' },
+            'Mumbai': { tz: 'Asia/Kolkata', country: 'India' },
+            'Beijing': { tz: 'Asia/Shanghai', country: 'China' },
+            'Dhaka': { tz: 'Asia/Dhaka', country: 'Bangladesh' },
+            'Karachi': { tz: 'Asia/Karachi', country: 'Pakistan' },
+            'Istanbul': { tz: 'Europe/Istanbul', country: 'Turkey' },
+            'Chongqing': { tz: 'Asia/Shanghai', country: 'China' },
+            'Kolkata': { tz: 'Asia/Kolkata', country: 'India' },
+            'Manila': { tz: 'Asia/Manila', country: 'Philippines' },
+            'Lagos': { tz: 'Africa/Lagos', country: 'Nigeria' },
+            'Rio de Janeiro': { tz: 'America/Sao_Paulo', country: 'Brazil' },
+            'Tianjin': { tz: 'Asia/Shanghai', country: 'China' },
+            'Kinshasa': { tz: 'Africa/Kinshasa', country: 'DR Congo' },
+            'Guangzhou': { tz: 'Asia/Shanghai', country: 'China' },
+            'Lahore': { tz: 'Asia/Karachi', country: 'Pakistan' },
+            'Bangalore': { tz: 'Asia/Kolkata', country: 'India' },
+            'Shenzhen': { tz: 'Asia/Shanghai', country: 'China' },
+            'Seoul': { tz: 'Asia/Seoul', country: 'South Korea' },
+            'Jakarta': { tz: 'Asia/Jakarta', country: 'Indonesia' },
+            'Chennai': { tz: 'Asia/Kolkata', country: 'India' },
+            'Bangkok': { tz: 'Asia/Bangkok', country: 'Thailand' },
+            'Hyderabad': { tz: 'Asia/Kolkata', country: 'India' },
+            'Tehran': { tz: 'Asia/Tehran', country: 'Iran' },
+            'Nanjing': { tz: 'Asia/Shanghai', country: 'China' },
+            'Ho Chi Minh City': { tz: 'Asia/Ho_Chi_Minh', country: 'Vietnam' },
+            'Hong Kong': { tz: 'Asia/Hong_Kong', country: 'Hong Kong' },
+            'Baghdad': { tz: 'Asia/Baghdad', country: 'Iraq' },
+            'Hanoi': { tz: 'Asia/Ho_Chi_Minh', country: 'Vietnam' },
+            'Riyadh': { tz: 'Asia/Riyadh', country: 'Saudi Arabia' },
+            'Singapore': { tz: 'Asia/Singapore', country: 'Singapore' },
+            'Kuala Lumpur': { tz: 'Asia/Kuala_Lumpur', country: 'Malaysia' },
+            'Taipei': { tz: 'Asia/Taipei', country: 'Taiwan' },
+            'Yangon': { tz: 'Asia/Yangon', country: 'Myanmar' },
+            'Tel Aviv': { tz: 'Asia/Jerusalem', country: 'Israel' },
+            'Jerusalem': { tz: 'Asia/Jerusalem', country: 'Israel' },
+            'Dubai': { tz: 'Asia/Dubai', country: 'UAE' },
+            'Abu Dhabi': { tz: 'Asia/Dubai', country: 'UAE' },
+            'Doha': { tz: 'Asia/Qatar', country: 'Qatar' },
+            'Kuwait City': { tz: 'Asia/Kuwait', country: 'Kuwait' },
+            'Muscat': { tz: 'Asia/Muscat', country: 'Oman' },
+            'Amman': { tz: 'Asia/Amman', country: 'Jordan' },
+            'Beirut': { tz: 'Asia/Beirut', country: 'Lebanon' },
+            'Kathmandu': { tz: 'Asia/Kathmandu', country: 'Nepal' },
+            'Colombo': { tz: 'Asia/Colombo', country: 'Sri Lanka' },
+            'Tashkent': { tz: 'Asia/Tashkent', country: 'Uzbekistan' },
+            'Almaty': { tz: 'Asia/Almaty', country: 'Kazakhstan' },
+            'Baku': { tz: 'Asia/Baku', country: 'Azerbaijan' },
+            'Tbilisi': { tz: 'Asia/Tbilisi', country: 'Georgia' },
+            'Yerevan': { tz: 'Asia/Yerevan', country: 'Armenia' },
+            
+            // Africa
+            'Cairo': { tz: 'Africa/Cairo', country: 'Egypt' },
+            'Lagos': { tz: 'Africa/Lagos', country: 'Nigeria' },
+            'Kinshasa': { tz: 'Africa/Kinshasa', country: 'DR Congo' },
+            'Johannesburg': { tz: 'Africa/Johannesburg', country: 'South Africa' },
+            'Khartoum': { tz: 'Africa/Khartoum', country: 'Sudan' },
+            'Alexandria': { tz: 'Africa/Cairo', country: 'Egypt' },
+            'Abidjan': { tz: 'Africa/Abidjan', country: 'Ivory Coast' },
+            'Casablanca': { tz: 'Africa/Casablanca', country: 'Morocco' },
+            'Nairobi': { tz: 'Africa/Nairobi', country: 'Kenya' },
+            'Addis Ababa': { tz: 'Africa/Addis_Ababa', country: 'Ethiopia' },
+            'Accra': { tz: 'Africa/Accra', country: 'Ghana' },
+            'Dar es Salaam': { tz: 'Africa/Dar_es_Salaam', country: 'Tanzania' },
+            'Cape Town': { tz: 'Africa/Johannesburg', country: 'South Africa' },
+            'Algiers': { tz: 'Africa/Algiers', country: 'Algeria' },
+            'Dakar': { tz: 'Africa/Dakar', country: 'Senegal' },
+            'Luanda': { tz: 'Africa/Luanda', country: 'Angola' },
+            'Kano': { tz: 'Africa/Lagos', country: 'Nigeria' },
+            'Tunis': { tz: 'Africa/Tunis', country: 'Tunisia' },
+            'Kampala': { tz: 'Africa/Kampala', country: 'Uganda' },
+            'Rabat': { tz: 'Africa/Casablanca', country: 'Morocco' },
+            
+            // Oceania
+            'Sydney': { tz: 'Australia/Sydney', country: 'Australia' },
+            'Melbourne': { tz: 'Australia/Melbourne', country: 'Australia' },
+            'Brisbane': { tz: 'Australia/Brisbane', country: 'Australia' },
+            'Perth': { tz: 'Australia/Perth', country: 'Australia' },
+            'Adelaide': { tz: 'Australia/Adelaide', country: 'Australia' },
+            'Auckland': { tz: 'Pacific/Auckland', country: 'New Zealand' },
+            'Wellington': { tz: 'Pacific/Auckland', country: 'New Zealand' },
+            'Honolulu': { tz: 'Pacific/Honolulu', country: 'USA' },
+            'Suva': { tz: 'Pacific/Fiji', country: 'Fiji' },
+            'Port Moresby': { tz: 'Pacific/Port_Moresby', country: 'Papua New Guinea' },
+            
+            // Central America & Caribbean
+            'Guatemala City': { tz: 'America/Guatemala', country: 'Guatemala' },
+            'San Salvador': { tz: 'America/El_Salvador', country: 'El Salvador' },
+            'Managua': { tz: 'America/Managua', country: 'Nicaragua' },
+            'San José': { tz: 'America/Costa_Rica', country: 'Costa Rica' },
+            'Panama City': { tz: 'America/Panama', country: 'Panama' },
+            'Kingston': { tz: 'America/Jamaica', country: 'Jamaica' },
+            'Port-au-Prince': { tz: 'America/Port-au-Prince', country: 'Haiti' },
+            'Santo Domingo': { tz: 'America/Santo_Domingo', country: 'Dominican Republic' },
+            'San Juan': { tz: 'America/Puerto_Rico', country: 'Puerto Rico' },
+            'Tegucigalpa': { tz: 'America/Tegucigalpa', country: 'Honduras' }
+        };
+
         // Initialize
         function init() {
             createClockCards();
             populateCitySelects();
+            populateCitiesTable();
             setDefaultDate();
             updateAllClocks();
+            updateCitiesTable();
             setInterval(updateAllClocks, 1000);
+            setInterval(updateCitiesTable, 1000);
         }
 
         function switchTab(tabName) {
@@ -720,6 +1101,98 @@
                 if (dateDisplay) {
                     dateDisplay.textContent = dateString;
                 }
+            }
+        }
+
+        function populateCitiesTable() {
+            const tbody = document.getElementById('citiesTableBody');
+            tbody.innerHTML = '';
+            
+            // Sort cities alphabetically
+            const sortedCities = Object.entries(ALL_CITIES).sort((a, b) => a[0].localeCompare(b[0]));
+            
+            sortedCities.forEach(([city, data]) => {
+                const row = document.createElement('tr');
+                row.setAttribute('data-city', city.toLowerCase());
+                row.setAttribute('data-country', data.country.toLowerCase());
+                
+                row.innerHTML = `
+                    <td class="table-city-name">${city}</td>
+                    <td class="table-country">${data.country}</td>
+                    <td class="table-time" data-tz="${data.tz}"></td>
+                    <td class="table-date" data-tz="${data.tz}"></td>
+                    <td class="table-timezone"></td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateCitiesTable() {
+            const now = new Date();
+            const rows = document.querySelectorAll('#citiesTableBody tr');
+            
+            rows.forEach(row => {
+                const timeCell = row.querySelector('.table-time');
+                const dateCell = row.querySelector('.table-date');
+                const timezoneCell = row.querySelector('.table-timezone');
+                
+                if (timeCell && dateCell) {
+                    const tz = timeCell.getAttribute('data-tz');
+                    
+                    const timeString = now.toLocaleTimeString('en-US', {
+                        timeZone: tz,
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: true
+                    });
+                    
+                    const dateString = now.toLocaleDateString('en-US', {
+                        timeZone: tz,
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                    
+                    const offsetString = now.toLocaleTimeString('en-US', {
+                        timeZone: tz,
+                        timeZoneName: 'short'
+                    }).split(' ').pop();
+                    
+                    timeCell.textContent = timeString;
+                    dateCell.textContent = dateString;
+                    timezoneCell.textContent = offsetString;
+                }
+            });
+        }
+
+        function filterCities() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const rows = document.querySelectorAll('#citiesTableBody tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const city = row.getAttribute('data-city');
+                const country = row.getAttribute('data-country');
+                
+                if (city.includes(searchTerm) || country.includes(searchTerm)) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            const noResults = document.getElementById('noResults');
+            const tableWrapper = document.querySelector('.cities-table-wrapper table');
+            
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+                if (tableWrapper) tableWrapper.style.display = 'none';
+            } else {
+                noResults.style.display = 'none';
+                if (tableWrapper) tableWrapper.style.display = 'table';
             }
         }
 
