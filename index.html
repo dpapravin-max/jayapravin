@@ -10,9 +10,9 @@
             --bg-dark: #0a0e27;
             --bg-gradient-start: #0a0e27;
             --bg-gradient-end: #1a1d3a;
-            --accent-gold: #f4d03f;
-            --accent-blue: #4db8ff;
-            --accent-pink: #ff6b9d;
+            --accent-gold: #fbbf24;
+            --accent-blue: #06b6d4;
+            --accent-pink: #f97316;
             --card-bg: rgba(255, 255, 255, 0.03);
             --card-border: rgba(255, 255, 255, 0.1);
             --text-primary: #ffffff;
@@ -880,6 +880,10 @@
 
     <div class="container">
         <header>
+            <div style="position: absolute; top: 20px; right: 20px; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4; text-align: right;">
+                <div style="font-weight: 600; color: var(--text-primary); letter-spacing: 0.3px;">JAYAPRAVIN RAMAKRISHNAN</div>
+                <div style="font-size: 0.7rem; margin-top: 3px; font-weight: 400;">Version 1.0/2026</div>
+            </div>
             <h1>World Time</h1>
             <p class="subtitle">Global Clock Network</p>
         </header>
@@ -2173,6 +2177,11 @@
             populateCitySelects();
             populateCitiesTable();
             populateExchangeHolidays();
+            
+            // Ensure 2026 button is active by default
+            document.getElementById('year2025Btn').classList.remove('active');
+            document.getElementById('year2026Btn').classList.add('active');
+            
             setDefaultDate();
             updateAllClocks();
             updateCitiesTable();
