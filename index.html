@@ -999,6 +999,92 @@
             color: var(--bg-dark);
             transform: translateY(-2px);
         }
+
+        /* Market Indices Styles */
+        .indices-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .indices-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .indices-region {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 0 0 20px 0;
+            font-weight: 700;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--accent-blue);
+        }
+
+        .indices-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .index-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .index-card:hover {
+            border-color: var(--accent-blue);
+            background: rgba(6, 182, 212, 0.05);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.15);
+        }
+
+        .index-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .index-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .index-symbol {
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .index-exchange {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .index-note {
+            font-size: 0.8rem;
+            color: var(--accent-pink);
+            font-weight: 500;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .index-card:hover .index-note {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -1023,6 +1109,7 @@
             <button class="tab-btn" onclick="switchTab('converter')">Time Converter</button>
             <button class="tab-btn" onclick="switchTab('allcities')">All Cities</button>
             <button class="tab-btn" onclick="switchTab('exchanges')">Exchange Holidays</button>
+            <button class="tab-btn" onclick="switchTab('indices')">Market Indices</button>
             <button class="tab-btn" onclick="switchTab('marketnews')">Market News</button>
         </div>
 
@@ -1123,6 +1210,168 @@
                     <button class="tab-btn active" id="year2026Btn" onclick="switchHolidayYear(2026)" style="margin: 0 10px;">2026</button>
                 </div>
                 <div class="exchange-grid" id="exchangeGrid"></div>
+            </div>
+        </div>
+
+        <!-- Market Indices Tab -->
+        <div id="indices-tab" class="tab-content">
+            <div class="table-container">
+                <h2 class="table-title">Global Market Indices</h2>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 40px; font-size: 1rem;">
+                    Real-time market data from major global exchanges
+                </p>
+                
+                <div class="indices-grid">
+                    <!-- Americas -->
+                    <div class="indices-section">
+                        <h3 class="indices-region">🌎 Americas</h3>
+                        <div class="indices-cards">
+                            <a href="https://www.google.com/finance/quote/.INX:INDEXSP" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">S&P 500</div>
+                                    <div class="index-symbol">^GSPC</div>
+                                </div>
+                                <div class="index-exchange">New York Stock Exchange</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                            
+                            <a href="https://www.google.com/finance/quote/.DJI:INDEXDJX" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">Dow Jones</div>
+                                    <div class="index-symbol">^DJI</div>
+                                </div>
+                                <div class="index-exchange">New York Stock Exchange</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                            
+                            <a href="https://www.google.com/finance/quote/.IXIC:INDEXNASDAQ" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">NASDAQ</div>
+                                    <div class="index-symbol">^IXIC</div>
+                                </div>
+                                <div class="index-exchange">NASDAQ Stock Market</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Europe -->
+                    <div class="indices-section">
+                        <h3 class="indices-region">🌍 Europe</h3>
+                        <div class="indices-cards">
+                            <a href="https://www.google.com/finance/quote/UKX:INDEXFTSE" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">FTSE 100</div>
+                                    <div class="index-symbol">^FTSE</div>
+                                </div>
+                                <div class="index-exchange">London Stock Exchange</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                            
+                            <a href="https://www.google.com/finance/quote/DAX:INDEXDB" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">DAX</div>
+                                    <div class="index-symbol">^GDAXI</div>
+                                </div>
+                                <div class="index-exchange">Frankfurt Stock Exchange</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                            
+                            <a href="https://www.google.com/finance/quote/CAC:INDEXEURO" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">CAC 40</div>
+                                    <div class="index-symbol">^FCHI</div>
+                                </div>
+                                <div class="index-exchange">Euronext Paris</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Asia-Pacific -->
+                    <div class="indices-section">
+                        <h3 class="indices-region">🌏 Asia-Pacific</h3>
+                        <div class="indices-cards">
+                            <a href="https://www.google.com/finance/quote/N225:INDEXNIKKEI" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">Nikkei 225</div>
+                                    <div class="index-symbol">^N225</div>
+                                </div>
+                                <div class="index-exchange">Tokyo Stock Exchange</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                            
+                            <a href="https://www.google.com/finance/quote/HSI:INDEXHANGSENG" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">Hang Seng</div>
+                                    <div class="index-symbol">^HSI</div>
+                                </div>
+                                <div class="index-exchange">Hong Kong Stock Exchange</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                            
+                            <a href="https://www.google.com/finance/quote/000001:SHA" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">Shanghai Composite</div>
+                                    <div class="index-symbol">SSE</div>
+                                </div>
+                                <div class="index-exchange">Shanghai Stock Exchange</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                            
+                            <a href="https://www.google.com/finance/quote/KS11:KOSPI" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">KOSPI</div>
+                                    <div class="index-symbol">^KS11</div>
+                                </div>
+                                <div class="index-exchange">Korea Stock Exchange</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                            
+                            <a href="https://www.google.com/finance/quote/TWII:TPE" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">Taiwan Weighted</div>
+                                    <div class="index-symbol">^TWII</div>
+                                </div>
+                                <div class="index-exchange">Taiwan Stock Exchange</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                            
+                            <a href="https://www.google.com/finance/quote/SENSEX:INDEXBOM" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">BSE SENSEX</div>
+                                    <div class="index-symbol">^BSESN</div>
+                                </div>
+                                <div class="index-exchange">Bombay Stock Exchange</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                            
+                            <a href="https://www.google.com/finance/quote/STI:INDEXSGX" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">Straits Times Index</div>
+                                    <div class="index-symbol">^STI</div>
+                                </div>
+                                <div class="index-exchange">Singapore Exchange</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                            
+                            <a href="https://www.google.com/finance/quote/AXJO:INDEXASX" target="_blank" rel="noopener noreferrer" class="index-card">
+                                <div class="index-header">
+                                    <div class="index-name">ASX 200</div>
+                                    <div class="index-symbol">^AXJO</div>
+                                </div>
+                                <div class="index-exchange">Australian Securities Exchange</div>
+                                <div class="index-note">Click for live data →</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(6, 182, 212, 0.1); border-radius: 15px; border: 1px solid var(--accent-blue);">
+                    <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">
+                        💡 <strong>Note:</strong> Click on any index card to view real-time prices, charts, historical data, and detailed analysis on Google Finance.
+                    </p>
+                </div>
             </div>
         </div>
 
