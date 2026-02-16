@@ -1035,11 +1035,18 @@
         }
 
         .indices-table .region-header {
-            padding: 15px;
-            font-size: 1.1rem;
+            padding: 12px 15px;
+            font-size: 1rem;
             font-weight: 700;
-            color: var(--text-primary);
-            border-top: 2px solid var(--card-border);
+            color: var(--accent-blue);
+            border-top: 1px solid rgba(6, 182, 212, 0.3);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .indices-table tbody tr.region-divider:first-child .region-header {
+            border-top: none;
         }
 
         .indices-table .index-row {
@@ -1100,6 +1107,43 @@
             color: var(--bg-dark);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+        }
+        
+        /* Commodity clickable cards */
+        .commodity-card {
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            display: block;
+            cursor: pointer;
+        }
+        
+        .commodity-card:hover {
+            background: rgba(6, 182, 212, 0.08);
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.2);
+        }
+        
+        .commodity-card .commodity-symbol {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .commodity-card .commodity-name {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+        
+        .commodity-card .commodity-link-text {
+            color: var(--accent-blue);
+            font-size: 0.8rem;
         }
 
         @media (max-width: 768px) {
@@ -1414,7 +1458,7 @@
                                     "d": "Shanghai"
                                   },
                                   {
-                                    "s": "INDEX:KS11",
+                                    "s": "KRX:KOSPI",
                                     "d": "KOSPI"
                                   },
                                   {
@@ -1424,6 +1468,10 @@
                                   {
                                     "s": "BSE:SENSEX",
                                     "d": "BSE SENSEX"
+                                  },
+                                  {
+                                    "s": "NSE:NIFTY50",
+                                    "d": "Nifty 50"
                                   },
                                   {
                                     "s": "INDEX:STI",
@@ -1582,6 +1630,15 @@
                                 </td>
                             </tr>
                             <tr class="index-row">
+                                <td class="region-cell">India</td>
+                                <td class="index-name-cell">Nifty 50</td>
+                                <td class="exchange-cell">National Stock Exchange</td>
+                                <td class="symbol-cell">^NSEI</td>
+                                <td class="action-cell">
+                                    <a href="https://www.google.com/finance/quote/NIFTY_50:INDEXNSE" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
+                                </td>
+                            </tr>
+                            <tr class="index-row">
                                 <td class="region-cell">Singapore</td>
                                 <td class="index-name-cell">Straits Times Index</td>
                                 <td class="exchange-cell">Singapore Exchange</td>
@@ -1626,13 +1683,368 @@
         <!-- Currency Converter Tab -->
         <div id="currency-tab" class="tab-content">
             <div class="table-container">
-                <h2 class="table-title">Currency Converter</h2>
+                <h2 class="table-title">Currency Exchange</h2>
                 <p style="text-align: center; color: var(--text-secondary); margin-bottom: 40px; font-size: 1rem;">
-                    Real-time foreign exchange rates for major currencies
+                    Real-time foreign exchange rates and currency converter
                 </p>
 
-                <!-- TradingView Currency Widget -->
+                <!-- Major Currency Pairs Display -->
+                <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; overflow: hidden; backdrop-filter: blur(10px); margin-bottom: 30px;">
+                    <h3 style="color: var(--text-primary); margin: 20px; font-size: 1.3rem; text-align: center;">💱 Major Currency Pairs - Live Rates</h3>
+                    
+                    <div style="padding: 20px;">
+                        <!-- Currency Pairs Grid -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                            
+                            <!-- EUR/USD -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:EURUSD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- USD/JPY -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:USDJPY",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- GBP/USD -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:GBPUSD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- USD/SGD -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "OANDA:USDSGD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- AUD/USD -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:AUDUSD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- USD/CNY -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "OANDA:USDCNH",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- USD/CAD -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:USDCAD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- USD/CHF -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:USDCHF",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- NZD/USD -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:NZDUSD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- USD/HKD -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:USDHKD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- USD/KRW -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:USDKRW",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- USD/INR -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:USDINR",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- EUR/GBP -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:EURGBP",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- EUR/JPY -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:EURJPY",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- GBP/JPY -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:GBPJPY",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- EUR/CHF -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:EURCHF",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- EUR/AUD -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:EURAUD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- EUR/CAD -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:EURCAD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- GBP/AUD -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:GBPAUD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- GBP/CAD -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:GBPCAD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- AUD/JPY -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:AUDJPY",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- CAD/JPY -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:CADJPY",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- NZD/JPY -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:NZDJPY",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- USD/TWD -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "FX:USDTWD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px; padding: 15px; background: rgba(6, 182, 212, 0.1); border-radius: 10px; border: 1px solid var(--accent-blue);">
+                            <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">
+                                💡 Live rates powered by TradingView - Click any currency pair to view detailed charts and analysis
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TradingView Currency Cross Rates -->
                 <div class="tradingview-widget-container" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 10px; backdrop-filter: blur(10px); margin-bottom: 30px;">
+                    <h3 style="color: var(--text-primary); margin: 20px 0; font-size: 1.2rem; text-align: center;">📊 Currency Cross Rates Matrix</h3>
                     <div class="tradingview-widget-container__widget"></div>
                     <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-forex-cross-rates.js" async>
                     {
@@ -1658,36 +2070,6 @@
                     }
                     </script>
                 </div>
-
-                <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 30px; backdrop-filter: blur(10px);">
-                    <h3 style="color: var(--text-primary); margin-bottom: 20px; font-size: 1.2rem;">💱 Major Currency Pairs</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                        <div style="padding: 15px; background: rgba(6, 182, 212, 0.05); border-radius: 10px; border: 1px solid rgba(6, 182, 212, 0.2);">
-                            <div style="color: var(--accent-blue); font-weight: 600; margin-bottom: 5px;">EUR/USD</div>
-                            <div style="color: var(--text-secondary); font-size: 0.85rem;">Euro vs US Dollar</div>
-                        </div>
-                        <div style="padding: 15px; background: rgba(6, 182, 212, 0.05); border-radius: 10px; border: 1px solid rgba(6, 182, 212, 0.2);">
-                            <div style="color: var(--accent-blue); font-weight: 600; margin-bottom: 5px;">GBP/USD</div>
-                            <div style="color: var(--text-secondary); font-size: 0.85rem;">British Pound vs US Dollar</div>
-                        </div>
-                        <div style="padding: 15px; background: rgba(6, 182, 212, 0.05); border-radius: 10px; border: 1px solid rgba(6, 182, 212, 0.2);">
-                            <div style="color: var(--accent-blue); font-weight: 600; margin-bottom: 5px;">USD/JPY</div>
-                            <div style="color: var(--text-secondary); font-size: 0.85rem;">US Dollar vs Japanese Yen</div>
-                        </div>
-                        <div style="padding: 15px; background: rgba(6, 182, 212, 0.05); border-radius: 10px; border: 1px solid rgba(6, 182, 212, 0.2);">
-                            <div style="color: var(--accent-blue); font-weight: 600; margin-bottom: 5px;">USD/SGD</div>
-                            <div style="color: var(--text-secondary); font-size: 0.85rem;">US Dollar vs Singapore Dollar</div>
-                        </div>
-                        <div style="padding: 15px; background: rgba(6, 182, 212, 0.05); border-radius: 10px; border: 1px solid rgba(6, 182, 212, 0.2);">
-                            <div style="color: var(--accent-blue); font-weight: 600; margin-bottom: 5px;">AUD/USD</div>
-                            <div style="color: var(--text-secondary); font-size: 0.85rem;">Australian Dollar vs US Dollar</div>
-                        </div>
-                        <div style="padding: 15px; background: rgba(6, 182, 212, 0.05); border-radius: 10px; border: 1px solid rgba(6, 182, 212, 0.2);">
-                            <div style="color: var(--accent-blue); font-weight: 600; margin-bottom: 5px;">USD/CNY</div>
-                            <div style="color: var(--text-secondary); font-size: 0.85rem;">US Dollar vs Chinese Yuan</div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -1699,19 +2081,190 @@
                     Live prices for precious metals, energy, and agricultural commodities
                 </p>
 
-                <!-- Commodities Widget Alternative -->
+                <!-- Live Commodity Prices -->
                 <div style="margin-bottom: 40px;">
-                    <!-- TradingView Mini Widget -->
-                    <div class="tradingview-widget-container" style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; overflow: hidden; backdrop-filter: blur(10px);">
-                        <iframe scrolling="no" allowtransparency="true" frameborder="0" 
-                            src="https://www.tradingview-widget.com/embed-widget/market-quotes/?locale=en#%7B%22width%22%3A%22100%25%22%2C%22height%22%3A600%2C%22symbolsGroups%22%3A%5B%7B%22name%22%3A%22Precious%20Metals%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22OANDA%3AXAUUSD%22%2C%22displayName%22%3A%22Gold%22%7D%2C%7B%22name%22%3A%22OANDA%3AXAGUSD%22%2C%22displayName%22%3A%22Silver%22%7D%2C%7B%22name%22%3A%22OANDA%3AXPTUSD%22%2C%22displayName%22%3A%22Platinum%22%7D%2C%7B%22name%22%3A%22OANDA%3AXPDUSD%22%2C%22displayName%22%3A%22Palladium%22%7D%5D%7D%2C%7B%22name%22%3A%22Energy%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22TVC%3AUSOIL%22%2C%22displayName%22%3A%22Crude%20Oil%20(WTI)%22%7D%2C%7B%22name%22%3A%22TVC%3AUKOIL%22%2C%22displayName%22%3A%22Brent%20Crude%22%7D%2C%7B%22name%22%3A%22NYMEX%3ANG1!%22%2C%22displayName%22%3A%22Natural%20Gas%22%7D%5D%7D%2C%7B%22name%22%3A%22Agriculture%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22CBOT%3AZC1!%22%2C%22displayName%22%3A%22Corn%22%7D%2C%7B%22name%22%3A%22CBOT%3AZW1!%22%2C%22displayName%22%3A%22Wheat%22%7D%2C%7B%22name%22%3A%22CBOT%3AZS1!%22%2C%22displayName%22%3A%22Soybeans%22%7D%5D%7D%2C%7B%22name%22%3A%22Industrial%20Metals%22%2C%22symbols%22%3A%5B%7B%22name%22%3A%22COMEX%3AHG1!%22%2C%22displayName%22%3A%22Copper%22%7D%5D%7D%5D%2C%22showSymbolLogo%22%3Atrue%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Atrue%2C%22locale%22%3A%22en%22%2C%22utm_source%22%3A%22%22%2C%22utm_medium%22%3A%22widget_new%22%2C%22utm_campaign%22%3A%22market-quotes%22%7D" 
-                            style="box-sizing: border-box; display: block; height: 600px; width: 100%;">
-                        </iframe>
+                    <h3 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 20px; text-align: center;">📊 Live Commodity Prices</h3>
+                    
+                    <!-- Precious Metals Section -->
+                    <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;">
+                        <h4 style="color: var(--accent-blue); font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(6, 182, 212, 0.3);">✨ PRECIOUS METALS</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                            
+                            <!-- Gold -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "OANDA:XAUUSD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- Silver -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "OANDA:XAGUSD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- Platinum -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "OANDA:XPTUSD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- Palladium -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "OANDA:XPDUSD",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Energy Section -->
+                    <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;">
+                        <h4 style="color: var(--accent-blue); font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(6, 182, 212, 0.3);">⚡ ENERGY</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                            
+                            <!-- Crude Oil WTI -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "TVC:USOIL",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- Brent Crude -->
+                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              {
+                                "symbol": "TVC:UKOIL",
+                                "width": "100%",
+                                "colorTheme": "dark",
+                                "isTransparent": true,
+                                "locale": "en"
+                              }
+                              </script>
+                            </div>
+                            
+                            <!-- Natural Gas -->
+                            <a href="https://www.google.com/finance/quote/NG.1:NYMEX" target="_blank" rel="noopener noreferrer" class="commodity-card">
+                                <div class="commodity-symbol">NYMEX:NG1!</div>
+                                <div class="commodity-name">Natural Gas</div>
+                                <div class="commodity-link-text">Click for live price →</div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Agriculture & Softs Section -->
+                    <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;">
+                        <h4 style="color: var(--accent-blue); font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(6, 182, 212, 0.3);">🌾 AGRICULTURE</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                            
+                            <!-- Corn -->
+                            <a href="https://www.google.com/finance/quote/ZC.1:CBOT" target="_blank" rel="noopener noreferrer" class="commodity-card">
+                                <div class="commodity-symbol">CBOT:ZC1!</div>
+                                <div class="commodity-name">Corn</div>
+                                <div class="commodity-link-text">Click for live price →</div>
+                            </a>
+                            
+                            <!-- Wheat -->
+                            <a href="https://www.google.com/finance/quote/ZW.1:CBOT" target="_blank" rel="noopener noreferrer" class="commodity-card">
+                                <div class="commodity-symbol">CBOT:ZW1!</div>
+                                <div class="commodity-name">Wheat</div>
+                                <div class="commodity-link-text">Click for live price →</div>
+                            </a>
+                            
+                            <!-- Soybeans -->
+                            <a href="https://www.google.com/finance/quote/ZS.1:CBOT" target="_blank" rel="noopener noreferrer" class="commodity-card">
+                                <div class="commodity-symbol">CBOT:ZS1!</div>
+                                <div class="commodity-name">Soybeans</div>
+                                <div class="commodity-link-text">Click for live price →</div>
+                            </a>
+                            
+                            <!-- Coffee -->
+                            <a href="https://www.google.com/finance/quote/KC.1:ICEUS" target="_blank" rel="noopener noreferrer" class="commodity-card">
+                                <div class="commodity-symbol">ICEUS:KC1!</div>
+                                <div class="commodity-name">Coffee</div>
+                                <div class="commodity-link-text">Click for live price →</div>
+                            </a>
+                            
+                            <!-- Sugar -->
+                            <a href="https://www.google.com/finance/quote/SB.1:ICEUS" target="_blank" rel="noopener noreferrer" class="commodity-card">
+                                <div class="commodity-symbol">ICEUS:SB1!</div>
+                                <div class="commodity-name">Sugar</div>
+                                <div class="commodity-link-text">Click for live price →</div>
+                            </a>
+                            
+                            <!-- Cotton -->
+                            <a href="https://www.google.com/finance/quote/CT.1:ICEUS" target="_blank" rel="noopener noreferrer" class="commodity-card">
+                                <div class="commodity-symbol">ICEUS:CT1!</div>
+                                <div class="commodity-name">Cotton</div>
+                                <div class="commodity-link-text">Click for live price →</div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Industrial Metals Section -->
+                    <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;">
+                        <h4 style="color: var(--accent-blue); font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(6, 182, 212, 0.3);">🏭 INDUSTRIAL METALS</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                            
+                            <!-- Copper -->
+                            <a href="https://www.google.com/finance/quote/HG.1:COMEX" target="_blank" rel="noopener noreferrer" class="commodity-card">
+                                <div class="commodity-symbol">COMEX:HG1!</div>
+                                <div class="commodity-name">Copper</div>
+                                <div class="commodity-link-text">Click for live price →</div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px; padding: 15px; background: rgba(6, 182, 212, 0.1); border-radius: 10px; border: 1px solid var(--accent-blue);">
+                        <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">
+                            💡 <strong>Precious Metals & Energy:</strong> Live widgets with real-time prices. <strong>Agriculture & Industrial:</strong> Click cards to view live prices on Google Finance with charts and analysis.
+                        </p>
                     </div>
                 </div>
 
                 <!-- Reference Table -->
-                <h3 style="color: var(--text-primary); font-size: 1.2rem; margin-bottom: 20px; margin-top: 40px;">📊 Commodity Reference & Links</h3>
+                <h3 style="color: var(--text-primary); font-size: 1.2rem; margin-bottom: 20px; margin-top: 40px;">📊 Commodity Reference & Live Prices</h3>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 0.9rem;">
+                    Comprehensive reference for precious metals, energy, agriculture, and industrial commodities
+                </p>
                 
                 <div class="indices-table-wrapper">
                     <table class="indices-table">
@@ -1720,6 +2273,7 @@
                                 <th>Category</th>
                                 <th>Commodity</th>
                                 <th>Symbol</th>
+                                <th>Currency</th>
                                 <th>Unit</th>
                                 <th>Live Data</th>
                             </tr>
@@ -1727,12 +2281,13 @@
                         <tbody>
                             <!-- Precious Metals -->
                             <tr class="region-divider">
-                                <td colspan="5" class="region-header">✨ Precious Metals</td>
+                                <td colspan="6" class="region-header">✨ Precious Metals</td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Metal</td>
                                 <td class="index-name-cell">Gold</td>
                                 <td class="symbol-cell">XAU/USD</td>
+                                <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Troy Ounce</td>
                                 <td class="action-cell">
                                     <a href="https://www.google.com/finance/quote/XAU-USD" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
@@ -1742,6 +2297,7 @@
                                 <td class="region-cell">Metal</td>
                                 <td class="index-name-cell">Silver</td>
                                 <td class="symbol-cell">XAG/USD</td>
+                                <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Troy Ounce</td>
                                 <td class="action-cell">
                                     <a href="https://www.google.com/finance/quote/XAG-USD" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
@@ -1751,6 +2307,7 @@
                                 <td class="region-cell">Metal</td>
                                 <td class="index-name-cell">Platinum</td>
                                 <td class="symbol-cell">XPT/USD</td>
+                                <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Troy Ounce</td>
                                 <td class="action-cell">
                                     <a href="https://www.google.com/finance/quote/XPT-USD" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
@@ -1760,6 +2317,7 @@
                                 <td class="region-cell">Metal</td>
                                 <td class="index-name-cell">Palladium</td>
                                 <td class="symbol-cell">XPD/USD</td>
+                                <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Troy Ounce</td>
                                 <td class="action-cell">
                                     <a href="https://www.google.com/finance/quote/XPD-USD" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
@@ -1768,12 +2326,13 @@
 
                             <!-- Energy -->
                             <tr class="region-divider">
-                                <td colspan="5" class="region-header">⚡ Energy</td>
+                                <td colspan="6" class="region-header">⚡ Energy</td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Oil</td>
                                 <td class="index-name-cell">Crude Oil (WTI)</td>
                                 <td class="symbol-cell">CL</td>
+                                <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Barrel</td>
                                 <td class="action-cell">
                                     <a href="https://www.google.com/finance/quote/CL.1:NYMEX" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
@@ -1783,6 +2342,7 @@
                                 <td class="region-cell">Oil</td>
                                 <td class="index-name-cell">Brent Crude Oil</td>
                                 <td class="symbol-cell">BZ</td>
+                                <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Barrel</td>
                                 <td class="action-cell">
                                     <a href="https://www.google.com/finance/quote/BZ.1:NYMEX" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
@@ -1792,6 +2352,7 @@
                                 <td class="region-cell">Gas</td>
                                 <td class="index-name-cell">Natural Gas</td>
                                 <td class="symbol-cell">NG</td>
+                                <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per MMBtu</td>
                                 <td class="action-cell">
                                     <a href="https://www.google.com/finance/quote/NG.1:NYMEX" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
@@ -1800,12 +2361,13 @@
 
                             <!-- Agriculture -->
                             <tr class="region-divider">
-                                <td colspan="5" class="region-header">🌾 Agriculture</td>
+                                <td colspan="6" class="region-header">🌾 Agriculture</td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Grain</td>
                                 <td class="index-name-cell">Corn</td>
                                 <td class="symbol-cell">ZC</td>
+                                <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Bushel</td>
                                 <td class="action-cell">
                                     <a href="https://www.google.com/finance/quote/ZC.1:CBOT" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
@@ -1815,6 +2377,7 @@
                                 <td class="region-cell">Grain</td>
                                 <td class="index-name-cell">Wheat</td>
                                 <td class="symbol-cell">ZW</td>
+                                <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Bushel</td>
                                 <td class="action-cell">
                                     <a href="https://www.google.com/finance/quote/ZW.1:CBOT" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
@@ -1824,20 +2387,52 @@
                                 <td class="region-cell">Grain</td>
                                 <td class="index-name-cell">Soybeans</td>
                                 <td class="symbol-cell">ZS</td>
+                                <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Bushel</td>
                                 <td class="action-cell">
                                     <a href="https://www.google.com/finance/quote/ZS.1:CBOT" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
                                 </td>
                             </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Soft</td>
+                                <td class="index-name-cell">Coffee</td>
+                                <td class="symbol-cell">KC</td>
+                                <td class="exchange-cell">USD</td>
+                                <td class="exchange-cell">per Pound</td>
+                                <td class="action-cell">
+                                    <a href="https://www.google.com/finance/quote/KC.1:ICEUS" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
+                                </td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Soft</td>
+                                <td class="index-name-cell">Sugar</td>
+                                <td class="symbol-cell">SB</td>
+                                <td class="exchange-cell">USD</td>
+                                <td class="exchange-cell">per Pound</td>
+                                <td class="action-cell">
+                                    <a href="https://www.google.com/finance/quote/SB.1:ICEUS" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
+                                </td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Soft</td>
+                                <td class="index-name-cell">Cotton</td>
+                                <td class="symbol-cell">CT</td>
+                                <td class="exchange-cell">USD</td>
+                                <td class="exchange-cell">per Pound</td>
+                                <td class="action-cell">
+                                    <a href="https://www.google.com/finance/quote/CT.1:ICEUS" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
+                                </td>
+                            </tr>
 
                             <!-- Industrial Metals -->
                             <tr class="region-divider">
-                                <td colspan="5" class="region-header">🏭 Industrial Metals</td>
+                                <td colspan="6" class="region-header">🏭 Industrial Metals</td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Metal</td>
                                 <td class="index-name-cell">Copper</td>
                                 <td class="symbol-cell">HG</td>
+                                <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Pound</td>
                                 <td class="action-cell">
                                     <a href="https://www.google.com/finance/quote/HG.1:COMEX" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
@@ -1845,6 +2440,12 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(6, 182, 212, 0.1); border-radius: 15px; border: 1px solid var(--accent-blue);">
+                    <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">
+                        💡 <strong>Live commodity prices</strong> displayed above with real-time updates. All prices quoted in USD. Click "View Live" for detailed charts, historical data, and market analysis.
+                    </p>
                 </div>
             </div>
         </div>
@@ -3243,6 +3844,7 @@
             });
         }
 
+        // Currency Converter Functions
         // Initialize
         function init() {
             createClockCards();
