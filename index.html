@@ -173,8 +173,8 @@
         /* World Clocks Grid */
         .clocks-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
             margin-bottom: 40px;
         }
 
@@ -182,12 +182,37 @@
             background: var(--card-bg);
             backdrop-filter: blur(10px);
             border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 15px;
+            padding: 15px;
             position: relative;
             overflow: hidden;
             transition: all 0.4s ease;
             animation: fadeInUp 0.6s ease-out backwards;
+        }
+        
+        /* Day time styling - bright */
+        .clock-card.daytime {
+            background: linear-gradient(135deg, rgba(255, 223, 128, 0.15) 0%, rgba(255, 184, 77, 0.1) 100%);
+            border-color: rgba(255, 193, 7, 0.3);
+        }
+        
+        .clock-card.daytime .analog-clock {
+            background: radial-gradient(circle, rgba(255, 223, 128, 0.1) 0%, transparent 70%);
+            border-color: rgba(255, 193, 7, 0.4);
+        }
+        
+        .clock-card.daytime .city-name {
+            color: #ffd700;
+        }
+        
+        .clock-card.daytime::before {
+            background: linear-gradient(90deg, #ffd700, #ffb347, #ffd700);
+        }
+        
+        /* Night time styling - current dark theme */
+        .clock-card.nighttime {
+            background: var(--card-bg);
+            border-color: var(--card-border);
         }
 
         .clock-card:nth-child(1) { animation-delay: 0.1s; }
@@ -229,25 +254,25 @@
         }
 
         .city-name {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             color: var(--text-primary);
         }
 
         .timezone-offset {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--accent-gold);
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             font-weight: 600;
         }
 
         .analog-clock {
-            width: 150px;
-            height: 150px;
-            margin: 20px auto;
+            width: 80px;
+            height: 80px;
+            margin: 10px auto;
             position: relative;
-            border: 3px solid var(--card-border);
+            border: 2px solid var(--card-border);
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
         }
@@ -256,13 +281,13 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 10px;
-            height: 10px;
+            width: 6px;
+            height: 6px;
             background: var(--accent-gold);
             border-radius: 50%;
             transform: translate(-50%, -50%);
             z-index: 3;
-            box-shadow: 0 0 10px var(--accent-gold);
+            box-shadow: 0 0 6px var(--accent-gold);
         }
 
         .clock-hand {
@@ -274,46 +299,46 @@
         }
 
         .hour-hand {
-            width: 4px;
-            height: 40px;
+            width: 2.5px;
+            height: 22px;
             background: var(--accent-blue);
             bottom: 50%;
-            margin-left: -2px;
+            margin-left: -1.25px;
             z-index: 2;
         }
 
         .minute-hand {
-            width: 3px;
-            height: 55px;
-            background: var(--text-primary);
-            bottom: 50%;
-            margin-left: -1.5px;
-            z-index: 2;
-        }
-
-        .second-hand {
             width: 2px;
-            height: 60px;
-            background: var(--accent-pink);
+            height: 30px;
+            background: var(--text-primary);
             bottom: 50%;
             margin-left: -1px;
             z-index: 2;
         }
 
+        .second-hand {
+            width: 1px;
+            height: 34px;
+            background: var(--accent-pink);
+            bottom: 50%;
+            margin-left: -0.5px;
+            z-index: 2;
+        }
+
         .digital-time {
             text-align: center;
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-top: 15px;
+            margin-top: 10px;
             font-variant-numeric: tabular-nums;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .date-display {
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #c4d0f0;
-            margin-top: 5px;
+            margin-top: 3px;
             font-weight: 500;
         }
 
@@ -4279,6 +4304,15 @@
                 const dateDisplay = card.querySelector('.date-display');
                 if (dateDisplay) {
                     dateDisplay.textContent = dateString;
+                }
+                
+                // Add day/night styling based on hour (6 AM - 6 PM = day, otherwise night)
+                if (hours >= 6 && hours < 18) {
+                    card.classList.add('daytime');
+                    card.classList.remove('nighttime');
+                } else {
+                    card.classList.add('nighttime');
+                    card.classList.remove('daytime');
                 }
             }
         }
