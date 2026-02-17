@@ -1391,7 +1391,7 @@
                     <!-- Amount Input -->
                     <div style="margin-bottom: 30px;">
                         <label style="display: block; color: var(--text-secondary); margin-bottom: 10px; font-size: 0.95rem; font-weight: 600;">Amount</label>
-                        <input type="number" id="currencyAmount" value="100" step="0.01" min="0" 
+                        <input type="number" id="currencyAmount" value="1" step="0.01" min="0" 
                             style="width: 100%; padding: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border); border-radius: 10px; color: var(--text-primary); font-size: 1.5rem; font-weight: 600; text-align: center;"
                             placeholder="Enter amount">
                     </div>
@@ -1476,34 +1476,120 @@
                 </div>
 
                 <!-- Popular Conversions Quick Reference -->
-                <div style="max-width: 800px; margin: 0 auto;">
-                    <h3 style="color: var(--text-primary); font-size: 1.2rem; margin-bottom: 20px; text-align: center;">💱 Quick Reference</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                        <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=SGD" target="_blank" rel="noopener noreferrer" class="commodity-card">
-                            <div class="commodity-symbol">USD → SGD</div>
-                            <div class="commodity-name">US Dollar to Singapore Dollar</div>
-                            <div class="commodity-link-text">View on XE.com →</div>
-                        </a>
-                        <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SGD&To=INR" target="_blank" rel="noopener noreferrer" class="commodity-card">
-                            <div class="commodity-symbol">SGD → INR</div>
-                            <div class="commodity-name">Singapore Dollar to Indian Rupee</div>
-                            <div class="commodity-link-text">View on XE.com →</div>
-                        </a>
-                        <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card">
-                            <div class="commodity-symbol">EUR → USD</div>
-                            <div class="commodity-name">Euro to US Dollar</div>
-                            <div class="commodity-link-text">View on XE.com →</div>
-                        </a>
-                        <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card">
-                            <div class="commodity-symbol">GBP → USD</div>
-                            <div class="commodity-name">British Pound to US Dollar</div>
-                            <div class="commodity-link-text">View on XE.com →</div>
-                        </a>
+                <div style="max-width: 1000px; margin: 0 auto;">
+                    <h3 style="color: var(--text-primary); font-size: 1.2rem; margin-bottom: 8px; text-align: center;">💱 Quick Reference — Live Rates</h3>
+                    <p style="text-align:center; color:var(--text-secondary); font-size:0.85rem; margin-bottom:20px;">Click any pair to get the live conversion on XE.com</p>
+
+                    <!-- USD Pairs -->
+                    <div style="margin-bottom:20px;">
+                        <div style="color:var(--accent-gold); font-size:0.8rem; font-weight:700; letter-spacing:1px; margin-bottom:10px; padding-left:4px;">🇺🇸 USD — US DOLLAR</div>
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px;">
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=EUR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → EUR</div><div class="commodity-name">US Dollar to Euro</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=GBP" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → GBP</div><div class="commodity-name">US Dollar to British Pound</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=JPY" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → JPY</div><div class="commodity-name">US Dollar to Japanese Yen</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CHF" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → CHF</div><div class="commodity-name">US Dollar to Swiss Franc</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CAD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → CAD</div><div class="commodity-name">US Dollar to Canadian Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=AUD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → AUD</div><div class="commodity-name">US Dollar to Australian Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=NZD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → NZD</div><div class="commodity-name">US Dollar to NZ Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=SGD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → SGD</div><div class="commodity-name">US Dollar to Singapore Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=HKD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → HKD</div><div class="commodity-name">US Dollar to Hong Kong Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CNY" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → CNY</div><div class="commodity-name">US Dollar to Chinese Yuan</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=INR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → INR</div><div class="commodity-name">US Dollar to Indian Rupee</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=KRW" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → KRW</div><div class="commodity-name">US Dollar to Korean Won</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=MYR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → MYR</div><div class="commodity-name">US Dollar to Malaysian Ringgit</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=THB" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → THB</div><div class="commodity-name">US Dollar to Thai Baht</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=IDR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → IDR</div><div class="commodity-name">US Dollar to Indonesian Rupiah</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=PHP" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → PHP</div><div class="commodity-name">US Dollar to Philippine Peso</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=TWD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → TWD</div><div class="commodity-name">US Dollar to Taiwan Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=AED" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → AED</div><div class="commodity-name">US Dollar to UAE Dirham</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=SAR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → SAR</div><div class="commodity-name">US Dollar to Saudi Riyal</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=ZAR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → ZAR</div><div class="commodity-name">US Dollar to South African Rand</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=BRL" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → BRL</div><div class="commodity-name">US Dollar to Brazilian Real</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=MXN" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → MXN</div><div class="commodity-name">US Dollar to Mexican Peso</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=VND" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → VND</div><div class="commodity-name">US Dollar to Vietnamese Dong</div><div class="commodity-link-text">XE.com →</div></a>
+                        </div>
                     </div>
-                    
-                    <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(6, 182, 212, 0.1); border-radius: 15px; border: 1px solid var(--accent-blue);">
-                        <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">
-                            💡 Click "Quick Reference" links to view detailed conversion data on XE.com with historical charts and analysis
+
+                    <!-- EUR Pairs -->
+                    <div style="margin-bottom:20px;">
+                        <div style="color:var(--accent-gold); font-size:0.8rem; font-weight:700; letter-spacing:1px; margin-bottom:10px; padding-left:4px;">🇪🇺 EUR — EURO</div>
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px;">
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">EUR → USD</div><div class="commodity-name">Euro to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=GBP" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">EUR → GBP</div><div class="commodity-name">Euro to British Pound</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=JPY" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">EUR → JPY</div><div class="commodity-name">Euro to Japanese Yen</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=CHF" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">EUR → CHF</div><div class="commodity-name">Euro to Swiss Franc</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=SGD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">EUR → SGD</div><div class="commodity-name">Euro to Singapore Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=INR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">EUR → INR</div><div class="commodity-name">Euro to Indian Rupee</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=CNY" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">EUR → CNY</div><div class="commodity-name">Euro to Chinese Yuan</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=AUD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">EUR → AUD</div><div class="commodity-name">Euro to Australian Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                        </div>
+                    </div>
+
+                    <!-- GBP Pairs -->
+                    <div style="margin-bottom:20px;">
+                        <div style="color:var(--accent-gold); font-size:0.8rem; font-weight:700; letter-spacing:1px; margin-bottom:10px; padding-left:4px;">🇬🇧 GBP — BRITISH POUND</div>
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px;">
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">GBP → USD</div><div class="commodity-name">British Pound to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=EUR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">GBP → EUR</div><div class="commodity-name">British Pound to Euro</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=JPY" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">GBP → JPY</div><div class="commodity-name">British Pound to Japanese Yen</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=INR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">GBP → INR</div><div class="commodity-name">British Pound to Indian Rupee</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=SGD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">GBP → SGD</div><div class="commodity-name">British Pound to Singapore Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=AUD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">GBP → AUD</div><div class="commodity-name">British Pound to Australian Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                        </div>
+                    </div>
+
+                    <!-- SGD Pairs -->
+                    <div style="margin-bottom:20px;">
+                        <div style="color:var(--accent-gold); font-size:0.8rem; font-weight:700; letter-spacing:1px; margin-bottom:10px; padding-left:4px;">🇸🇬 SGD — SINGAPORE DOLLAR</div>
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px;">
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SGD&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SGD → USD</div><div class="commodity-name">Singapore Dollar to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SGD&To=EUR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SGD → EUR</div><div class="commodity-name">Singapore Dollar to Euro</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SGD&To=GBP" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SGD → GBP</div><div class="commodity-name">Singapore Dollar to British Pound</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SGD&To=INR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SGD → INR</div><div class="commodity-name">Singapore Dollar to Indian Rupee</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SGD&To=MYR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SGD → MYR</div><div class="commodity-name">Singapore Dollar to Malaysian Ringgit</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SGD&To=JPY" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SGD → JPY</div><div class="commodity-name">Singapore Dollar to Japanese Yen</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SGD&To=CNY" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SGD → CNY</div><div class="commodity-name">Singapore Dollar to Chinese Yuan</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SGD&To=AUD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SGD → AUD</div><div class="commodity-name">Singapore Dollar to Australian Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                        </div>
+                    </div>
+
+                    <!-- Asian Pairs -->
+                    <div style="margin-bottom:20px;">
+                        <div style="color:var(--accent-gold); font-size:0.8rem; font-weight:700; letter-spacing:1px; margin-bottom:10px; padding-left:4px;">🌏 ASIAN CURRENCIES</div>
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px;">
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=JPY&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">JPY → USD</div><div class="commodity-name">Japanese Yen to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=CNY&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">CNY → USD</div><div class="commodity-name">Chinese Yuan to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=INR&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">INR → USD</div><div class="commodity-name">Indian Rupee to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=INR&To=SGD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">INR → SGD</div><div class="commodity-name">Indian Rupee to Singapore Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=MYR&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">MYR → USD</div><div class="commodity-name">Malaysian Ringgit to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=MYR&To=SGD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">MYR → SGD</div><div class="commodity-name">Malaysian Ringgit to Singapore Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=KRW&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">KRW → USD</div><div class="commodity-name">Korean Won to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=THB&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">THB → USD</div><div class="commodity-name">Thai Baht to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=IDR&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">IDR → USD</div><div class="commodity-name">Indonesian Rupiah to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=PHP&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">PHP → USD</div><div class="commodity-name">Philippine Peso to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=VND&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">VND → USD</div><div class="commodity-name">Vietnamese Dong to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=HKD&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">HKD → USD</div><div class="commodity-name">Hong Kong Dollar to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                        </div>
+                    </div>
+
+                    <!-- Middle East & Others -->
+                    <div style="margin-bottom:20px;">
+                        <div style="color:var(--accent-gold); font-size:0.8rem; font-weight:700; letter-spacing:1px; margin-bottom:10px; padding-left:4px;">🌍 MIDDLE EAST, OCEANIA & AMERICAS</div>
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px;">
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=AED&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">AED → USD</div><div class="commodity-name">UAE Dirham to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SAR&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SAR → USD</div><div class="commodity-name">Saudi Riyal to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=AUD&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">AUD → USD</div><div class="commodity-name">Australian Dollar to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=NZD&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">NZD → USD</div><div class="commodity-name">NZ Dollar to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=CAD&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">CAD → USD</div><div class="commodity-name">Canadian Dollar to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=BRL&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">BRL → USD</div><div class="commodity-name">Brazilian Real to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=ZAR&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">ZAR → USD</div><div class="commodity-name">South African Rand to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=CHF&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">CHF → USD</div><div class="commodity-name">Swiss Franc to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
+                        </div>
+                    </div>
+
+                    <div style="text-align:center; margin-top:20px; padding:15px 20px; background:rgba(6,182,212,0.1); border-radius:15px; border:1px solid var(--accent-blue);">
+                        <p style="color:var(--text-secondary); margin:0; font-size:0.85rem;">
+                            💡 All rates link directly to <strong>XE.com</strong> for live rates, historical charts and full analysis
                         </p>
                     </div>
                 </div>
