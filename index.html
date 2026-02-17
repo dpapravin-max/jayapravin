@@ -1523,6 +1523,12 @@
                     <button class="tab-btn" id="year2025Btn" onclick="switchHolidayYear(2025)" style="margin: 0 10px;">2025</button>
                     <button class="tab-btn active" id="year2026Btn" onclick="switchHolidayYear(2026)" style="margin: 0 10px;">2026</button>
                 </div>
+                <div style="margin: 0 auto 25px; max-width: 900px; padding: 15px 20px; background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 10px; font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
+                    ℹ️ <strong style="color: var(--accent-blue);">Merged Exchanges Note:</strong>
+                    <strong>NZFOE</strong> (NZ Futures & Options Exchange) merged into <strong>NZX</strong> in 2003 &nbsp;•&nbsp;
+                    <strong>MONEP</strong> (Marché des Options Négociables de Paris) merged into <strong>Euronext</strong> in 2000 &nbsp;•&nbsp;
+                    <strong>MATIF</strong> (Marché à Terme International de France) merged into <strong>Euronext Commodities</strong> in 2000
+                </div>
                 <div class="exchange-grid" id="exchangeGrid"></div>
             </div>
         </div>
@@ -3667,6 +3673,107 @@
                     { date: 'Sep 29', name: 'Mid-Autumn Festival' },
                     { date: 'Oct 10', name: 'National Day' }
                 ]
+            },
+            'BURSA': {
+                name: 'Bursa Malaysia',
+                code: 'MYX',
+                country: 'Malaysia',
+                flag: '🇲🇾',
+                source: 'https://www.bursamalaysia.com/about_bursa/about_us/calendar',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 29', name: 'Chinese New Year' },
+                    { date: 'Jan 30', name: 'Chinese New Year Holiday' },
+                    { date: 'Feb 1', name: 'Federal Territory Day' },
+                    { date: 'Mar 18', name: 'Nuzul Al\'Quran' },
+                    { date: 'Mar 31', name: 'Hari Raya Puasa (Eid-ul-Fitri)' },
+                    { date: 'Apr 1', name: 'Hari Raya Puasa Holiday' },
+                    { date: 'May 1', name: 'Workers\' Day' },
+                    { date: 'May 12', name: 'Wesak Day' },
+                    { date: 'Jun 2', name: 'Yang DiPertuan Agong\'s Birthday' },
+                    { date: 'Jun 7', name: 'Hari Raya Haji (Eid-ul-Adha)' },
+                    { date: 'Jun 27', name: 'Awal Muharram (Maal Hijrah)' },
+                    { date: 'Aug 31', name: 'National Day' },
+                    { date: 'Sep 5', name: 'Birthday of Prophet Muhammad' },
+                    { date: 'Sep 15', name: 'Special Holiday' },
+                    { date: 'Sep 16', name: 'Malaysia Day' },
+                    { date: 'Oct 20', name: 'Deepavali' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
+            },
+            'MGEX': {
+                name: 'Minneapolis Grain Exchange',
+                code: 'MGEX / MIAX',
+                country: 'United States',
+                flag: '🇺🇸',
+                source: 'https://www.miaxglobal.com/markets/us-futures/mgex/trade-hours-calendar',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 20', name: 'Martin Luther King Jr. Day' },
+                    { date: 'Feb 17', name: 'Presidents\' Day' },
+                    { date: 'Apr 18', name: 'Good Friday' },
+                    { date: 'May 26', name: 'Memorial Day' },
+                    { date: 'Jun 19', name: 'Juneteenth' },
+                    { date: 'Jul 4', name: 'Independence Day' },
+                    { date: 'Sep 1', name: 'Labor Day' },
+                    { date: 'Nov 27', name: 'Thanksgiving Day' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
+            },
+            'EURONEXT': {
+                name: 'Euronext',
+                code: 'ENX',
+                country: 'Europe (Multi)',
+                flag: '🇪🇺',
+                source: 'https://www.euronext.com/en/trading-information/trading-hours-holidays',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Apr 18', name: 'Good Friday' },
+                    { date: 'Apr 21', name: 'Easter Monday' },
+                    { date: 'May 1', name: 'Labour Day' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 26', name: 'Christmas Holiday' },
+                    { date: 'Dec 24', name: 'Christmas Eve (Half Day)' },
+                    { date: 'Dec 31', name: 'New Year\'s Eve (Half Day)' }
+                ]
+            },
+            'NODAL': {
+                name: 'Nodal Exchange',
+                code: 'NODAL',
+                country: 'United States',
+                flag: '🇺🇸',
+                source: 'https://www.nodalexchange.com',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 20', name: 'Martin Luther King Jr. Day' },
+                    { date: 'Feb 17', name: 'Presidents\' Day' },
+                    { date: 'May 26', name: 'Memorial Day' },
+                    { date: 'Jun 19', name: 'Juneteenth' },
+                    { date: 'Jul 4', name: 'Independence Day' },
+                    { date: 'Sep 1', name: 'Labor Day' },
+                    { date: 'Nov 27', name: 'Thanksgiving Day' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
+            },
+            'MEFF': {
+                name: 'MEFF (Spanish Derivatives)',
+                code: 'MEFF',
+                country: 'Spain',
+                flag: '🇪🇸',
+                source: 'https://www.meff.es/ing/Trading-Calendar',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Apr 17', name: 'Maundy Thursday' },
+                    { date: 'Apr 18', name: 'Good Friday' },
+                    { date: 'May 1', name: 'Labour Day' },
+                    { date: 'Aug 15', name: 'Assumption of Mary' },
+                    { date: 'Oct 12', name: 'Hispanic Heritage Day' },
+                    { date: 'Nov 1', name: 'All Saints\' Day' },
+                    { date: 'Dec 6', name: 'Constitution Day' },
+                    { date: 'Dec 8', name: 'Immaculate Conception' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 26', name: 'Boxing Day' }
+                ]
             }
         };
 
@@ -3948,6 +4055,104 @@
                     { date: 'Sep 17', name: 'Mid-Autumn Festival' },
                     { date: 'Oct 10', name: 'National Day' }
                 ]
+            },
+            'BURSA': {
+                name: 'Bursa Malaysia',
+                code: 'MYX',
+                country: 'Malaysia',
+                flag: '🇲🇾',
+                source: 'https://www.bursamalaysia.com/about_bursa/about_us/calendar',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 29', name: 'Chinese New Year' },
+                    { date: 'Jan 30', name: 'Chinese New Year Holiday' },
+                    { date: 'Feb 1', name: 'Federal Territory Day' },
+                    { date: 'Feb 1', name: 'Thaipusam' },
+                    { date: 'Mar 20', name: 'Nuzul Al\'Quran' },
+                    { date: 'Mar 20', name: 'Hari Raya Puasa (Eid-ul-Fitri)' },
+                    { date: 'Mar 21', name: 'Hari Raya Puasa Holiday' },
+                    { date: 'May 1', name: 'Workers\' Day' },
+                    { date: 'May 31', name: 'Wesak Day' },
+                    { date: 'Jun 1', name: 'Yang DiPertuan Agong\'s Birthday' },
+                    { date: 'May 27', name: 'Hari Raya Haji (Eid-ul-Adha)' },
+                    { date: 'Jun 16', name: 'Awal Muharram (Maal Hijrah)' },
+                    { date: 'Aug 31', name: 'National Day' },
+                    { date: 'Sep 16', name: 'Malaysia Day' },
+                    { date: 'Nov 9', name: 'Deepavali' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
+            },
+            'MGEX': {
+                name: 'Minneapolis Grain Exchange',
+                code: 'MGEX / MIAX',
+                country: 'United States',
+                flag: '🇺🇸',
+                source: 'https://www.miaxglobal.com/markets/us-futures/mgex/trade-hours-calendar',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 19', name: 'Martin Luther King Jr. Day' },
+                    { date: 'Feb 16', name: 'Presidents\' Day' },
+                    { date: 'Apr 3', name: 'Good Friday' },
+                    { date: 'May 25', name: 'Memorial Day' },
+                    { date: 'Jun 19', name: 'Juneteenth' },
+                    { date: 'Jul 3', name: 'Independence Day (Observed)' },
+                    { date: 'Sep 7', name: 'Labor Day' },
+                    { date: 'Nov 26', name: 'Thanksgiving Day' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
+            },
+            'EURONEXT': {
+                name: 'Euronext',
+                code: 'ENX',
+                country: 'Europe (Multi)',
+                flag: '🇪🇺',
+                source: 'https://www.euronext.com/en/trading-information/trading-hours-holidays',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Apr 3', name: 'Good Friday' },
+                    { date: 'Apr 6', name: 'Easter Monday' },
+                    { date: 'May 1', name: 'Labour Day' },
+                    { date: 'Dec 25', name: 'Christmas Day' },
+                    { date: 'Dec 24', name: 'Christmas Eve (Half Day)' },
+                    { date: 'Dec 31', name: 'New Year\'s Eve (Half Day)' }
+                ]
+            },
+            'NODAL': {
+                name: 'Nodal Exchange',
+                code: 'NODAL',
+                country: 'United States',
+                flag: '🇺🇸',
+                source: 'https://www.nodalexchange.com',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Jan 19', name: 'Martin Luther King Jr. Day' },
+                    { date: 'Feb 16', name: 'Presidents\' Day' },
+                    { date: 'May 25', name: 'Memorial Day' },
+                    { date: 'Jun 19', name: 'Juneteenth' },
+                    { date: 'Jul 3', name: 'Independence Day (Observed)' },
+                    { date: 'Sep 7', name: 'Labor Day' },
+                    { date: 'Nov 26', name: 'Thanksgiving Day' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
+            },
+            'MEFF': {
+                name: 'MEFF (Spanish Derivatives)',
+                code: 'MEFF',
+                country: 'Spain',
+                flag: '🇪🇸',
+                source: 'https://www.meff.es/ing/Trading-Calendar',
+                holidays: [
+                    { date: 'Jan 1', name: 'New Year\'s Day' },
+                    { date: 'Apr 2', name: 'Maundy Thursday' },
+                    { date: 'Apr 3', name: 'Good Friday' },
+                    { date: 'May 1', name: 'Labour Day' },
+                    { date: 'Aug 15', name: 'Assumption of Mary' },
+                    { date: 'Oct 12', name: 'Hispanic Heritage Day' },
+                    { date: 'Nov 1', name: 'All Saints\' Day' },
+                    { date: 'Dec 7', name: 'Constitution Day (Observed)' },
+                    { date: 'Dec 8', name: 'Immaculate Conception' },
+                    { date: 'Dec 25', name: 'Christmas Day' }
+                ]
             }
         };
 
@@ -4030,18 +4235,23 @@
             if (!grid) return;
             
             const markets = [
-                { name: 'New York Stock Exchange', city: 'New York', tz: 'America/New_York', open: '09:30', close: '16:00' },
-                { name: 'NASDAQ', city: 'New York', tz: 'America/New_York', open: '09:30', close: '16:00' },
-                { name: 'London Stock Exchange', city: 'London', tz: 'Europe/London', open: '08:00', close: '16:30' },
-                { name: 'Tokyo Stock Exchange', city: 'Tokyo', tz: 'Asia/Tokyo', open: '09:00', close: '15:00' },
-                { name: 'Hong Kong Stock Exchange', city: 'Hong Kong', tz: 'Asia/Hong_Kong', open: '09:30', close: '16:00' },
-                { name: 'Shanghai Stock Exchange', city: 'Shanghai', tz: 'Asia/Shanghai', open: '09:30', close: '15:00' },
-                { name: 'Frankfurt Stock Exchange', city: 'Frankfurt', tz: 'Europe/Berlin', open: '09:00', close: '17:30' },
-                { name: 'Singapore Exchange', city: 'Singapore', tz: 'Asia/Singapore', open: '09:00', close: '17:00' },
-                { name: 'Korea Stock Exchange', city: 'Seoul', tz: 'Asia/Seoul', open: '09:00', close: '15:30' },
-                { name: 'Taiwan Stock Exchange', city: 'Taipei', tz: 'Asia/Taipei', open: '09:00', close: '13:30' },
-                { name: 'Bombay Stock Exchange', city: 'Mumbai', tz: 'Asia/Kolkata', open: '09:15', close: '15:30' },
-                { name: 'Australian Securities Exchange', city: 'Sydney', tz: 'Australia/Sydney', open: '10:00', close: '16:00' }
+                { name: 'New York Stock Exchange', city: 'New York', tz: 'America/New_York', open: '09:30', close: '16:00', flag: '🇺🇸' },
+                { name: 'NASDAQ', city: 'New York', tz: 'America/New_York', open: '09:30', close: '16:00', flag: '🇺🇸' },
+                { name: 'London Stock Exchange', city: 'London', tz: 'Europe/London', open: '08:00', close: '16:30', flag: '🇬🇧' },
+                { name: 'Tokyo Stock Exchange', city: 'Tokyo', tz: 'Asia/Tokyo', open: '09:00', close: '15:00', flag: '🇯🇵' },
+                { name: 'Hong Kong Stock Exchange', city: 'Hong Kong', tz: 'Asia/Hong_Kong', open: '09:30', close: '16:00', flag: '🇭🇰' },
+                { name: 'Shanghai Stock Exchange', city: 'Shanghai', tz: 'Asia/Shanghai', open: '09:30', close: '15:00', flag: '🇨🇳' },
+                { name: 'Frankfurt Stock Exchange', city: 'Frankfurt', tz: 'Europe/Berlin', open: '09:00', close: '17:30', flag: '🇩🇪' },
+                { name: 'Singapore Exchange', city: 'Singapore', tz: 'Asia/Singapore', open: '09:00', close: '17:00', flag: '🇸🇬' },
+                { name: 'Korea Stock Exchange', city: 'Seoul', tz: 'Asia/Seoul', open: '09:00', close: '15:30', flag: '🇰🇷' },
+                { name: 'Taiwan Stock Exchange', city: 'Taipei', tz: 'Asia/Taipei', open: '09:00', close: '13:30', flag: '🇹🇼' },
+                { name: 'Bombay Stock Exchange', city: 'Mumbai', tz: 'Asia/Kolkata', open: '09:15', close: '15:30', flag: '🇮🇳' },
+                { name: 'Australian Securities Exchange', city: 'Sydney', tz: 'Australia/Sydney', open: '10:00', close: '16:00', flag: '🇦🇺' },
+                { name: 'Bursa Malaysia', city: 'Kuala Lumpur', tz: 'Asia/Kuala_Lumpur', open: '09:00', close: '17:00', flag: '🇲🇾', note: 'Break: 12:30–14:30' },
+                { name: 'Minneapolis Grain Exchange (MGEX)', city: 'Minneapolis', tz: 'America/Chicago', open: '08:30', close: '13:45', flag: '🇺🇸', note: 'Electronic: Sun–Fri 19:00–13:45 CT' },
+                { name: 'Euronext (Amsterdam/Paris/Brussels)', city: 'Amsterdam', tz: 'Europe/Amsterdam', open: '09:00', close: '17:30', flag: '🇪🇺' },
+                { name: 'Nodal Exchange', city: 'Washington DC', tz: 'America/New_York', open: '08:00', close: '18:00', flag: '🇺🇸', note: 'Power & Environmental Futures' },
+                { name: 'MEFF (Spanish Derivatives)', city: 'Madrid', tz: 'Europe/Madrid', open: '09:00', close: '17:35', flag: '🇪🇸', note: 'IBEX-35 Derivatives' }
             ];
 
             grid.innerHTML = '';
@@ -4083,12 +4293,13 @@
                 
                 card.innerHTML = `
                     <div class="market-hour-header">
-                        <div class="market-hour-name">${market.name}</div>
+                        <div class="market-hour-name">${market.flag || ''} ${market.name}</div>
                         <div class="market-hour-status ${statusClass}">${status}</div>
                     </div>
                     <div class="market-hour-info">
                         <strong>Trading Hours:</strong> ${market.open} - ${market.close} (${market.city} time)<br>
                         <strong>Current Time:</strong> ${localMarketTime}
+                        ${market.note ? `<br><span style="color: var(--accent-blue); font-size: 0.8rem;">ℹ️ ${market.note}</span>` : ''}
                     </div>
                     <div class="market-hour-time">
                         ${isWeekend ? '⚠️ Weekend - Market Closed' : ''}
