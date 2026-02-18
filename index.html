@@ -1292,6 +1292,98 @@
             font-size: 0.8rem;
         }
 
+        /* Custom commodity live price cards */
+        .comm-live-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 14px 16px 13px;
+            min-height: 88px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+        .comm-live-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(6,182,212,0.4), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .comm-live-card:hover { border-color: rgba(6,182,212,0.5); box-shadow: 0 4px 16px rgba(6,182,212,0.1); }
+        .comm-live-card:hover::before { opacity: 1; }
+        .comm-live-card .clc-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+        .comm-live-card .clc-icon { font-size: 0.9rem; }
+        .comm-live-card .clc-source {
+            font-size: 0.65rem;
+            color: #475569;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-left: auto;
+        }
+        .comm-live-card .clc-name {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #94a3b8;
+            margin-bottom: 5px;
+            letter-spacing: 0.06em;
+        }
+        .comm-live-card .clc-price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .comm-live-card .clc-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            font-family: inherit;
+        }
+        .comm-live-card .clc-badge {
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 0;
+            background: none;
+            border-radius: 0;
+        }
+        .comm-live-card .clc-badge.up { color: #22c55e; }
+        .comm-live-card .clc-badge.down { color: #ef4444; }
+        .comm-live-card .clc-unit {
+            font-size: 0.66rem;
+            color: #475569;
+            margin-top: 4px;
+            letter-spacing: 0.03em;
+        }
+        .comm-live-card .clc-loading {
+            color: #475569;
+            font-size: 0.8rem;
+        }
+        .comm-live-card .clc-loading span {
+            display: inline-block;
+            animation: clc-blink 1.4s infinite both;
+        }
+        .comm-live-card .clc-loading span:nth-child(2) { animation-delay: 0.2s; }
+        .comm-live-card .clc-loading span:nth-child(3) { animation-delay: 0.4s; }
+        .comm-live-card .clc-error {
+            color: #475569;
+            font-size: 0.75rem;
+            line-height: 1.4;
+        }
+        .comm-live-card .clc-error a { color: var(--accent-blue); text-decoration: none; }
+        @keyframes clc-blink { 0%,80%,100%{opacity:0} 40%{opacity:1} }
+
         @media (max-width: 768px) {
             .indices-table th,
             .indices-table td {
@@ -1405,10 +1497,10 @@
             <button class="tab-btn active" onclick="switchTab('clocks')">World Clocks</button>
             <button class="tab-btn" onclick="switchTab('converter')">Time Converter</button>
             <button class="tab-btn" onclick="switchTab('exchanges')">Exchange Holidays</button>
-            <button class="tab-btn" onclick="switchTab('indices')">Market Indices</button>
             <button class="tab-btn" onclick="switchTab('markethours')">Market Hours</button>
-            <button class="tab-btn" onclick="switchTab('currencyconverter')">Currency Converter</button>
             <button class="tab-btn" onclick="switchTab('currency')">Currency</button>
+            <button class="tab-btn" onclick="switchTab('currencyconverter')">Currency Converter</button>
+            <button class="tab-btn" onclick="switchTab('indices')">Market Indices</button>
             <button class="tab-btn" onclick="switchTab('commodities')">Commodities</button>
             <button class="tab-btn" onclick="switchTab('marketnews')">Market News</button>
         </div>
@@ -1747,8 +1839,8 @@
                 <!-- Live Market Data Widget -->
                 <div style="margin-bottom: 40px;">
                     <h3 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 20px; text-align: center;">📊 Live Market Data</h3>
-                    
-                    <!-- TradingView Market Overview Widget - Clean List View -->
+
+                    <!-- TradingView Market Overview Widget -->
                     <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; overflow: hidden; backdrop-filter: blur(10px);">
                         <!-- TradingView Widget BEGIN -->
                         <div class="tradingview-widget-container">
@@ -1778,80 +1870,63 @@
                               {
                                 "title": "Americas",
                                 "symbols": [
-                                  {
-                                    "s": "FOREXCOM:SPXUSD",
-                                    "d": "S&P 500"
-                                  },
-                                  {
-                                    "s": "FOREXCOM:DJI",
-                                    "d": "Dow Jones"
-                                  },
-                                  {
-                                    "s": "FOREXCOM:NSXUSD",
-                                    "d": "NASDAQ"
-                                  }
+                                  { "s": "FOREXCOM:SPXUSD",   "d": "S&P 500" },
+                                  { "s": "FOREXCOM:DJI",      "d": "Dow Jones" },
+                                  { "s": "FOREXCOM:NSXUSD",   "d": "NASDAQ 100" },
+                                  { "s": "INDEX:RTY",         "d": "Russell 2000" },
+                                  { "s": "TSX:TSX",           "d": "TSX Composite" },
+                                  { "s": "BMFBOVESPA:IBOV",   "d": "Bovespa" },
+                                  { "s": "INDEX:MERVAL",      "d": "MERVAL" }
                                 ],
                                 "originalTitle": "Americas"
                               },
                               {
                                 "title": "Europe",
                                 "symbols": [
-                                  {
-                                    "s": "FOREXCOM:UKXGBP",
-                                    "d": "FTSE 100"
-                                  },
-                                  {
-                                    "s": "XETR:DAX",
-                                    "d": "DAX"
-                                  },
-                                  {
-                                    "s": "INDEX:CAC40",
-                                    "d": "CAC 40"
-                                  }
+                                  { "s": "FOREXCOM:UKXGBP",   "d": "FTSE 100" },
+                                  { "s": "XETR:DAX",          "d": "DAX" },
+                                  { "s": "INDEX:CAC40",       "d": "CAC 40" },
+                                  { "s": "INDEX:AEX",         "d": "AEX" },
+                                  { "s": "INDEX:IBEX35",      "d": "IBEX 35" },
+                                  { "s": "INDEX:SMI",         "d": "Swiss SMI" },
+                                  { "s": "INDEX:FTSEMIB",     "d": "FTSE MIB" },
+                                  { "s": "OMXSTO:OMXS30",     "d": "OMX Stockholm" },
+                                  { "s": "EURONEXT:AEX",      "d": "Euronext AEX" }
                                 ],
                                 "originalTitle": "Europe"
                               },
                               {
                                 "title": "Asia-Pacific",
                                 "symbols": [
-                                  {
-                                    "s": "INDEX:NKY",
-                                    "d": "Nikkei 225"
-                                  },
-                                  {
-                                    "s": "INDEX:HSI",
-                                    "d": "Hang Seng"
-                                  },
-                                  {
-                                    "s": "SSE:000001",
-                                    "d": "Shanghai"
-                                  },
-                                  {
-                                    "s": "TVC:KOSPI",
-                                    "d": "KOSPI"
-                                  },
-                                  {
-                                    "s": "INDEX:TWII",
-                                    "d": "Taiwan Weighted"
-                                  },
-                                  {
-                                    "s": "BSE:SENSEX",
-                                    "d": "BSE SENSEX"
-                                  },
-                                  {
-                                    "s": "TVC:NIFTY",
-                                    "d": "Nifty 50"
-                                  },
-                                  {
-                                    "s": "INDEX:STI",
-                                    "d": "Straits Times"
-                                  },
-                                  {
-                                    "s": "ASX:XJO",
-                                    "d": "ASX 200"
-                                  }
+                                  { "s": "INDEX:NKY",         "d": "Nikkei 225" },
+                                  { "s": "INDEX:HSI",         "d": "Hang Seng" },
+                                  { "s": "SSE:000001",        "d": "Shanghai Comp." },
+                                  { "s": "SZSE:399001",       "d": "Shenzhen Comp." },
+                                  { "s": "KRX:KOSPI",         "d": "KOSPI" },
+                                  { "s": "INDEX:TWII",        "d": "Taiwan Weighted" },
+                                  { "s": "BSE:SENSEX",        "d": "BSE SENSEX" },
+                                  { "s": "NSE:NIFTY50",       "d": "Nifty 50" },
+                                  { "s": "INDEX:STI",         "d": "Straits Times" },
+                                  { "s": "ASX:XJO",           "d": "ASX 200" },
+                                  { "s": "MYX:FBMKLCI",       "d": "KLCI" },
+                                  { "s": "SET:SET",           "d": "SET (Thailand)" },
+                                  { "s": "IDX:COMPOSITE",     "d": "Jakarta Comp." },
+                                  { "s": "PSE:PSEi",          "d": "PSEi (Philippines)" },
+                                  { "s": "NZX:NZ50",          "d": "NZX 50" }
                                 ],
                                 "originalTitle": "Asia-Pacific"
+                              },
+                              {
+                                "title": "Middle East & Africa",
+                                "symbols": [
+                                  { "s": "TADAWUL:TASI",      "d": "Saudi Tadawul" },
+                                  { "s": "DFMGI:DFMGI",       "d": "Dubai DFMGI" },
+                                  { "s": "ADX:FADGI",         "d": "Abu Dhabi ADX" },
+                                  { "s": "QE:QESI",           "d": "Qatar Exchange" },
+                                  { "s": "EGX:EGX30",         "d": "EGX 30 (Egypt)" },
+                                  { "s": "JSE:J203",          "d": "JSE (South Africa)" }
+                                ],
+                                "originalTitle": "Middle East & Africa"
                               }
                             ]
                           }
@@ -1863,7 +1938,7 @@
 
                 <!-- Reference Table -->
                 <h3 style="color: var(--text-primary); font-size: 1.2rem; margin-bottom: 20px; margin-top: 40px;">📋 Index Reference & Links</h3>
-                
+
                 <div class="indices-table-wrapper">
                     <table class="indices-table">
                         <thead>
@@ -1872,40 +1947,67 @@
                                 <th>Index</th>
                                 <th>Exchange</th>
                                 <th>Symbol</th>
-                                <th>Live Data</th>
                             </tr>
                         </thead>
                         <tbody>
+
                             <!-- Americas -->
                             <tr class="region-divider">
                                 <td colspan="5" class="region-header">🌎 Americas</td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">USA</td>
-                                <td class="index-name-cell">S&P 500</td>
+                                <td class="index-name-cell">S&amp;P 500</td>
                                 <td class="exchange-cell">New York Stock Exchange</td>
                                 <td class="symbol-cell">^GSPC</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/.INX:INDEXSP" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">USA</td>
                                 <td class="index-name-cell">Dow Jones Industrial</td>
                                 <td class="exchange-cell">New York Stock Exchange</td>
                                 <td class="symbol-cell">^DJI</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/.DJI:INDEXDJX" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">USA</td>
                                 <td class="index-name-cell">NASDAQ Composite</td>
                                 <td class="exchange-cell">NASDAQ Stock Market</td>
                                 <td class="symbol-cell">^IXIC</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/.IXIC:INDEXNASDAQ" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">USA</td>
+                                <td class="index-name-cell">NASDAQ 100</td>
+                                <td class="exchange-cell">NASDAQ Stock Market</td>
+                                <td class="symbol-cell">^NDX</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">USA</td>
+                                <td class="index-name-cell">Russell 2000</td>
+                                <td class="exchange-cell">New York Stock Exchange</td>
+                                <td class="symbol-cell">^RUT</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Canada</td>
+                                <td class="index-name-cell">S&amp;P/TSX Composite</td>
+                                <td class="exchange-cell">Toronto Stock Exchange</td>
+                                <td class="symbol-cell">^GSPTSE</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Brazil</td>
+                                <td class="index-name-cell">Bovespa (IBOVESPA)</td>
+                                <td class="exchange-cell">B3 Brasil Bolsa Balcão</td>
+                                <td class="symbol-cell">^BVSP</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Argentina</td>
+                                <td class="index-name-cell">MERVAL</td>
+                                <td class="exchange-cell">Buenos Aires Stock Exchange</td>
+                                <td class="symbol-cell">^MERV</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Mexico</td>
+                                <td class="index-name-cell">IPC Mexico</td>
+                                <td class="exchange-cell">Mexican Stock Exchange</td>
+                                <td class="symbol-cell">^MXX</td>
                             </tr>
 
                             <!-- Europe -->
@@ -1917,27 +2019,54 @@
                                 <td class="index-name-cell">FTSE 100</td>
                                 <td class="exchange-cell">London Stock Exchange</td>
                                 <td class="symbol-cell">^FTSE</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/UKX:INDEXFTSE" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Germany</td>
                                 <td class="index-name-cell">DAX</td>
                                 <td class="exchange-cell">Frankfurt Stock Exchange</td>
                                 <td class="symbol-cell">^GDAXI</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/DAX:INDEXDB" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">France</td>
                                 <td class="index-name-cell">CAC 40</td>
                                 <td class="exchange-cell">Euronext Paris</td>
                                 <td class="symbol-cell">^FCHI</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/CAC:INDEXEURO" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Netherlands</td>
+                                <td class="index-name-cell">AEX</td>
+                                <td class="exchange-cell">Euronext Amsterdam</td>
+                                <td class="symbol-cell">^AEX</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Spain</td>
+                                <td class="index-name-cell">IBEX 35</td>
+                                <td class="exchange-cell">Bolsa de Madrid</td>
+                                <td class="symbol-cell">^IBEX</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Switzerland</td>
+                                <td class="index-name-cell">Swiss Market Index (SMI)</td>
+                                <td class="exchange-cell">SIX Swiss Exchange</td>
+                                <td class="symbol-cell">^SSMI</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Italy</td>
+                                <td class="index-name-cell">FTSE MIB</td>
+                                <td class="exchange-cell">Borsa Italiana</td>
+                                <td class="symbol-cell">FTSEMIB</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Sweden</td>
+                                <td class="index-name-cell">OMX Stockholm 30</td>
+                                <td class="exchange-cell">Nasdaq Stockholm</td>
+                                <td class="symbol-cell">^OMXS30</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Russia</td>
+                                <td class="index-name-cell">MOEX Russia Index</td>
+                                <td class="exchange-cell">Moscow Exchange</td>
+                                <td class="symbol-cell">IMOEX</td>
                             </tr>
 
                             <!-- Asia-Pacific -->
@@ -1949,82 +2078,151 @@
                                 <td class="index-name-cell">Nikkei 225</td>
                                 <td class="exchange-cell">Tokyo Stock Exchange</td>
                                 <td class="symbol-cell">^N225</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/N225:INDEXNIKKEI" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Japan</td>
+                                <td class="index-name-cell">TOPIX</td>
+                                <td class="exchange-cell">Tokyo Stock Exchange</td>
+                                <td class="symbol-cell">^TOPX</td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Hong Kong</td>
                                 <td class="index-name-cell">Hang Seng</td>
                                 <td class="exchange-cell">Hong Kong Stock Exchange</td>
                                 <td class="symbol-cell">^HSI</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/HSI:INDEXHANGSENG" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">China</td>
                                 <td class="index-name-cell">Shanghai Composite</td>
                                 <td class="exchange-cell">Shanghai Stock Exchange</td>
-                                <td class="symbol-cell">SSE</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/000001:SHA" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
+                                <td class="symbol-cell">000001.SS</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">China</td>
+                                <td class="index-name-cell">Shenzhen Component</td>
+                                <td class="exchange-cell">Shenzhen Stock Exchange</td>
+                                <td class="symbol-cell">399001.SZ</td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">South Korea</td>
                                 <td class="index-name-cell">KOSPI</td>
-                                <td class="exchange-cell">Korea Stock Exchange</td>
+                                <td class="exchange-cell">Korea Exchange</td>
                                 <td class="symbol-cell">^KS11</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/KS11:KOSPI" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Taiwan</td>
                                 <td class="index-name-cell">Taiwan Weighted</td>
                                 <td class="exchange-cell">Taiwan Stock Exchange</td>
                                 <td class="symbol-cell">^TWII</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/TWII:TPE" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">India</td>
                                 <td class="index-name-cell">BSE SENSEX</td>
                                 <td class="exchange-cell">Bombay Stock Exchange</td>
                                 <td class="symbol-cell">^BSESN</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/SENSEX:INDEXBOM" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">India</td>
                                 <td class="index-name-cell">Nifty 50</td>
                                 <td class="exchange-cell">National Stock Exchange</td>
                                 <td class="symbol-cell">^NSEI</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/NIFTY_50:INDEXNSE" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Singapore</td>
                                 <td class="index-name-cell">Straits Times Index</td>
                                 <td class="exchange-cell">Singapore Exchange</td>
                                 <td class="symbol-cell">^STI</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/STI:INDEXSGX" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Australia</td>
                                 <td class="index-name-cell">ASX 200</td>
                                 <td class="exchange-cell">Australian Securities Exchange</td>
                                 <td class="symbol-cell">^AXJO</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/AXJO:INDEXASX" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Malaysia</td>
+                                <td class="index-name-cell">FTSE Bursa KLCI</td>
+                                <td class="exchange-cell">Bursa Malaysia</td>
+                                <td class="symbol-cell">^KLSE</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Thailand</td>
+                                <td class="index-name-cell">SET Index</td>
+                                <td class="exchange-cell">Stock Exchange of Thailand</td>
+                                <td class="symbol-cell">^SET.BK</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Indonesia</td>
+                                <td class="index-name-cell">Jakarta Composite (IDX)</td>
+                                <td class="exchange-cell">Indonesia Stock Exchange</td>
+                                <td class="symbol-cell">^JKSE</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Philippines</td>
+                                <td class="index-name-cell">PSEi</td>
+                                <td class="exchange-cell">Philippine Stock Exchange</td>
+                                <td class="symbol-cell">^PSI</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">New Zealand</td>
+                                <td class="index-name-cell">NZX 50</td>
+                                <td class="exchange-cell">New Zealand Exchange</td>
+                                <td class="symbol-cell">^NZ50</td>
+                            </tr>
+
+                            <!-- Middle East & Africa -->
+                            <tr class="region-divider">
+                                <td colspan="5" class="region-header">🌍 Middle East &amp; Africa</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Saudi Arabia</td>
+                                <td class="index-name-cell">Tadawul All Share (TASI)</td>
+                                <td class="exchange-cell">Saudi Exchange (Tadawul)</td>
+                                <td class="symbol-cell">TASI</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">UAE (Dubai)</td>
+                                <td class="index-name-cell">DFM General Index</td>
+                                <td class="exchange-cell">Dubai Financial Market</td>
+                                <td class="symbol-cell">DFMGI</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">UAE (Abu Dhabi)</td>
+                                <td class="index-name-cell">ADX General Index</td>
+                                <td class="exchange-cell">Abu Dhabi Securities Exchange</td>
+                                <td class="symbol-cell">FADGI</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Qatar</td>
+                                <td class="index-name-cell">Qatar Exchange Index</td>
+                                <td class="exchange-cell">Qatar Stock Exchange</td>
+                                <td class="symbol-cell">QESI</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Israel</td>
+                                <td class="index-name-cell">Tel Aviv 35 (TA-35)</td>
+                                <td class="exchange-cell">Tel Aviv Stock Exchange</td>
+                                <td class="symbol-cell">TA35</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Egypt</td>
+                                <td class="index-name-cell">EGX 30</td>
+                                <td class="exchange-cell">Egyptian Exchange</td>
+                                <td class="symbol-cell">EGX30</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">South Africa</td>
+                                <td class="index-name-cell">JSE All Share (JALSH)</td>
+                                <td class="exchange-cell">Johannesburg Stock Exchange</td>
+                                <td class="symbol-cell">^J203</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Nigeria</td>
+                                <td class="index-name-cell">NGX All-Share Index</td>
+                                <td class="exchange-cell">Nigerian Exchange Group</td>
+                                <td class="symbol-cell">NGXASI</td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -2447,193 +2645,141 @@
             <div class="table-container">
                 <h2 class="table-title">Commodity Prices</h2>
                 <p style="text-align: center; color: var(--text-secondary); margin-bottom: 40px; font-size: 1rem;">
-                    Live prices for precious metals, energy, and agricultural commodities
+                    Live prices for precious metals, energy, and agricultural commodities.<br>Prices quoted in <strong>USD</strong> unless noted (USd = US cents)
                 </p>
 
                 <!-- Live Commodity Prices -->
                 <div style="margin-bottom: 40px;">
                     <h3 style="color: var(--text-primary); font-size: 1.3rem; margin-bottom: 20px; text-align: center;">📊 Live Commodity Prices</h3>
-                    
-                    <!-- Precious Metals Section -->
+
+                    <!-- Precious Metals Section - TradingView OANDA (confirmed working) -->
                     <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;">
                         <h4 style="color: var(--accent-blue); font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(6, 182, 212, 0.3);">✨ PRECIOUS METALS</h4>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 15px;">
-                            
-                            <!-- Gold -->
-                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
                               <div class="tradingview-widget-container__widget"></div>
                               <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-                              {
-                                "symbol": "OANDA:XAUUSD",
-                                "width": "100%",
-                                "colorTheme": "dark",
-                                "isTransparent": true,
-                                "locale": "en"
-                              }
+                              { "symbol": "OANDA:XAUUSD", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
                               </script>
                             </div>
-                            
-                            <!-- Silver -->
-                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
                               <div class="tradingview-widget-container__widget"></div>
                               <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-                              {
-                                "symbol": "OANDA:XAGUSD",
-                                "width": "100%",
-                                "colorTheme": "dark",
-                                "isTransparent": true,
-                                "locale": "en"
-                              }
+                              { "symbol": "OANDA:XAGUSD", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
                               </script>
                             </div>
-                            
-                            <!-- Platinum -->
-                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
                               <div class="tradingview-widget-container__widget"></div>
                               <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-                              {
-                                "symbol": "OANDA:XPTUSD",
-                                "width": "100%",
-                                "colorTheme": "dark",
-                                "isTransparent": true,
-                                "locale": "en"
-                              }
+                              { "symbol": "OANDA:XPTUSD", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
                               </script>
                             </div>
-                            
-                            <!-- Palladium -->
-                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
                               <div class="tradingview-widget-container__widget"></div>
                               <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-                              {
-                                "symbol": "OANDA:XPDUSD",
-                                "width": "100%",
-                                "colorTheme": "dark",
-                                "isTransparent": true,
-                                "locale": "en"
-                              }
+                              { "symbol": "OANDA:XPDUSD", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
                               </script>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Energy Section -->
+
+                    <!-- Energy Section - TradingView (confirmed working) -->
                     <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;">
                         <h4 style="color: var(--accent-blue); font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(6, 182, 212, 0.3);">⚡ ENERGY</h4>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 15px;">
-                            
-                            <!-- Crude Oil WTI -->
-                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
                               <div class="tradingview-widget-container__widget"></div>
                               <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-                              {
-                                "symbol": "TVC:USOIL",
-                                "width": "100%",
-                                "colorTheme": "dark",
-                                "isTransparent": true,
-                                "locale": "en"
-                              }
+                              { "symbol": "TVC:USOIL", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
                               </script>
                             </div>
-                            
-                            <!-- Brent Crude -->
-                            <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
                               <div class="tradingview-widget-container__widget"></div>
                               <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-                              {
-                                "symbol": "TVC:UKOIL",
-                                "width": "100%",
-                                "colorTheme": "dark",
-                                "isTransparent": true,
-                                "locale": "en"
-                              }
+                              { "symbol": "TVC:UKOIL", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
                               </script>
                             </div>
-                            
-                            <!-- Natural Gas -->
-                            <a href="https://www.google.com/finance/quote/NG.1:NYMEX" target="_blank" rel="noopener noreferrer" class="commodity-card">
-                                <div class="commodity-symbol">NYMEX:NG1!</div>
-                                <div class="commodity-name">Natural Gas</div>
-                                <div class="commodity-link-text">Click for live price →</div>
-                            </a>
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              { "symbol": "OANDA:NATGASUSD", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
+                              </script>
+                            </div>
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              { "symbol": "CAPITALCOM:GASOLINE", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
+                              </script>
+                            </div>
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              { "symbol": "CAPITALCOM:HEATINGOIL", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
+                              </script>
+                            </div>
                         </div>
                     </div>
-                    
-                    <!-- Agriculture & Softs Section -->
+
+                    <!-- Agriculture Section -->
                     <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;">
                         <h4 style="color: var(--accent-blue); font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(6, 182, 212, 0.3);">🌾 AGRICULTURE</h4>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 15px;">
-                            
-                            <!-- Corn -->
-                            <a href="https://www.google.com/finance/quote/ZC.1:CBOT" target="_blank" rel="noopener noreferrer" class="commodity-card">
-                                <div class="commodity-symbol">CBOT:ZC1!</div>
-                                <div class="commodity-name">Corn</div>
-                                <div class="commodity-link-text">Click for live price →</div>
-                            </a>
-                            
-                            <!-- Wheat -->
-                            <a href="https://www.google.com/finance/quote/ZW.1:CBOT" target="_blank" rel="noopener noreferrer" class="commodity-card">
-                                <div class="commodity-symbol">CBOT:ZW1!</div>
-                                <div class="commodity-name">Wheat</div>
-                                <div class="commodity-link-text">Click for live price →</div>
-                            </a>
-                            
-                            <!-- Soybeans -->
-                            <a href="https://www.google.com/finance/quote/ZS.1:CBOT" target="_blank" rel="noopener noreferrer" class="commodity-card">
-                                <div class="commodity-symbol">CBOT:ZS1!</div>
-                                <div class="commodity-name">Soybeans</div>
-                                <div class="commodity-link-text">Click for live price →</div>
-                            </a>
-                            
-                            <!-- Coffee -->
-                            <a href="https://www.google.com/finance/quote/KC.1:ICEUS" target="_blank" rel="noopener noreferrer" class="commodity-card">
-                                <div class="commodity-symbol">ICEUS:KC1!</div>
-                                <div class="commodity-name">Coffee</div>
-                                <div class="commodity-link-text">Click for live price →</div>
-                            </a>
-                            
-                            <!-- Sugar -->
-                            <a href="https://www.google.com/finance/quote/SB.1:ICEUS" target="_blank" rel="noopener noreferrer" class="commodity-card">
-                                <div class="commodity-symbol">ICEUS:SB1!</div>
-                                <div class="commodity-name">Sugar</div>
-                                <div class="commodity-link-text">Click for live price →</div>
-                            </a>
-                            
-                            <!-- Cotton -->
-                            <a href="https://www.google.com/finance/quote/CT.1:ICEUS" target="_blank" rel="noopener noreferrer" class="commodity-card">
-                                <div class="commodity-symbol">ICEUS:CT1!</div>
-                                <div class="commodity-name">Cotton</div>
-                                <div class="commodity-link-text">Click for live price →</div>
-                            </a>
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              { "symbol": "OANDA:CORNUSD", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
+                              </script>
+                            </div>
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              { "symbol": "OANDA:WHEATUSD", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
+                              </script>
+                            </div>
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              { "symbol": "OANDA:SOYBNUSD", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
+                              </script>
+                            </div>
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              { "symbol": "PEPPERSTONE:COFFEE", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
+                              </script>
+                            </div>
+                            <div class="tradingview-widget-container" style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
+                              <div class="tradingview-widget-container__widget"></div>
+                              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+                              { "symbol": "OANDA:SUGARUSD", "width": "100%", "colorTheme": "dark", "isTransparent": true, "locale": "en" }
+                              </script>
+                            </div>
+                            <!-- Custom live cards for broken ones -->
+                            <div class="comm-live-card" data-sym="CC=F" data-label="Cocoa" data-unit="USD / metric ton" data-icon="🍫"></div>
+                            <div class="comm-live-card" data-sym="OJ=F" data-label="Orange Juice" data-unit="USd / lb" data-icon="🍊"></div>
+                            <div class="comm-live-card" data-sym="ZO=F" data-label="Oats" data-unit="USd / bushel" data-icon="🌾"></div>
+                            <div class="comm-live-card" data-sym="ZR=F" data-label="Rice" data-unit="USD / cwt" data-icon="🍚"></div>
                         </div>
                     </div>
-                    
-                    <!-- Industrial Metals Section -->
+
+                    <!-- Industrial Metals Section - all custom live cards -->
                     <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;">
                         <h4 style="color: var(--accent-blue); font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(6, 182, 212, 0.3);">🏭 INDUSTRIAL METALS</h4>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 15px;">
-                            
-                            <!-- Copper -->
-                            <a href="https://www.google.com/finance/quote/HG.1:COMEX" target="_blank" rel="noopener noreferrer" class="commodity-card">
-                                <div class="commodity-symbol">COMEX:HG1!</div>
-                                <div class="commodity-name">Copper</div>
-                                <div class="commodity-link-text">Click for live price →</div>
-                            </a>
+                            <div class="comm-live-card" data-sym="HG=F" data-label="Copper" data-unit="USD / lb" data-icon="🟤"></div>
+                            <div class="comm-live-card" data-sym="ALI=F" data-label="Aluminium" data-unit="USD / metric ton" data-icon="⬜"></div>
                         </div>
                     </div>
-                    
+
                     <div style="text-align: center; margin-top: 20px; padding: 15px; background: rgba(6, 182, 212, 0.1); border-radius: 10px; border: 1px solid var(--accent-blue);">
                         <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">
-                            💡 <strong>Precious Metals & Energy:</strong> Live widgets with real-time prices. <strong>Agriculture & Industrial:</strong> Click cards to view live prices on Google Finance with charts and analysis.
+                            💡 Precious metals &amp; energy via <strong>TradingView</strong>. Industrial metals, softs &amp; grains via <strong>Yahoo Finance</strong> (may show previous close outside market hours).
                         </p>
                     </div>
                 </div>
 
                 <!-- Reference Table -->
-                <h3 style="color: var(--text-primary); font-size: 1.2rem; margin-bottom: 20px; margin-top: 40px;">📊 Commodity Reference & Live Prices</h3>
-                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px; font-size: 0.9rem;">
-                    Comprehensive reference for precious metals, energy, agriculture, and industrial commodities
-                </p>
+                <h3 style="color: var(--text-primary); font-size: 1.2rem; margin-bottom: 20px; margin-top: 40px;">📊 Commodity Reference</h3>
                 
                 <div class="indices-table-wrapper">
                     <table class="indices-table">
@@ -2644,13 +2790,12 @@
                                 <th>Symbol</th>
                                 <th>Currency</th>
                                 <th>Unit</th>
-                                <th>Live Data</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- Precious Metals -->
                             <tr class="region-divider">
-                                <td colspan="6" class="region-header">✨ Precious Metals</td>
+                                <td colspan="5" class="region-header">✨ Precious Metals</td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Metal</td>
@@ -2658,9 +2803,6 @@
                                 <td class="symbol-cell">XAU/USD</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Troy Ounce</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/XAU-USD" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Metal</td>
@@ -2668,9 +2810,6 @@
                                 <td class="symbol-cell">XAG/USD</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Troy Ounce</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/XAG-USD" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Metal</td>
@@ -2678,9 +2817,6 @@
                                 <td class="symbol-cell">XPT/USD</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Troy Ounce</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/XPT-USD" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Metal</td>
@@ -2688,14 +2824,11 @@
                                 <td class="symbol-cell">XPD/USD</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Troy Ounce</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/XPD-USD" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
 
                             <!-- Energy -->
                             <tr class="region-divider">
-                                <td colspan="6" class="region-header">⚡ Energy</td>
+                                <td colspan="5" class="region-header">⚡ Energy</td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Oil</td>
@@ -2703,9 +2836,6 @@
                                 <td class="symbol-cell">CL</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Barrel</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/CL.1:NYMEX" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Oil</td>
@@ -2713,9 +2843,6 @@
                                 <td class="symbol-cell">BZ</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Barrel</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/BZ.1:NYMEX" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Gas</td>
@@ -2723,14 +2850,11 @@
                                 <td class="symbol-cell">NG</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per MMBtu</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/NG.1:NYMEX" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
 
                             <!-- Agriculture -->
                             <tr class="region-divider">
-                                <td colspan="6" class="region-header">🌾 Agriculture</td>
+                                <td colspan="5" class="region-header">🌾 Agriculture</td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Grain</td>
@@ -2738,9 +2862,6 @@
                                 <td class="symbol-cell">ZC</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Bushel</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/ZC.1:CBOT" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Grain</td>
@@ -2748,9 +2869,6 @@
                                 <td class="symbol-cell">ZW</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Bushel</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/ZW.1:CBOT" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Grain</td>
@@ -2758,9 +2876,6 @@
                                 <td class="symbol-cell">ZS</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Bushel</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/ZS.1:CBOT" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Soft</td>
@@ -2768,9 +2883,6 @@
                                 <td class="symbol-cell">KC</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Pound</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/KC.1:ICEUS" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Soft</td>
@@ -2778,9 +2890,6 @@
                                 <td class="symbol-cell">SB</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Pound</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/SB.1:ICEUS" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Soft</td>
@@ -2788,14 +2897,11 @@
                                 <td class="symbol-cell">CT</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Pound</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/CT.1:ICEUS" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
                             </tr>
 
                             <!-- Industrial Metals -->
                             <tr class="region-divider">
-                                <td colspan="6" class="region-header">🏭 Industrial Metals</td>
+                                <td colspan="5" class="region-header">🏭 Industrial Metals</td>
                             </tr>
                             <tr class="index-row">
                                 <td class="region-cell">Metal</td>
@@ -2803,19 +2909,54 @@
                                 <td class="symbol-cell">HG</td>
                                 <td class="exchange-cell">USD</td>
                                 <td class="exchange-cell">per Pound</td>
-                                <td class="action-cell">
-                                    <a href="https://www.google.com/finance/quote/HG.1:COMEX" target="_blank" rel="noopener noreferrer" class="data-link">View Live →</a>
-                                </td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Metal</td>
+                                <td class="index-name-cell">Aluminium</td>
+                                <td class="symbol-cell">ALI</td>
+                                <td class="exchange-cell">USD</td>
+                                <td class="exchange-cell">per Metric Ton</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Metal</td>
+                                <td class="index-name-cell">Zinc</td>
+                                <td class="symbol-cell">ZNC</td>
+                                <td class="exchange-cell">USD</td>
+                                <td class="exchange-cell">per Metric Ton</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Metal</td>
+                                <td class="index-name-cell">Nickel</td>
+                                <td class="symbol-cell">NI</td>
+                                <td class="exchange-cell">USD</td>
+                                <td class="exchange-cell">per Metric Ton</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Metal</td>
+                                <td class="index-name-cell">Lead</td>
+                                <td class="symbol-cell">LEAD</td>
+                                <td class="exchange-cell">USD</td>
+                                <td class="exchange-cell">per Metric Ton</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Metal</td>
+                                <td class="index-name-cell">Tin</td>
+                                <td class="symbol-cell">TIN</td>
+                                <td class="exchange-cell">USD</td>
+                                <td class="exchange-cell">per Metric Ton</td>
+                            </tr>
+                            <tr class="index-row">
+                                <td class="region-cell">Metal</td>
+                                <td class="index-name-cell">Iron Ore</td>
+                                <td class="symbol-cell">TIO</td>
+                                <td class="exchange-cell">USD</td>
+                                <td class="exchange-cell">per Metric Ton</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 
-                <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(6, 182, 212, 0.1); border-radius: 15px; border: 1px solid var(--accent-blue);">
-                    <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">
-                        💡 <strong>Live commodity prices</strong> displayed above with real-time updates. All prices quoted in USD. Click "View Live" for detailed charts, historical data, and market analysis.
-                    </p>
-                </div>
+
             </div>
         </div>
 
@@ -5122,5 +5263,146 @@
         // Auto-convert on page load
         setTimeout(performCurrencyConversion, 100);
     </script>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         COMMODITY LIVE PRICE ENGINE
+         Uses multiple CORS-proxy chains to reach Yahoo Finance.
+         Falls back gracefully with a direct link if all fail.
+    ════════════════════════════════════════════════════════════════════ -->
+    <script>
+    (function() {
+      'use strict';
+
+      // ── Rendering helpers ────────────────────────────────────────────
+      const COMM_URLS = {
+        'HG=F':   'https://finance.yahoo.com/quote/HG=F/',
+        'ALI=F':  'https://finance.yahoo.com/quote/ALI=F/',
+        'ZNC=F':  'https://www.tradingview.com/symbols/LME-ZS3M/',
+        'NI=F':   'https://www.tradingview.com/symbols/TVC-NICKEL/',
+        'LEAD=F': 'https://www.tradingview.com/symbols/TVC-LEAD/',
+        'TIN=F':  'https://www.tradingview.com/symbols/TVC-TIN/',
+        'TIO=F':  'https://www.tradingview.com/symbols/COMEX-TIO1!/',
+        'MTF=F':  'https://finance.yahoo.com/quote/MTF=F/',
+        'CT=F':   'https://finance.yahoo.com/quote/CT=F/',
+        'CC=F':   'https://finance.yahoo.com/quote/CC=F/',
+        'OJ=F':   'https://finance.yahoo.com/quote/OJ=F/',
+        'ZO=F':   'https://finance.yahoo.com/quote/ZO=F/',
+        'ZR=F':   'https://finance.yahoo.com/quote/ZR=F/',
+      };
+      function getYFUrl(sym) {
+        return COMM_URLS[sym] || ('https://finance.yahoo.com/quote/' + encodeURIComponent(sym) + '/');
+      }
+
+      function renderLoading(el, label, icon, sym) {
+        el.style.cursor = 'pointer';
+        el.onclick = () => window.open(getYFUrl(sym), '_blank', 'noopener');
+        el.innerHTML = `
+          <div class="clc-header">
+            <span class="clc-icon">${icon}</span>
+            <span class="clc-source">Yahoo Finance</span>
+          </div>
+          <div class="clc-name">${label.toUpperCase()}</div>
+          <div class="clc-loading">
+            <span>●</span><span>●</span><span>●</span>
+          </div>`;
+      }
+
+      function renderData(el, label, icon, unit, price, change, pct, currency, sym) {
+        el.style.cursor = 'pointer';
+        el.onclick = () => window.open(getYFUrl(sym), '_blank', 'noopener');
+        const up = change >= 0;
+        const sign = up ? '+' : '';
+        const dec = price >= 100 ? 2 : price >= 10 ? 3 : 4;
+        el.innerHTML = `
+          <div class="clc-header">
+            <span class="clc-icon">${icon}</span>
+            <span class="clc-source">Yahoo Finance ↗</span>
+          </div>
+          <div class="clc-name">${label.toUpperCase()}</div>
+          <div class="clc-price-row">
+            <span class="clc-price">${price.toFixed(dec)}</span>
+            <span class="clc-badge ${up ? 'up' : 'down'}">${sign}${change.toFixed(dec)} (${sign}${pct.toFixed(2)}%)</span>
+          </div>
+          <div class="clc-unit">${unit}</div>`;
+      }
+
+      function renderError(el, label, icon, sym) {
+        el.style.cursor = 'pointer';
+        el.onclick = () => window.open(getYFUrl(sym), '_blank', 'noopener');
+        const url = getYFUrl(sym);
+        el.innerHTML = `
+          <div class="clc-header">
+            <span class="clc-icon">${icon}</span>
+          </div>
+          <div class="clc-name">${label.toUpperCase()}</div>
+          <div class="clc-error">
+            Market closed or data unavailable.<br>
+            <a href="${url}" target="_blank" rel="noopener">View on Yahoo Finance ↗</a>
+          </div>`;
+      }
+
+      // ── Fetch with proxy chain ───────────────────────────────────────
+      async function fetchQuote(sym) {
+        const yfUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=2d`;
+
+        // Proxy list — tries each in order, stops on first success
+        const proxies = [
+          u => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
+          u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+          u => `https://proxy.cors.sh/${u}`,
+          u => `https://cors-anywhere.herokuapp.com/${u}`,
+        ];
+
+        for (const makeProxy of proxies) {
+          try {
+            const proxyUrl = makeProxy(yfUrl);
+            const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(7000) });
+            if (!res.ok) continue;
+            const wrapper = await res.json();
+            // allorigins wraps in {contents: "..."}; others return direct JSON
+            const raw = wrapper.contents !== undefined ? wrapper.contents : JSON.stringify(wrapper);
+            const data = JSON.parse(typeof raw === 'string' ? raw : JSON.stringify(raw));
+            const meta = data?.chart?.result?.[0]?.meta;
+            if (!meta || !meta.regularMarketPrice) continue;
+            const price  = meta.regularMarketPrice;
+            const prev   = meta.chartPreviousClose ?? meta.previousClose ?? meta.regularMarketPreviousClose;
+            const change = price - prev;
+            const pct    = (change / prev) * 100;
+            const rawCcy = meta.currency || 'USD';
+            // USX = US cents denomination (cotton, OJ, oats futures)
+            const currency = rawCcy === 'USX' ? 'USd (US cents)' : rawCcy;
+            // Use regularMarketChange if available (more reliable than manual calc)
+            const safeChange = meta.regularMarketChange != null ? meta.regularMarketChange : change;
+            const safePct    = meta.regularMarketChangePercent != null ? meta.regularMarketChangePercent : pct;
+            return { price, change: safeChange, pct: safePct, currency };
+          } catch (_) { /* try next proxy */ }
+        }
+        throw new Error('all proxies failed');
+      }
+
+      // ── Bootstrap all cards ──────────────────────────────────────────
+      async function initCommodityCards() {
+        const cards = document.querySelectorAll('.comm-live-card');
+        // Fetch all in parallel (faster), show loading state first
+        const tasks = Array.from(cards).map(card => {
+          const sym   = card.dataset.sym;
+          const label = card.dataset.label;
+          const unit  = card.dataset.unit;
+          const icon  = card.dataset.icon;
+          renderLoading(card, label, icon, sym);
+          return fetchQuote(sym)
+            .then(d => renderData(card, label, icon, unit, d.price, d.change, d.pct, d.currency, sym))
+            .catch(() => renderError(card, label, icon, sym));
+        });
+        await Promise.allSettled(tasks);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCommodityCards);
+      } else {
+        initCommodityCards();
+      }
+    })();
+    </script>
+
 </body>
-</html>
