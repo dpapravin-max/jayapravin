@@ -172,7 +172,7 @@
         /* World Clocks Grid */
         .clocks-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
             gap: 15px;
             margin-bottom: 40px;
         }
@@ -601,14 +601,136 @@
             }
         }
 
+        /* =====================================================
+           COMPREHENSIVE MOBILE & RESPONSIVE CSS
+           ===================================================== */
+
+        /* Tabs — horizontal scroll on mobile, no wrapping */
+        .tabs {
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .tabs::-webkit-scrollbar { display: none; }
+
+        @media (max-width: 900px) {
+            .tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 0 10px 10px;
+                gap: 8px;
+                margin-bottom: 30px;
+            }
+            .tab-btn {
+                padding: 10px 18px;
+                font-size: 0.78rem;
+                white-space: nowrap;
+                flex-shrink: 0;
+                letter-spacing: 0.5px;
+            }
+        }
+
         @media (max-width: 768px) {
-            header { padding-top: 70px; }
-            h1 { font-size: 2.5rem; }
-            .subtitle { font-size: 0.9rem; }
-            .clocks-grid { grid-template-columns: 1fr; }
-            .converter-container { padding: 30px 20px; }
+            /* Header */
+            header { padding-top: 60px; padding-bottom: 20px; }
+            h1 { font-size: 2rem !important; }
+            .subtitle { font-size: 0.8rem; padding: 0 10px; }
+
+            /* World Clocks */
+            .clocks-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+            /* Time Converter */
+            .converter-container { padding: 20px 15px; }
             .converter-input-group { flex-direction: column; }
-            .tabs { flex-direction: column; gap: 10px; }
+
+            /* Tables */
+            .table-container { padding: 20px 10px; border-radius: 15px; }
+            .table-title { font-size: 1.8rem; }
+
+            /* Market Hours */
+            .market-hours-grid { grid-template-columns: 1fr; }
+
+            /* Currency Converter card */
+            #currency-converter-tab .converter-card,
+            div[style*="max-width: 800px"] {
+                padding: 20px 15px !important;
+                border-radius: 12px !important;
+            }
+
+            /* Quick Reference grid */
+            div[style*="max-width: 1000px"] { padding: 0 5px; }
+
+            /* Commodity cards */
+            .commodity-card { padding: 12px 10px; }
+            .commodity-symbol { font-size: 1rem; }
+            .commodity-name { font-size: 0.75rem; }
+
+            /* TradingView widgets — force full width, clip overflow */
+            .tradingview-widget-container {
+                width: 100% !important;
+                min-width: 0 !important;
+                overflow: hidden !important;
+            }
+            .tradingview-widget-container iframe {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            /* Indices table — horizontal scroll */
+            .indices-table-wrapper,
+            div[style*="overflow-x: auto"] {
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch;
+            }
+            .indices-table th,
+            .indices-table td {
+                padding: 10px 6px;
+                font-size: 0.78rem;
+            }
+            .indices-table .data-link {
+                padding: 5px 8px;
+                font-size: 0.72rem;
+            }
+
+            /* Exchange holidays table */
+            .holidays-table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* News grid */
+            .news-grid { grid-template-columns: 1fr !important; }
+        }
+
+        @media (max-width: 480px) {
+            /* Very small screens */
+            h1 { font-size: 1.6rem !important; }
+            .clocks-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+
+            /* Currency converter inputs */
+            #currencyAmount { font-size: 1.2rem !important; }
+            #fromCurrencySelect,
+            #toCurrencySelect { font-size: 0.9rem !important; padding: 12px 10px !important; }
+
+            /* Conversion result */
+            #conversionResult { font-size: 1.5rem !important; }
+
+            /* Quick reference pair labels */
+            .commodity-symbol { font-size: 0.9rem; }
+            .commodity-name { font-size: 0.7rem; }
+
+            /* Market hours cards */
+            .market-hour-card { padding: 14px 12px; }
+            .market-hour-name { font-size: 1rem; }
+
+            /* Table container */
+            .table-container { padding: 15px 8px; }
+        }
+
+        /* Ensure all TradingView widget wrappers never overflow on any screen */
+        .tradingview-widget-container {
+            max-width: 100%;
+            overflow: hidden;
         }
 
         /* Cities Table Styles */
@@ -1186,7 +1308,7 @@
         /* Market Hours Styles */
         .market-hours-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -1386,7 +1508,7 @@
                 </p>
 
                 <!-- Converter Tool -->
-                <div style="max-width: 800px; margin: 0 auto 40px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 40px; backdrop-filter: blur(10px);">
+                <div style="max-width: 800px; margin: 0 auto 40px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: clamp(20px, 5vw, 40px); backdrop-filter: blur(10px);">
                     
                     <!-- Amount Input -->
                     <div style="margin-bottom: 30px;">
@@ -1468,11 +1590,6 @@
                         </div>
                     </div>
 
-                    <!-- Convert Button -->
-                    <button onclick="performCurrencyConversion()" 
-                        style="width: 100%; padding: 16px; background: var(--accent-blue); border: none; border-radius: 10px; color: var(--bg-dark); font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease;">
-                        Convert Currency
-                    </button>
                 </div>
 
                 <!-- Popular Conversions Quick Reference -->
@@ -1483,7 +1600,7 @@
                     <!-- USD Pairs -->
                     <div style="margin-bottom:20px;">
                         <div style="color:var(--accent-gold); font-size:0.8rem; font-weight:700; letter-spacing:1px; margin-bottom:10px; padding-left:4px;">🇺🇸 USD — US DOLLAR</div>
-                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px;">
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(160px, calc(50% - 5px)),1fr)); gap:10px;">
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=EUR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → EUR</div><div class="commodity-name">US Dollar to Euro</div><div class="commodity-link-text">XE.com →</div></a>
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=GBP" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → GBP</div><div class="commodity-name">US Dollar to British Pound</div><div class="commodity-link-text">XE.com →</div></a>
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=JPY" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">USD → JPY</div><div class="commodity-name">US Dollar to Japanese Yen</div><div class="commodity-link-text">XE.com →</div></a>
@@ -1513,7 +1630,7 @@
                     <!-- EUR Pairs -->
                     <div style="margin-bottom:20px;">
                         <div style="color:var(--accent-gold); font-size:0.8rem; font-weight:700; letter-spacing:1px; margin-bottom:10px; padding-left:4px;">🇪🇺 EUR — EURO</div>
-                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px;">
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(160px, calc(50% - 5px)),1fr)); gap:10px;">
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">EUR → USD</div><div class="commodity-name">Euro to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=GBP" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">EUR → GBP</div><div class="commodity-name">Euro to British Pound</div><div class="commodity-link-text">XE.com →</div></a>
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=JPY" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">EUR → JPY</div><div class="commodity-name">Euro to Japanese Yen</div><div class="commodity-link-text">XE.com →</div></a>
@@ -1528,7 +1645,7 @@
                     <!-- GBP Pairs -->
                     <div style="margin-bottom:20px;">
                         <div style="color:var(--accent-gold); font-size:0.8rem; font-weight:700; letter-spacing:1px; margin-bottom:10px; padding-left:4px;">🇬🇧 GBP — BRITISH POUND</div>
-                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px;">
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(160px, calc(50% - 5px)),1fr)); gap:10px;">
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">GBP → USD</div><div class="commodity-name">British Pound to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=EUR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">GBP → EUR</div><div class="commodity-name">British Pound to Euro</div><div class="commodity-link-text">XE.com →</div></a>
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=JPY" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">GBP → JPY</div><div class="commodity-name">British Pound to Japanese Yen</div><div class="commodity-link-text">XE.com →</div></a>
@@ -1541,7 +1658,7 @@
                     <!-- SGD Pairs -->
                     <div style="margin-bottom:20px;">
                         <div style="color:var(--accent-gold); font-size:0.8rem; font-weight:700; letter-spacing:1px; margin-bottom:10px; padding-left:4px;">🇸🇬 SGD — SINGAPORE DOLLAR</div>
-                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px;">
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(160px, calc(50% - 5px)),1fr)); gap:10px;">
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SGD&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SGD → USD</div><div class="commodity-name">Singapore Dollar to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SGD&To=EUR" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SGD → EUR</div><div class="commodity-name">Singapore Dollar to Euro</div><div class="commodity-link-text">XE.com →</div></a>
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SGD&To=GBP" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SGD → GBP</div><div class="commodity-name">Singapore Dollar to British Pound</div><div class="commodity-link-text">XE.com →</div></a>
@@ -1556,7 +1673,7 @@
                     <!-- Asian Pairs -->
                     <div style="margin-bottom:20px;">
                         <div style="color:var(--accent-gold); font-size:0.8rem; font-weight:700; letter-spacing:1px; margin-bottom:10px; padding-left:4px;">🌏 ASIAN CURRENCIES</div>
-                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px;">
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(160px, calc(50% - 5px)),1fr)); gap:10px;">
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=JPY&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">JPY → USD</div><div class="commodity-name">Japanese Yen to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=CNY&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">CNY → USD</div><div class="commodity-name">Chinese Yuan to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=INR&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">INR → USD</div><div class="commodity-name">Indian Rupee to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
@@ -1575,7 +1692,7 @@
                     <!-- Middle East & Others -->
                     <div style="margin-bottom:20px;">
                         <div style="color:var(--accent-gold); font-size:0.8rem; font-weight:700; letter-spacing:1px; margin-bottom:10px; padding-left:4px;">🌍 MIDDLE EAST, OCEANIA & AMERICAS</div>
-                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:10px;">
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(160px, calc(50% - 5px)),1fr)); gap:10px;">
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=AED&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">AED → USD</div><div class="commodity-name">UAE Dirham to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=SAR&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">SAR → USD</div><div class="commodity-name">Saudi Riyal to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
                             <a href="https://www.xe.com/currencyconverter/convert/?Amount=1&From=AUD&To=USD" target="_blank" rel="noopener noreferrer" class="commodity-card"><div class="commodity-symbol">AUD → USD</div><div class="commodity-name">Australian Dollar to US Dollar</div><div class="commodity-link-text">XE.com →</div></a>
@@ -1946,7 +2063,7 @@
                     
                     <div style="padding: 20px;">
                         <!-- Currency Pairs Grid -->
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 15px;">
                             
                             <!-- EUR/USD -->
                             <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
@@ -2340,7 +2457,7 @@
                     <!-- Precious Metals Section -->
                     <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;">
                         <h4 style="color: var(--accent-blue); font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(6, 182, 212, 0.3);">✨ PRECIOUS METALS</h4>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 15px;">
                             
                             <!-- Gold -->
                             <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
@@ -2403,7 +2520,7 @@
                     <!-- Energy Section -->
                     <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;">
                         <h4 style="color: var(--accent-blue); font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(6, 182, 212, 0.3);">⚡ ENERGY</h4>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 15px;">
                             
                             <!-- Crude Oil WTI -->
                             <div class="tradingview-widget-container" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-radius: 10px; overflow: hidden;">
@@ -2445,7 +2562,7 @@
                     <!-- Agriculture & Softs Section -->
                     <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;">
                         <h4 style="color: var(--accent-blue); font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(6, 182, 212, 0.3);">🌾 AGRICULTURE</h4>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 15px;">
                             
                             <!-- Corn -->
                             <a href="https://www.google.com/finance/quote/ZC.1:CBOT" target="_blank" rel="noopener noreferrer" class="commodity-card">
@@ -2494,7 +2611,7 @@
                     <!-- Industrial Metals Section -->
                     <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 15px; padding: 20px; backdrop-filter: blur(10px); margin-bottom: 20px;">
                         <h4 style="color: var(--accent-blue); font-size: 1.1rem; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(6, 182, 212, 0.3);">🏭 INDUSTRIAL METALS</h4>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 15px;">
                             
                             <!-- Copper -->
                             <a href="https://www.google.com/finance/quote/HG.1:COMEX" target="_blank" rel="noopener noreferrer" class="commodity-card">
@@ -4838,133 +4955,172 @@
             document.getElementById('resultContainer').classList.add('show');
         }
 
-        // Currency Converter Functions
+        // ─── Currency Converter ───────────────────────────────────────────────
+        const CURRENCY_SYMBOLS = {
+            'USD':'$','EUR':'€','GBP':'£','JPY':'¥','INR':'₹',
+            'SGD':'S$','AUD':'A$','CAD':'C$','CHF':'Fr',
+            'CNY':'¥','HKD':'HK$','KRW':'₩','NZD':'NZ$',
+            'TWD':'NT$','MYR':'RM','THB':'฿','IDR':'Rp','PHP':'₱','VND':'₫'
+        };
+
+        // Emergency fallback rates (USD base) — only used if ALL APIs fail
+        const FALLBACK_RATES = {
+            USD:1, EUR:0.921, GBP:0.787, JPY:149.80, SGD:1.338,
+            AUD:1.573, CAD:1.420, CHF:0.896, CNY:7.238, HKD:7.782,
+            KRW:1327, INR:83.85, NZD:1.737, TWD:32.48, MYR:4.462,
+            THB:35.10, IDR:15680, PHP:55.90, VND:24900
+        };
+
+        // Rate cache: { "SGD_INR": { rate, ts } }
+        const rateCache = {};
+        const CACHE_MS  = 60 * 60 * 1000; // 1 hour
+
+        async function getLiveRate(from, to) {
+            const key = `${from}_${to}`;
+            const now = Date.now();
+            if (rateCache[key] && (now - rateCache[key].ts) < CACHE_MS) {
+                return rateCache[key];  // { rate, source, ts }
+            }
+
+            // ── API 1: MarketsHost — free, no key, CORS *, hourly updates ──
+            try {
+                const url = `https://www.marketshost.com/production/api/rates.php?from=${from}&to=${to}`;
+                const r   = await fetch(url, { signal: AbortSignal.timeout(6000) });
+                if (r.ok) {
+                    const d = await r.json();
+                    if (d.success && d.result && d.result.rate) {
+                        const entry = { rate: d.result.rate, source: 'MarketsHost', ts: now };
+                        rateCache[key] = entry;
+                        return entry;
+                    }
+                }
+            } catch (_) {}
+
+            // ── API 2: open.er-api.com — free, no key, CORS *, hourly ──────
+            try {
+                const url = `https://open.er-api.com/v6/latest/${from}`;
+                const r   = await fetch(url, { signal: AbortSignal.timeout(6000) });
+                if (r.ok) {
+                    const d = await r.json();
+                    if (d.result === 'success' && d.rates && d.rates[to]) {
+                        const entry = { rate: d.rates[to], source: 'ExchangeRate-API (hourly)', ts: now };
+                        rateCache[key] = entry;
+                        return entry;
+                    }
+                }
+            } catch (_) {}
+
+            // ── API 3: fawazahmed0 via jsDelivr CDN — free, no key, CORS * ─
+            try {
+                const base = from.toLowerCase();
+                const url  = `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${base}.min.json`;
+                const r    = await fetch(url, { signal: AbortSignal.timeout(6000) });
+                if (r.ok) {
+                    const d = await r.json();
+                    const toKey = to.toLowerCase();
+                    if (d[base] && d[base][toKey]) {
+                        const entry = { rate: d[base][toKey], source: 'fawazahmed0 CDN (daily)', ts: now };
+                        rateCache[key] = entry;
+                        return entry;
+                    }
+                }
+            } catch (_) {}
+
+            // ── Fallback: built-in static rates ──────────────────────────────
+            const fromRate = FALLBACK_RATES[from] || 1;
+            const toRate   = FALLBACK_RATES[to]   || 1;
+            return { rate: toRate / fromRate, source: '⚠️ Offline fallback rates', ts: 0 };
+        }
+
+        function showConversionResult(amount, from, to, rateEntry) {
+            const resultDiv = document.getElementById('conversionResult');
+            const rateDiv   = document.getElementById('exchangeRateDisplay');
+            const { rate, source, ts } = rateEntry;
+            const converted = amount * rate;
+            const sym  = CURRENCY_SYMBOLS[to]   || to + ' ';
+            const fsym = CURRENCY_SYMBOLS[from]  || from + ' ';
+            const dp   = ['JPY','KRW','IDR','VND'].includes(to) ? 0 : 2;
+            const rdp  = ['JPY','KRW','IDR','VND'].includes(to) ? 2 : 4;
+            const fmt  = (v, d) => new Intl.NumberFormat('en-US', { minimumFractionDigits:d, maximumFractionDigits:d }).format(v);
+            const timeStr = ts ? new Date(ts).toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' }) : 'N/A';
+            const isLive  = ts > 0;
+
+            resultDiv.innerHTML = `${sym}${fmt(converted, dp)}`;
+            resultDiv.style.color = 'var(--accent-blue)';
+
+            rateDiv.innerHTML = `
+                <div style="margin-bottom:6px;font-size:1rem;">
+                    <strong>1 ${from} = ${rate.toFixed(rdp)} ${to}</strong>
+                </div>
+                <div style="font-size:0.85rem;opacity:0.8;margin-bottom:8px;">
+                    ${fsym}${fmt(amount,2)} = ${sym}${fmt(converted,dp)}
+                </div>
+                <div style="font-size:0.72rem;margin-bottom:12px;opacity:${isLive ? 0.7 : 0.45};">
+                    ${isLive ? '✅' : '⚠️'} ${source}${isLive ? ' · Fetched ' + timeStr : ''}
+                </div>
+                <a href="https://www.xe.com/currencyconverter/convert/?Amount=${amount}&From=${from}&To=${to}"
+                   target="_blank" rel="noopener noreferrer"
+                   style="color:var(--accent-blue);text-decoration:none;padding:8px 14px;
+                          background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.3);
+                          border-radius:8px;display:inline-block;font-size:0.85rem;">
+                    🌐 Verify on XE.com →
+                </a>`;
+        }
+
         async function performCurrencyConversion() {
             const amount = parseFloat(document.getElementById('currencyAmount').value);
-            const fromCurrency = document.getElementById('fromCurrencySelect').value;
-            const toCurrency = document.getElementById('toCurrencySelect').value;
+            const from   = document.getElementById('fromCurrencySelect').value;
+            const to     = document.getElementById('toCurrencySelect').value;
             const resultDiv = document.getElementById('conversionResult');
-            const rateDiv = document.getElementById('exchangeRateDisplay');
+            const rateDiv   = document.getElementById('exchangeRateDisplay');
 
             if (isNaN(amount) || amount <= 0) {
-                resultDiv.textContent = 'Please enter a valid amount';
+                resultDiv.textContent = 'Enter a valid amount';
                 resultDiv.style.color = 'var(--text-secondary)';
-                rateDiv.textContent = '';
+                rateDiv.textContent   = '';
                 return;
             }
-
-            if (fromCurrency === toCurrency) {
-                resultDiv.textContent = new Intl.NumberFormat('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }).format(amount) + ' ' + toCurrency;
+            if (from === to) {
+                resultDiv.textContent = `${CURRENCY_SYMBOLS[from] || from}${new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}).format(amount)}`;
                 resultDiv.style.color = 'var(--text-primary)';
-                rateDiv.textContent = 'Same currency selected';
+                rateDiv.textContent   = 'Same currency';
                 return;
             }
 
-            resultDiv.textContent = 'Converting...';
-            resultDiv.style.color = 'var(--text-secondary)';
-            rateDiv.textContent = 'Fetching latest rates...';
-
-            try {
-                // Using frankfurter.app - free European Central Bank rates
-                const response = await fetch(`https://api.frankfurter.app/latest?amount=${amount}&from=${fromCurrency}&to=${toCurrency}`);
-                
-                if (!response.ok) {
-                    throw new Error('Failed to fetch exchange rate');
-                }
-                
-                const data = await response.json();
-                
-                if (data.rates && data.rates[toCurrency]) {
-                    const convertedAmount = data.rates[toCurrency];
-                    const rate = convertedAmount / amount;
-                    
-                    // Get currency symbols
-                    const getCurrencySymbol = (code) => {
-                        const symbols = {
-                            'USD': '$', 'EUR': '€', 'GBP': '£', 'JPY': '¥', 'INR': '₹',
-                            'SGD': 'S$', 'AUD': 'A$', 'CAD': 'C$', 'CHF': 'Fr',
-                            'CNY': '¥', 'HKD': 'HK$', 'KRW': '₩', 'NZD': 'NZ$',
-                            'TWD': 'NT$', 'MYR': 'RM', 'THB': '฿', 'IDR': 'Rp',
-                            'PHP': '₱', 'VND': '₫'
-                        };
-                        return symbols[code] || code;
-                    };
-                    
-                    resultDiv.textContent = `${getCurrencySymbol(toCurrency)} ${new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }).format(convertedAmount)}`;
-                    resultDiv.style.color = 'var(--accent-blue)';
-                    
-                    rateDiv.innerHTML = `
-                        <div style="margin-bottom: 5px;">
-                            <strong>1 ${fromCurrency} = ${rate.toFixed(6)} ${toCurrency}</strong>
-                        </div>
-                        <div style="font-size: 0.85rem; opacity: 0.8;">
-                            ${amount.toFixed(2)} ${fromCurrency} = ${convertedAmount.toFixed(2)} ${toCurrency}
-                        </div>
-                        <div style="font-size: 0.75rem; margin-top: 8px; opacity: 0.6;">
-                            Rates from European Central Bank • ${data.date}
-                        </div>
-                    `;
-                } else {
-                    throw new Error('Invalid response from API');
-                }
-            } catch (error) {
-                console.error('Currency conversion error:', error);
-                
-                // Fallback: Calculate using TradingView widget approach (display message to use Currency tab)
-                resultDiv.textContent = 'Direct API unavailable';
-                resultDiv.style.color = '#f59e0b';
-                rateDiv.innerHTML = `
-                    <div style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
-                        <div style="margin-bottom: 10px;">
-                            Network restrictions prevent direct conversion. Please use:
-                        </div>
-                        <div style="display: grid; gap: 10px;">
-                            <a href="https://www.xe.com/currencyconverter/convert/?Amount=${amount}&From=${fromCurrency}&To=${toCurrency}" 
-                               target="_blank" rel="noopener noreferrer" 
-                               style="color: var(--accent-blue); text-decoration: none; padding: 8px; background: rgba(6, 182, 212, 0.1); border-radius: 6px; display: block;">
-                                🌐 View conversion on XE.com →
-                            </a>
-                            <a href="#" onclick="switchTab('currency'); return false;" 
-                               style="color: var(--accent-blue); text-decoration: none; padding: 8px; background: rgba(6, 182, 212, 0.1); border-radius: 6px; display: block;">
-                                💱 View live rates in Currency tab →
-                            </a>
-                        </div>
-                    </div>
-                `;
+            // Show instant result from cache or fallback while fetching
+            const cachedKey = `${from}_${to}`;
+            if (rateCache[cachedKey]) {
+                showConversionResult(amount, from, to, rateCache[cachedKey]);
+            } else {
+                resultDiv.textContent = '⏳ Fetching live rate…';
+                resultDiv.style.color = 'var(--text-secondary)';
+                rateDiv.innerHTML = '<span style="opacity:0.5;font-size:0.85rem;">Connecting to exchange rate API…</span>';
             }
+
+            const rateEntry = await getLiveRate(from, to);
+            showConversionResult(amount, from, to, rateEntry);
         }
 
         function swapCurrenciesConverter() {
-            const fromSelect = document.getElementById('fromCurrencySelect');
-            const toSelect = document.getElementById('toCurrencySelect');
-            
-            const temp = fromSelect.value;
-            fromSelect.value = toSelect.value;
-            toSelect.value = temp;
+            const fromSel = document.getElementById('fromCurrencySelect');
+            const toSel   = document.getElementById('toCurrencySelect');
+            const tmp     = fromSel.value;
+            fromSel.value = toSel.value;
+            toSel.value   = tmp;
+            performCurrencyConversion();
         }
 
-        // Auto-convert on change
+        // Wire up live events
         if (document.getElementById('currencyAmount')) {
-            document.getElementById('currencyAmount').addEventListener('input', () => {
-                const resultDiv = document.getElementById('conversionResult');
-                if (resultDiv && resultDiv.textContent !== '---' && resultDiv.textContent !== 'Converting...') {
-                    // Only auto-convert if user has already converted once
-                    const hasConverted = resultDiv.textContent.includes('$') || resultDiv.textContent.includes('₹') || resultDiv.textContent.includes('€');
-                    if (hasConverted) {
-                        performCurrencyConversion();
-                    }
-                }
-            });
+            document.getElementById('currencyAmount').addEventListener('input', performCurrencyConversion);
+            document.getElementById('fromCurrencySelect').addEventListener('change', performCurrencyConversion);
+            document.getElementById('toCurrencySelect').addEventListener('change', performCurrencyConversion);
         }
 
         // Initialize on load
         init();
+        // Auto-convert on page load
+        setTimeout(performCurrencyConversion, 100);
     </script>
 </body>
 </html>
