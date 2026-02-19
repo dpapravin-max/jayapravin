@@ -1,9 +1,30 @@
+<!--
+  ═══════════════════════════════════════════════════════════════════
+  PERFORMANCE OPTIMIZATIONS APPLIED (v2.0):
+  
+  1. SINGLE rAF LOOP replaces dual setInterval(1000) — smoother, 
+     no timer drift, no double-updates
+  2. CACHED DOM REFS — all querySelector calls happen once at init,
+     zero DOM queries per animation frame
+  3. SKIP HIDDEN ROWS — table updates only process visible rows
+  4. DEBOUNCED SEARCH — 150ms debounce prevents input lag
+  5. DOCUMENT FRAGMENT — batch DOM inserts for clock cards
+  6. GPU COMPOSITING — will-change:transform on clock hands
+  7. CONTAIN PROPERTY — contain:layout style paint on clock cards
+  8. REDUCED TABLE UPDATES — every 5s instead of every 1s
+  9. PRECONNECT HINTS — early DNS/TLS for fonts and TradingView
+  10. REMOVED LAYOUT THRASH — no transform:scale on table hover
+  ═══════════════════════════════════════════════════════════════════
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World Time — Global Clock Network</title>
+    <title>CIB Markets Handbook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://s3.tradingview.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&family=Bebas+Neue&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -128,24 +149,34 @@
         .tabs {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            flex-wrap: nowrap;
+            gap: 8px;
             margin-bottom: 50px;
             animation: fadeIn 1s ease-out 0.3s backwards;
+            padding: 0 15px;
         }
 
         .tab-btn {
             background: var(--card-bg);
             border: 2px solid var(--card-border);
             color: var(--text-secondary);
-            padding: 15px 40px;
-            font-size: 1rem;
+            padding: 12px 18px;
+            font-size: 0.85rem;
             font-weight: 600;
-            border-radius: 50px;
+            border-radius: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'DM Sans', sans-serif;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
+            overflow: hidden;
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+            text-align: center;
+            min-width: 110px;
+            max-width: 145px;
+            line-height: 1.45;
+            word-spacing: 100vw; /* Forces each word onto its own line */
         }
 
         .tab-btn:hover {
@@ -157,7 +188,9 @@
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-pink));
             border-color: transparent;
             color: var(--text-primary);
-            box-shadow: 0 10px 30px rgba(77, 184, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25);
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
         }
 
         .tab-content {
@@ -167,6 +200,37 @@
 
         .tab-content.active {
             display: block;
+        }
+
+        /* Year toggle buttons — distinct selected highlight */
+        .year-toggle-btn {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            color: var(--text-secondary);
+            padding: 12px 35px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 1px;
+            overflow: hidden;
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+        }
+        .year-toggle-btn:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+        .year-toggle-btn.active {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-pink) 100%);
+            border-color: transparent;
+            color: #fff;
+            font-weight: 800;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
         }
 
         /* World Clocks Grid */
@@ -187,6 +251,7 @@
             overflow: hidden;
             transition: all 0.4s ease;
             animation: fadeInUp 0.6s ease-out backwards;
+            contain: layout style paint; /* PERF: isolate repaints */
         }
         
         /* Day time styling - bright */
@@ -295,6 +360,7 @@
             transform-origin: bottom center;
             left: 50%;
             border-radius: 5px;
+            will-change: transform; /* PERF: GPU-accelerate hand rotation */
         }
 
         .hour-hand {
@@ -606,27 +672,20 @@
            ===================================================== */
 
         /* Tabs — horizontal scroll on mobile, no wrapping */
-        .tabs {
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
         .tabs::-webkit-scrollbar { display: none; }
 
         @media (max-width: 900px) {
             .tabs {
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                justify-content: flex-start;
-                padding: 0 10px 10px;
-                gap: 8px;
+                gap: 6px;
+                padding: 0 8px;
                 margin-bottom: 30px;
             }
             .tab-btn {
-                padding: 10px 18px;
-                font-size: 0.78rem;
-                white-space: nowrap;
-                flex-shrink: 0;
-                letter-spacing: 0.5px;
+                padding: 10px 12px;
+                font-size: 0.72rem;
+                min-width: 80px;
+                max-width: 110px;
+                letter-spacing: 0.3px;
             }
         }
 
@@ -885,7 +944,7 @@
 
         .cities-table tbody tr:hover {
             background: rgba(77, 184, 255, 0.1);
-            transform: scale(1.01);
+            /* PERF: removed transform: scale(1.01) — causes full table repaint */
         }
 
         .table-city-name {
@@ -1487,9 +1546,9 @@
         <header>
             <div style="position: absolute; top: 20px; right: 20px; font-size: 0.75rem; color: var(--text-secondary); line-height: 1.4; text-align: right;">
                 <div style="font-weight: 600; color: var(--text-secondary); letter-spacing: 0.3px;">JAYAPRAVIN RAMAKRISHNAN</div>
-                <div style="font-size: 0.7rem; margin-top: 1px; font-weight: 400;">Version 1.0/2026</div>
+                <div style="font-size: 0.7rem; margin-top: 1px; font-weight: 400;">Version 2.0/2026 — Performance Edition</div>
             </div>
-            <h1>TIME & MONEY matters!</h1>
+            <h1>CIB MARKETS HANDBOOK</h1>
             <p class="subtitle">Global Time Zones • Market Data • Currency • Commodities • Financial News</p>
         </header>
 
@@ -1513,7 +1572,7 @@
             <div class="table-container" style="margin-top: 40px;">
                 <h2 class="table-title">World Time - All Cities</h2>
                 <div class="search-wrapper">
-                    <input type="text" id="searchBox" class="search-box" placeholder="🔍 Search cities or countries..." onkeyup="filterCities()" oninput="toggleClearButton()">
+                    <input type="text" id="searchBox" class="search-box" placeholder="🔍 Search cities or countries...">
                     <button class="clear-search" id="clearSearch" onclick="clearSearch()">×</button>
                 </div>
                 
@@ -1815,8 +1874,8 @@
             <div class="table-container">
                 <h2 class="table-title">Stock Exchange Holidays</h2>
                 <div style="text-align: center; margin-bottom: 30px;">
-                    <button class="tab-btn" id="year2025Btn" onclick="switchHolidayYear(2025)" style="margin: 0 10px;">2025</button>
-                    <button class="tab-btn active" id="year2026Btn" onclick="switchHolidayYear(2026)" style="margin: 0 10px;">2026</button>
+                    <button class="year-toggle-btn" id="year2025Btn" onclick="switchHolidayYear(2025)" style="margin: 0 10px;">2025</button>
+                    <button class="year-toggle-btn active" id="year2026Btn" onclick="switchHolidayYear(2026)" style="margin: 0 10px;">2026</button>
                 </div>
                 <div style="margin: 0 auto 25px; max-width: 900px; padding: 15px 20px; background: rgba(6, 182, 212, 0.08); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 10px; font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
                     ℹ️ <strong style="color: var(--accent-blue);">Merged Exchanges Note:</strong>
@@ -4905,23 +4964,96 @@
 
         // Currency Converter Functions
         // Initialize
+        // ── PERF: Cached DOM references ─────────────────────────
+        const clockDOMCache = {};
+        const tableRowCache = [];
+        let lastSecond = -1;
+        let lastMinute = -1;
+
         function init() {
             createClockCards();
+            cacheClockDOMRefs();    // PERF: cache all DOM refs once
             populateCitySelects();
             populateCitiesTable();
+            cacheTableDOMRefs();    // PERF: cache table row refs
             populateExchangeHolidays();
             populateMarketHours();
             
-            // Ensure 2026 button is active by default
             document.getElementById('year2025Btn').classList.remove('active');
             document.getElementById('year2026Btn').classList.add('active');
             
             setDefaultDate();
             updateAllClocks();
-            updateCitiesTable();
-            setInterval(updateAllClocks, 1000);
-            setInterval(updateCitiesTable, 1000);
-            setInterval(populateMarketHours, 60000); // Update market hours every minute
+            updateCitiesTableFast();
+            
+            // PERF: Single rAF loop replaces dual setInterval(1000)
+            requestAnimationFrame(mainLoop);
+        }
+
+        // PERF: Cache all clock card DOM references ONCE
+        function cacheClockDOMRefs() {
+            Object.keys(CITIES).forEach(city => {
+                const cardId = `clock-${city.replace(/\s+/g, '-')}`;
+                const card = document.getElementById(cardId);
+                if (card) {
+                    clockDOMCache[city] = {
+                        card,
+                        hourHand: card.querySelector('.hour-hand'),
+                        minuteHand: card.querySelector('.minute-hand'),
+                        secondHand: card.querySelector('.second-hand'),
+                        digitalTime: card.querySelector('.digital-time'),
+                        dateDisplay: card.querySelector('.date-display'),
+                        offsetEl: card.querySelector('.timezone-offset'),
+                        lastDayNight: null
+                    };
+                }
+            });
+        }
+
+        // PERF: Cache all table row DOM references ONCE
+        function cacheTableDOMRefs() {
+            const rows = document.querySelectorAll('#citiesTableBody tr');
+            rows.forEach(row => {
+                const timeCell = row.querySelector('.table-time');
+                const dateCell = row.querySelector('.table-date');
+                const tzCell = row.querySelector('.table-timezone');
+                if (timeCell) {
+                    tableRowCache.push({
+                        row,
+                        timeCell,
+                        dateCell,
+                        tzCell,
+                        tz: timeCell.getAttribute('data-tz'),
+                        cityLower: row.getAttribute('data-city'),
+                        countryLower: row.getAttribute('data-country')
+                    });
+                }
+            });
+        }
+
+        // PERF: Single animation frame loop
+        function mainLoop() {
+            const now = new Date();
+            const currentSecond = now.getSeconds();
+            
+            if (currentSecond !== lastSecond) {
+                lastSecond = currentSecond;
+                updateAllClocksFast(now);
+                
+                // Update table only every 5 seconds instead of every 1s
+                if (currentSecond % 5 === 0) {
+                    updateCitiesTableFast(now);
+                }
+                
+                // Update market hours every 60 seconds
+                const currentMinute = now.getMinutes();
+                if (currentMinute !== lastMinute) {
+                    lastMinute = currentMinute;
+                    populateMarketHours();
+                }
+            }
+            
+            requestAnimationFrame(mainLoop);
         }
 
         function populateMarketHours() {
@@ -5024,8 +5156,10 @@
             populateExchangeHolidays();
         }
 
+        // PERF: Use DocumentFragment for batch DOM insert
         function createClockCards() {
             const grid = document.getElementById('clocksGrid');
+            const fragment = document.createDocumentFragment();
             
             Object.entries(CITIES).forEach(([city, data]) => {
                 const card = document.createElement('div');
@@ -5045,8 +5179,9 @@
                     <div class="date-display"></div>
                 `;
                 
-                grid.appendChild(card);
+                fragment.appendChild(card);
             });
+            grid.appendChild(fragment); // Single DOM insert
         }
 
         let selectedSourceCity = '';
@@ -5134,92 +5269,47 @@
         }
 
         function updateAllClocks() {
-            Object.entries(CITIES).forEach(([city, data]) => {
-                updateClock(city, data.tz);
-            });
+            const now = new Date();
+            updateAllClocksFast(now);
         }
 
-        function updateClock(city, timezone) {
-            const now = new Date();
-            const options = { timeZone: timezone };
-            
-            // Get time components
-            const timeString = now.toLocaleTimeString('en-US', { 
-                ...options, 
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            
-            const [hours, minutes, seconds] = timeString.split(':').map(Number);
-            
-            // Get date
-            const dateString = now.toLocaleDateString('en-US', {
-                ...options,
-                weekday: 'short',
-                month: 'short',
-                day: 'numeric'
-            });
-            
-            // Get timezone offset
-            const offsetString = now.toLocaleTimeString('en-US', {
-                ...options,
-                timeZoneName: 'short'
-            }).split(' ').pop();
-            
-            // Update card
-            const cardId = `clock-${city.replace(/\s+/g, '-')}`;
-            const card = document.getElementById(cardId);
-            
-            if (card) {
-                // Update timezone offset
-                const offsetEl = card.querySelector('.timezone-offset');
-                if (offsetEl) {
-                    offsetEl.textContent = offsetString;
+        // PERF: Zero querySelector calls — all refs cached
+        function updateAllClocksFast(now) {
+            if (!now) now = new Date();
+            for (const [city, data] of Object.entries(CITIES)) {
+                const c = clockDOMCache[city];
+                if (!c) continue;
+                
+                const opts = { timeZone: data.tz };
+                const timeStr = now.toLocaleTimeString('en-US', { ...opts, hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const [h, m, s] = timeStr.split(':').map(Number);
+                
+                // GPU-composited transforms via will-change (set in CSS)
+                c.secondHand.style.transform = `rotate(${s * 6}deg)`;
+                c.minuteHand.style.transform = `rotate(${m * 6 + s * 0.1}deg)`;
+                c.hourHand.style.transform = `rotate(${(h % 12) * 30 + m * 0.5}deg)`;
+                
+                c.digitalTime.textContent = now.toLocaleTimeString('en-US', { ...opts, hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+                c.dateDisplay.textContent = now.toLocaleDateString('en-US', { ...opts, weekday: 'short', month: 'short', day: 'numeric' });
+                
+                // Offset: only recompute every 60s
+                if (s === 0 || !c.offsetEl.textContent) {
+                    c.offsetEl.textContent = now.toLocaleTimeString('en-US', { ...opts, timeZoneName: 'short' }).split(' ').pop();
                 }
                 
-                // Update analog clock hands
-                const hourHand = card.querySelector('.hour-hand');
-                const minuteHand = card.querySelector('.minute-hand');
-                const secondHand = card.querySelector('.second-hand');
-                
-                const secondDeg = seconds * 6;
-                const minuteDeg = minutes * 6 + seconds * 0.1;
-                const hourDeg = (hours % 12) * 30 + minutes * 0.5;
-                
-                if (secondHand) secondHand.style.transform = `rotate(${secondDeg}deg)`;
-                if (minuteHand) minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
-                if (hourHand) hourHand.style.transform = `rotate(${hourDeg}deg)`;
-                
-                // Update digital time
-                const digitalTime = card.querySelector('.digital-time');
-                if (digitalTime) {
-                    const display12h = now.toLocaleTimeString('en-US', {
-                        ...options,
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: true
-                    });
-                    digitalTime.textContent = display12h;
-                }
-                
-                // Update date
-                const dateDisplay = card.querySelector('.date-display');
-                if (dateDisplay) {
-                    dateDisplay.textContent = dateString;
-                }
-                
-                // Add day/night styling based on hour (6 AM - 6 PM = day, otherwise night)
-                if (hours >= 6 && hours < 18) {
-                    card.classList.add('daytime');
-                    card.classList.remove('nighttime');
-                } else {
-                    card.classList.add('nighttime');
-                    card.classList.remove('daytime');
+                // Day/night: only toggle when state actually changes
+                const isDaytime = h >= 6 && h < 18;
+                if (c.lastDayNight !== isDaytime) {
+                    c.lastDayNight = isDaytime;
+                    c.card.classList.toggle('daytime', isDaytime);
+                    c.card.classList.toggle('nighttime', !isDaytime);
                 }
             }
+        }
+
+        // Kept for compatibility
+        function updateClock(city, timezone) {
+            updateAllClocksFast(new Date());
         }
 
         function populateCitiesTable() {
@@ -5247,60 +5337,34 @@
         }
 
         function updateCitiesTable() {
-            const now = new Date();
-            const rows = document.querySelectorAll('#citiesTableBody tr');
-            
-            rows.forEach(row => {
-                const timeCell = row.querySelector('.table-time');
-                const dateCell = row.querySelector('.table-date');
-                const timezoneCell = row.querySelector('.table-timezone');
-                
-                if (timeCell && dateCell) {
-                    const tz = timeCell.getAttribute('data-tz');
-                    
-                    const timeString = now.toLocaleTimeString('en-US', {
-                        timeZone: tz,
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: true
-                    });
-                    
-                    const dateString = now.toLocaleDateString('en-US', {
-                        timeZone: tz,
-                        weekday: 'short',
-                        month: 'short',
-                        day: 'numeric'
-                    });
-                    
-                    const offsetString = now.toLocaleTimeString('en-US', {
-                        timeZone: tz,
-                        timeZoneName: 'short'
-                    }).split(' ').pop();
-                    
-                    timeCell.textContent = timeString;
-                    dateCell.textContent = dateString;
-                    timezoneCell.textContent = offsetString;
-                }
-            });
+            updateCitiesTableFast(new Date());
         }
 
+        // PERF: Uses cached row refs, skips hidden rows
+        function updateCitiesTableFast(now) {
+            if (!now) now = new Date();
+            for (const r of tableRowCache) {
+                if (r.row.style.display === 'none') continue;
+                const opts = { timeZone: r.tz };
+                r.timeCell.textContent = now.toLocaleTimeString('en-US', { ...opts, hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+                r.dateCell.textContent = now.toLocaleDateString('en-US', { ...opts, weekday: 'short', month: 'short', day: 'numeric' });
+                r.tzCell.textContent = now.toLocaleTimeString('en-US', { ...opts, timeZoneName: 'short' }).split(' ').pop();
+            }
+        }
+
+        // PERF: Debounced search with cached row refs
+        let searchDebounceTimer;
+        
         function filterCities() {
             const searchTerm = document.getElementById('searchBox').value.toLowerCase();
-            const rows = document.querySelectorAll('#citiesTableBody tr');
             let visibleCount = 0;
             
-            rows.forEach(row => {
-                const city = row.getAttribute('data-city');
-                const country = row.getAttribute('data-country');
-                
-                if (city.includes(searchTerm) || country.includes(searchTerm)) {
-                    row.style.display = '';
-                    visibleCount++;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
+            // PERF: Use cached refs instead of querySelectorAll
+            for (const r of tableRowCache) {
+                const match = !searchTerm || r.cityLower.includes(searchTerm) || r.countryLower.includes(searchTerm);
+                r.row.style.display = match ? '' : 'none';
+                if (match) visibleCount++;
+            }
             
             const noResults = document.getElementById('noResults');
             const tableWrapper = document.querySelector('.cities-table-wrapper table');
@@ -5312,17 +5376,15 @@
                 noResults.style.display = 'none';
                 if (tableWrapper) tableWrapper.style.display = 'table';
             }
+            
+            // Immediately update visible rows
+            if (searchTerm) updateCitiesTableFast(new Date());
         }
 
         function toggleClearButton() {
             const searchBox = document.getElementById('searchBox');
             const clearBtn = document.getElementById('clearSearch');
-            
-            if (searchBox.value.length > 0) {
-                clearBtn.classList.add('show');
-            } else {
-                clearBtn.classList.remove('show');
-            }
+            clearBtn.classList.toggle('show', searchBox.value.length > 0);
         }
 
         function clearSearch() {
@@ -5331,6 +5393,22 @@
             toggleClearButton();
             filterCities();
         }
+
+        // PERF: Wire up debounced search (150ms)
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchBox = document.getElementById('searchBox');
+            if (searchBox) {
+                searchBox.addEventListener('input', () => {
+                    toggleClearButton();
+                    clearTimeout(searchDebounceTimer);
+                    searchDebounceTimer = setTimeout(filterCities, 150);
+                });
+            }
+            const clearBtn = document.getElementById('clearSearch');
+            if (clearBtn) {
+                clearBtn.addEventListener('click', clearSearch);
+            }
+        });
 
         function convertTime() {
             const sourceCity = document.getElementById('sourceCity').value.trim();
