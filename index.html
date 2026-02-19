@@ -149,7 +149,7 @@
         .tabs {
             display: flex;
             justify-content: center;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 50px;
             animation: fadeIn 1s ease-out 0.3s backwards;
@@ -676,15 +676,18 @@
 
         @media (max-width: 900px) {
             .tabs {
-                gap: 6px;
-                padding: 0 8px;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+                padding: 0 10px;
                 margin-bottom: 30px;
             }
             .tab-btn {
-                padding: 10px 12px;
-                font-size: 0.72rem;
-                min-width: 80px;
-                max-width: 110px;
+                padding: 10px 14px;
+                font-size: 0.75rem;
+                min-width: 95px;
+                max-width: 130px;
+                flex: 0 0 auto;
                 letter-spacing: 0.3px;
             }
         }
@@ -765,6 +768,19 @@
             /* Very small screens */
             h1 { font-size: 1.6rem !important; }
             .clocks-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+
+            /* Tabs — 3 per row on small phones */
+            .tabs {
+                gap: 6px;
+                padding: 0 6px;
+            }
+            .tab-btn {
+                padding: 8px 10px;
+                font-size: 0.68rem;
+                min-width: 0;
+                max-width: none;
+                flex: 1 1 calc(33.33% - 8px);
+            }
 
             /* Currency converter inputs */
             #currencyAmount { font-size: 1.2rem !important; }
